@@ -4,6 +4,8 @@ import {useWalletAddress} from "../../contexts/WalletAddressContext";
 import {isAddress} from "../../helpers/web3-helpers";
 import {IoWalletOutline} from "@react-icons/all-files/io5/IoWalletOutline";
 import Cookies from 'universal-cookie';
+import {useMutation} from "react-query";
+import * as api from "../../api/api";
 
 const cookies = new Cookies();
 
@@ -12,6 +14,8 @@ const ConnectDapp = () => {
     const { setWalletAddress } = useWalletAddress()!
     const [addr, setAddr] = useState<string>()
     const toast = useToast()
+    const postWalletAddress = useMutation("postAddress", api.postWalletAddress)
+
 
     if (cookies.get('addr') !== undefined) {
         setWalletAddress(cookies.get('addr'));
@@ -20,6 +24,7 @@ const ConnectDapp = () => {
     const onSubmit = () => {
         if(isAddress(addr!)){
             setWalletAddress(addr)
+            postWalletAddress.mutate(addr!)
             cookies.set('addr', addr, { path: '/' });
         } else {
             toast({

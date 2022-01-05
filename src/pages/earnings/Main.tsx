@@ -8,12 +8,13 @@ import BeefyStaticTable from "./components/beefy-vaults/BeefyStaticTable";
 import BeefyChargeTable from "./components/beefy-vaults/BeefyChargeTable";
 import FarmChargeTable from "./components/farms/FarmChargeTable";
 import FarmStaticTable from "./components/farms/FarmStaticTable";
+import ConnectDapp from "../../common/components/ConnectDapp/ConnectDapp";
 
 const Main = () => {
     const { walletAddress} = useWalletAddress()!
 
     if(!walletAddress){
-        return <Heading mx="auto" my="auto">Connect Wallet</Heading>
+        return <ConnectDapp/>
     }
     return (
         <Flex flexDir="column" py={5}>
