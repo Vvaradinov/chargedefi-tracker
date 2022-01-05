@@ -34,7 +34,7 @@ export const InvestedCard = (props: StatCardProps) => {
                 <Image layerStyle={token} src={getTokenUrl(token)} bg={mode('white', 'gray.500')} rounded="full"/>
                 <Skeleton isLoaded={topValue !== undefined && !isNaN(topValue)} w="100%" h="30px">
                     <Text fontWeight="bold" fontSize="20px" color={mode('gray.500', 'white')}>
-                        {topValue}
+                        {format(topValue)}
                     </Text>
                 </Skeleton>
             </HStack>

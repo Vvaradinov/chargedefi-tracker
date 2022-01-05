@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import {useWalletAddress} from "../../../../../common/contexts/WalletAddressContext";
 import beefyStaticABI from "../contracts/beefy-static-abi.json"
 import beefyChargeABI from "../contracts/beefy-charge-abi.json"
-import {formatUS} from "../../../../../common/helpers/formating";
 import {BEEFY_CHARGE_ADDRESS, BEEFY_STATIC_ADDRESS} from "../../../../../common/helpers/consts";
 import {useTokenPrices} from "../../../../../common/contexts/TokenPricesContext";
 
@@ -38,14 +37,14 @@ export const useBeefyVault = () => {
         // 866.384
 
         setStaticVault({
-            lp: formatUS(staticLPBalance),
+            lp: staticLPBalance,
             toDollar: (staticDollarValue).toFixed(2),
             dailyApr: staticDaily.toFixed(2),
             dailyChange:( staticDollarValue * staticDaily / 100).toFixed(2)
         })
 
         setChargeVault({
-            lp: formatUS(chargeLPBalance),
+            lp: chargeLPBalance,
             toDollar:( chargeDollarValue.toFixed(2)),
             dailyApr: chargeDaily.toFixed(2),
             dailyChange: (chargeDollarValue * chargeDaily / 100).toFixed(2)

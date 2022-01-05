@@ -36,7 +36,6 @@ export const useExpansionStats = () => {
         staticC.methods.totalSupply().call().then((i:any) => {
             setStaticDollarAmount((staticPrice - 1.01) * 0.1 * parseInt(fromWei(i)) * staticPrice)
             let amount = (staticPrice - 1.01) * 0.1 * parseInt(fromWei(i))
-            console.log(formatUS(amount))
             setStaticAmount(formatUS(amount))
 
         })

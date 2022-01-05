@@ -2,7 +2,6 @@ import boardRoomStaticLPABI from "../../../contracts/lp-token-boardroom.json"
 import {useWalletAddress} from "../../../../../common/contexts/WalletAddressContext";
 import {useEffect, useState} from "react";
 import {lpTokenBoardroomAddress, treasuryAddress} from "../../../../../common/helpers/consts";
-import {formatUS} from "../../../../../common/helpers/formating";
 import {useTokenPrices} from "../../../../../common/contexts/TokenPricesContext";
 import treasuryABI from "../../../contracts/treasury.json";
 
@@ -45,7 +44,7 @@ export const useBoardRoomLp = () => {
         const chargeEarned = earned[1] / 1e18
         const staticValue = staticEarned * staticPrice
         const chargeValue = chargeEarned * chargePrice
-        const lpTokens = formatUS(balanceOfLpPair / 1e18)
+        const lpTokens = balanceOfLpPair / 1e18
         const lpTokensValue = ((balanceOfLpPair / 1e18) * staticLp)
 
         const dailyTotal = apr / 365

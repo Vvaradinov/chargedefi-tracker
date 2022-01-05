@@ -1,4 +1,3 @@
-import {formatUS} from "../../../../../common/helpers/formating";
 import {useEffect, useState} from "react";
 import {useWalletAddress} from "../../../../../common/contexts/WalletAddressContext";
 import boarRoomABI from "../../../contracts/charge-boardroom.json";
@@ -47,9 +46,9 @@ export const useBoardRoomCharge = () => {
         const rewards1PerYear = epochRewards1PerShare*(24/period)*365*chargePrice;
         const apr = (rewards0PerYear + rewards1PerYear) *100 / chargePrice;
 
-        const tokens = formatUS(balanceOfCharge / 1e18)
+        const tokens = balanceOfCharge / 1e18
         const value = ((balanceOfCharge / 1e18) * chargePrice)
-        const earnedTokens = formatUS(earned[0] / 1e18)
+        const earnedTokens = earned[0] / 1e18
         const earnedValue = ((earned[0] / 1e18) * staticPrice)
         const daily = apr / 365
 
