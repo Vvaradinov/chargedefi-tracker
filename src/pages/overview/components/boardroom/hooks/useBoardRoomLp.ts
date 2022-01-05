@@ -45,7 +45,7 @@ export const useBoardRoomLp = () => {
         const chargeEarned = earned[1] / 1e18
         const staticValue = staticEarned * staticPrice
         const chargeValue = chargeEarned * chargePrice
-        const lpTokens = formatUS(balanceOfLpPair / 1e18)
+        const lpTokens = balanceOfLpPair / 1e18
         const lpTokensValue = ((balanceOfLpPair / 1e18) * staticLp)
 
         const dailyTotal = apr / 365
