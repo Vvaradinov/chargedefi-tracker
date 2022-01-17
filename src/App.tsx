@@ -11,7 +11,7 @@ import {busdAddress, CHARGE_LP_ADDRESS, CHARGE_ADDRESS, STATIC_LP_ADDRESS, stati
 import chargeABI from "./common/contracts/charge_abi.json"
 import lpABI from "./pages/overview/contracts/lp-token-boardroom.json"
 import {QueryClient, QueryClientProvider} from "react-query";
-import {BrowserRouter , Routes, Route, Link} from "react-router-dom";
+import {HashRouter as Router, Routes, Route, Link} from "react-router-dom";
 import {default as OverviewMain} from "./pages/overview/Main"
 import {default as EarningsMain} from "./pages/earnings/Main"
 import {ThemeProvider} from "styled-components";
@@ -94,7 +94,7 @@ function App() {
                             <ModalProvider >
                                 <Flex w="100vw" h="100vh" flexDir="column" px={{xl:12, md: 5}} py={8} overflowX="hidden"
                                       bg={mode("#fafbfd", "gray.800")}>
-                                    <BrowserRouter>
+                                    <Router>
                                         {tokens && <TopNavBar/>}
 
                                         <Routes>
@@ -103,7 +103,7 @@ function App() {
                                             <Route path="/earnings" element={<EarningsMain/>}/>
                                             <Route element={<OverviewMain/>}/>
                                         </Routes>
-                                    </BrowserRouter>
+                                    </Router>
                                 </Flex>
                             </ModalProvider>
                         </bsc.UseWalletProvider>
