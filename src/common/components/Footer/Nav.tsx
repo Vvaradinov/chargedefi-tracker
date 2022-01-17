@@ -13,13 +13,13 @@ const Nav: React.FC = () => {
         <StyledNav>
             <Heading>Our channels</Heading>
                 <HStack spacing={5} pt={2}>
-                        <Twitter href={'https://twitter.com/ChargeDeFi'} />
-                        <Telegram href={'https://t.me/chargedefi'} />
-                        <Discord href={'https://discord.gg/TDFHtWj7b5'} />
-                        <Medium href={'https://chargedefi.medium.com'} />
-                        <Gitbook href={'https://docs.chargedefi.fi/'} />
-                        <Whitepaper href={'/charge_whitepaper.pdf'} />
-                        <Certik href={'https://www.certik.com/projects/chargedefi'} />
+                        {/*<Twitter href={'https://twitter.com/ChargeDeFi'} />*/}
+                        {/*<Telegram href={'https://t.me/chargedefi'} />*/}
+                        {/*<Discord href={'https://discord.gg/TDFHtWj7b5'} />*/}
+                        {/*<Medium href={'https://chargedefi.medium.com'} />*/}
+                        {/*<Gitbook href={'https://docs.chargedefi.fi/'} />*/}
+                        {/*<Whitepaper href={'/charge_whitepaper.pdf'} />*/}
+                        {/*<Certik href={'https://www.certik.com/projects/chargedefi'} />*/}
                 </HStack>
         </StyledNav>
     );
