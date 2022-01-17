@@ -17,15 +17,15 @@ const ConnectDapp = () => {
     const postWalletAddress = useMutation("postAddress", api.postWalletAddress)
 
 
-    if (cookies.get('addr') !== undefined) {
-        setWalletAddress(cookies.get('addr'));
-    }
+    // if (cookies.get('addr') !== undefined) {
+    //     setWalletAddress(cookies.get('addr'));
+    // }
 
     const onSubmit = () => {
         if(isAddress(addr!)){
             setWalletAddress(addr)
             postWalletAddress.mutate(addr!)
-            cookies.set('addr', addr, { path: '/' });
+            cookies.set('isWallet', false, { path: '/' });
         } else {
             toast({
                 title: "Invalid address",

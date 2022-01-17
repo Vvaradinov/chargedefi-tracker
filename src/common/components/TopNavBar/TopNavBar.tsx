@@ -7,7 +7,7 @@ import { Skeleton } from "@chakra-ui/react"
 import {useTokenPrices} from "../../contexts/TokenPricesContext";
 import {getTokenUrl} from "../../helpers/util";
 import {NavContent} from "../Navbar/NavContent";
-import {useWalletModal, ModalProvider} from "@pancakeswap-libs/uikit";
+import {useWalletModal} from "@pancakeswap-libs/uikit";
 import { useWallet } from "@binance-chain/bsc-use-wallet";
 
 
@@ -16,15 +16,7 @@ const TopNavBar = () => {
     const { staticPrice, pulsePrice, chargePrice, staticLp, chargeLp} = tokens
     const [isMobile] = useMediaQuery('(max-width: 1000px)')
 
-    const { account, connect, reset, error, status } = useWallet();
-
-    const { onPresentConnectModal, onPresentAccountModal } = useWalletModal(
-        connect,
-        reset,
-        account!
-    );
-
-    useWalletProvider(account)
+    const { walletAddress, onPresentAccountModal, onPresentConnectModal } = useWalletProvider()
 
     const tokenView = <Flex flexWrap={isMobile ? "wrap": "nowrap"} mt={isMobile ? 5 : 0}>
         <Flex>
@@ -74,8 +66,8 @@ const TopNavBar = () => {
                 {!isMobile && tokenView}
                 <ColorModeSwitcher my="auto" mx={5}/>
                 <Button  justify="flex-end" colorScheme="blue" my="auto"
-                         onClick={account ? onPresentAccountModal : onPresentConnectModal}>
-                    {account ? formatWalletAddr(account): "Connect"}
+                         onClick={walletAddress ? onPresentAccountModal : onPresentConnectModal}>
+                    {walletAddress ? formatWalletAddr(walletAddress) : "Connect"}
                 </Button>
             </Flex>
             {isMobile && tokenView}

@@ -2,21 +2,31 @@ import {useEffect, useState} from "react";
 import {useWalletAddress} from "../contexts/WalletAddressContext";
 import {useMutation} from "react-query";
 import * as api from "../api/api"
+import {useWalletModal} from "@pancakeswap-libs/uikit";
+import {useWallet} from "@binance-chain/bsc-use-wallet";
+import {useDidUpdate} from "./useDidUpdate";
+import {Cookies} from "react-cookie";
 
 
+const cookies = new Cookies()
+export const useWalletProvider = () => {
 
-export const useWalletProvider = (account: string|null) => {
-
-    // const {isOpen, onOpen, onClose} = useDisclosure()
     const {walletAddress, setWalletAddress} = useWalletAddress()!;
 
-    // const wallet = localStorage.getItem("wallet")
-
+    const { account, connect, reset, error, status, connector } = useWallet();
+    const { onPresentConnectModal, onPresentAccountModal } = useWalletModal(
+        connect,
+        reset,
+        walletAddress
+    );
     const postWalletAddress = useMutation("postAddress", api.postWalletAddress)
 
-    const recordWalletAddress = async (walletAddress: string) => {
-        await postWalletAddress.mutateAsync(walletAddress)
-    }
+    useDidUpdate(() => {
+        if(walletAddress && cookies.get('isWallet') === "false"){
+            connect('bsc')
+        }
+    },[walletAddress])
+
 
     useEffect(() => {
         if(account){
@@ -32,97 +42,10 @@ export const useWalletProvider = (account: string|null) => {
             setWalletAddress(accounts[0])
             postWalletAddress.mutate(accounts[0])
         })
-
-
     }, [])
 
-    // useEffect(() => {
-
-    //     // invoke method on bsc e.g.
-    //     checkIfWalletConnected()
-    // }, [wallet])
-    //
-    // const checkIfWalletConnected = async() => {
-    //     if(wallet) {
-    //         const {BinanceChain} = window as any
-    //         const {ethereum} = window as any
-    //         if(ethereum || BinanceChain) {
-    //             switch (wallet) {
-    //                 case "metamask":
-    //                     await reconnectWallet(ethereum)
-    //                     break;
-    //                 case "binance":
-    //                     await reconnectWallet(BinanceChain)
-    //                     break;
-    //             }
-    //         }
-    //     } else {}
-    // }
-    //
-    // const reconnectWallet = async(walletProvider: any) => {
-    //     if (!walletProvider) {
-    //         console.log("Make sure you to have a wallet provider!")
-    //         return;
-    //     }
-    //     // Check if we're authorized to access the user's wallet
-    //     const accounts = await walletProvider.request({ method: 'eth_accounts' });
-    //     if (accounts.length !== 0) {
-    //         const account = accounts[0];
-    //         console.log("Found an authorized account:", account);
-    //         setWalletAddress(account)
-    //     } else {
-    //         console.log("nothing found")
-    //     }
-    // }
-    //
-    // const onConnectWallet = async (walletProvider: string) => {
-    //     switch (walletProvider){
-    //         case "Binance Chain Wallet":
-    //             await _connectBinanceWallet()
-    //             break;
-    //         case "Metamask":
-    //             await _connectMetamaskWallet()
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // }
-    //
-    // const _connectMetamaskWallet = async() => {
-    //     const { ethereum  } = window as any
-    //     try {
-    //         if (!ethereum) {
-    //             return;
-    //         }
-    //         const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-    //         setWalletAddress(accounts[0]);
-    //         postWalletAddress.mutate(accounts[0])
-    //         localStorage.setItem("wallet", "metamask")
-    //         onClose()
-    //     } catch (error) {
-    //         // console.log(error)
-    //         alert("An error occurred connecting your wallet");
-    //     }
-    // }
-    //
-    // const _connectBinanceWallet = async() => {
-    //     const { BinanceChain  } = window as any
-    //     try {
-    //         if (!BinanceChain) {
-    //             return;
-    //         }
-    //         const accounts = await BinanceChain.request({ method: "eth_requestAccounts" });
-    //         setWalletAddress(accounts[0]);
-    //         postWalletAddress.mutate(accounts[0])
-    //         localStorage.setItem("wallet", "binance")
-    //         onClose()
-    //     } catch (error) {
-    //         // console.log(error)
-    //         alert("An error occurred connecting your wallet");
-    //     }
-    // }
 
     return {
-        recordWalletAddress, setWalletAddress
+        walletAddress, onPresentConnectModal, onPresentAccountModal
     }
 }
