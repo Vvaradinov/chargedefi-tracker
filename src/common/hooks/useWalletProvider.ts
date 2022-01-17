@@ -34,6 +34,7 @@ export const useWalletProvider = () => {
             postWalletAddress.mutate(account)
         } else {
             setWalletAddress(undefined)
+            cookies.remove('isWallet')
         }
     }, [account])
 
