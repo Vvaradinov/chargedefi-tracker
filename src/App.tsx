@@ -86,13 +86,13 @@ function App() {
     }, [])
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <TokenPricesContext.Provider value={providedTokens}>
-                <WalletAddressContext.Provider value={providedWallet}>
-                    <ThemeProvider theme={colorMode === "dark" ? dark as PancakeTheme : light as PancakeTheme}>
-                        <bsc.UseWalletProvider chainId={chainId} connectors={{walletconnect: {rpcUrl}, bsc}}>
-                            <ModalProvider >
-                                <Flex w="100vw" h="100vh" flexDir="column" px={{xl:12, md: 5}} py={8} overflowX="hidden"
+        <ThemeProvider theme={colorMode === "dark" ? dark as PancakeTheme : light as PancakeTheme}>
+            <bsc.UseWalletProvider chainId={chainId} connectors={{walletconnect: {rpcUrl}, bsc}}>
+                <ModalProvider >
+                    <QueryClientProvider client={queryClient}>
+                        <TokenPricesContext.Provider value={providedTokens}>
+                            <WalletAddressContext.Provider value={providedWallet}>
+                                <Flex w="100vw" h="100vh" flexDir="column" px={{xl:7, md: 5}} py={8} overflowX="hidden"
                                       bg={mode("#fafbfd", "gray.800")}>
                                     <Router>
                                         {tokens && <TopNavBar/>}
@@ -105,12 +105,12 @@ function App() {
                                         </Routes>
                                     </Router>
                                 </Flex>
-                            </ModalProvider>
-                        </bsc.UseWalletProvider>
-                    </ThemeProvider>
-                </WalletAddressContext.Provider>
-            </TokenPricesContext.Provider>
-        </QueryClientProvider>
+                            </WalletAddressContext.Provider>
+                        </TokenPricesContext.Provider>
+                    </QueryClientProvider>
+                </ModalProvider>
+            </bsc.UseWalletProvider>
+        </ThemeProvider>
     )
 }
 export default App
