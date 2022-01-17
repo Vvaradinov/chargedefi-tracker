@@ -101,7 +101,6 @@ function App() {
                                             <Route path="/" element={<OverviewMain/>}/>
                                             <Route path="/overview" element={<OverviewMain/>}/>
                                             <Route path="/earnings" element={<EarningsMain/>}/>
-                                            <Route element={<OverviewMain/>}/>
                                         </Routes>
                                     </Router>
                                 </Flex>
