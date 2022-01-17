@@ -11,7 +11,7 @@ import {busdAddress, CHARGE_LP_ADDRESS, CHARGE_ADDRESS, STATIC_LP_ADDRESS, stati
 import chargeABI from "./common/contracts/charge_abi.json"
 import lpABI from "./pages/overview/contracts/lp-token-boardroom.json"
 import {QueryClient, QueryClientProvider} from "react-query";
-import {HashRouter as Router, Routes, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import {default as OverviewMain} from "./pages/overview/Main"
 import {default as EarningsMain} from "./pages/earnings/Main"
 import {ThemeProvider} from "styled-components";
