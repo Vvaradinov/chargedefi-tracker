@@ -87,28 +87,24 @@ function App() {
 
     return (
         <ThemeProvider theme={colorMode === "dark" ? dark as PancakeTheme : light as PancakeTheme}>
-            <bsc.UseWalletProvider chainId={chainId} connectors={{walletconnect: {rpcUrl}, bsc}}>
-                <ModalProvider >
-                    <QueryClientProvider client={queryClient}>
-                        <TokenPricesContext.Provider value={providedTokens}>
-                            <WalletAddressContext.Provider value={providedWallet}>
-                                <Flex w="100vw" h="100vh" flexDir="column" px={{xl:7, md: 5}} py={8} overflowX="hidden"
-                                      bg={mode("#fafbfd", "gray.800")}>
-                                    <Router>
-                                        {tokens && <TopNavBar/>}
+            <QueryClientProvider client={queryClient}>
+                <TokenPricesContext.Provider value={providedTokens}>
+                    <WalletAddressContext.Provider value={providedWallet}>
+                        <Flex w="100vw" h="100vh" flexDir="column" px={{xl:7, md: 5}} py={8} overflowX="hidden"
+                              bg={mode("#fafbfd", "gray.800")}>
+                            <Router>
+                                {tokens && <TopNavBar/>}
 
-                                        <Routes>
-                                            <Route path="/" element={<OverviewMain/>}/>
-                                            <Route path="/overview" element={<OverviewMain/>}/>
-                                            <Route path="/earnings" element={<EarningsMain/>}/>
-                                        </Routes>
-                                    </Router>
-                                </Flex>
-                            </WalletAddressContext.Provider>
-                        </TokenPricesContext.Provider>
-                    </QueryClientProvider>
-                </ModalProvider>
-            </bsc.UseWalletProvider>
+                                <Routes>
+                                    <Route path="/" element={<OverviewMain/>}/>
+                                    <Route path="/overview" element={<OverviewMain/>}/>
+                                    <Route path="/earnings" element={<EarningsMain/>}/>
+                                </Routes>
+                            </Router>
+                        </Flex>
+                    </WalletAddressContext.Provider>
+                </TokenPricesContext.Provider>
+            </QueryClientProvider>
         </ThemeProvider>
     )
 }
