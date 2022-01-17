@@ -1,4 +1,4 @@
-import { Flex, Heading, SimpleGrid, Input, FormLabel, FormControl } from '@chakra-ui/react';
+import { Flex, Heading, SimpleGrid, Input, FormLabel, FormControl, Tooltip } from '@chakra-ui/react';
 import StatCard from "../../../../common/components/StatCard/StatCard";
 import React, {useState} from 'react';
 import Cookies from 'universal-cookie';
@@ -9,6 +9,7 @@ import {useBoardRoomLp} from "../boardroom/hooks/useBoardRoomLp";
 import { isNumber } from '@chakra-ui/utils';
 import {useWalletCharge} from "../wallet/hooks/useWalletCharge";
 import {useWalletStatic} from "../wallet/hooks/useWalletStatic";
+import InfoTooltip from "../../../../common/components/InfoTooltip/InfoTooltip";
 
 type Props = {
     includeBeefy: boolean
@@ -112,11 +113,16 @@ const UserStats = ({ includeBeefy, includeFarms, includeBoardroom, includeWallet
 
     return (
         <Flex px={5} py={5} flexDir="column">
-            <Heading>User statistics</Heading>
+            <Flex>
+                <Heading>ROI Calculator</Heading>
+                <InfoTooltip iconSize={8} label="Input your initial investment below to track your ROI to date from Boardroom, Farms and Beefy (check the ones you want to include in the calculation) "/>
+            </Flex>
+
             <SimpleGrid columns={{ base: 1, md: 3 }} spacing="6" pt={5}>
+
                 <Flex w="100%">
                     <FormControl>
-                        <FormLabel>Total Investment</FormLabel>
+                        <FormLabel>Initial $ Investment</FormLabel>
                         <Input value={investment} size="lg" onChange={e => updateInvestment(e.target.value)}/>
                     </FormControl>
                 </Flex>

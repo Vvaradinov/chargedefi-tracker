@@ -22,19 +22,19 @@ const Main = () => {
                 <TabList>
                     <Tab>
                         <Img src={getTokenUrl("static-busd")} w="50px" h="30px"/>
-                        <Text px={2}>Boardroom LP</Text>
+                        <Text px={2}>Static-BUSD Boardroom</Text>
                     </Tab>
                     <Tab>
                         <Img src={getTokenUrl("charge")} w="30px" h="30px"/>
-                        <Text px={2}>Boardroom</Text>
+                        <Text px={2}>Charge Boardroom</Text>
                     </Tab>
                     <Tab>
                         <Img src={getTokenUrl("charge-busd")} w="50px" h="30px"/>
-                        <Text px={2}>Farm</Text>
+                        <Text px={2}>Charge-BUSD Farm</Text>
                     </Tab>
                     <Tab>
                         <Img src={getTokenUrl("static-busd")} w="50px" h="30px"/>
-                        <Text px={2}>Farm</Text>
+                        <Text px={2}>Static-BUSD Farm</Text>
                     </Tab>
                     {/*<Tab>*/}
                     {/*    <Img src={getTokenUrl("charge-busd")} w="50px" h="30px"/>*/}

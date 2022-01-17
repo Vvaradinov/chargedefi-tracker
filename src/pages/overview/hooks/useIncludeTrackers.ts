@@ -14,12 +14,20 @@ export const useIncludeTrackers = () => {
 
 
     useEffect(() => {
+
         setIncludeBasic(stringToBoolean(cookies.get('includeBasic')))
         setIncludeExpansionDebt(stringToBoolean(cookies.get('includeExpansionDebt')))
         setIncludeWallet(stringToBoolean(cookies.get('includeWallet')))
         setIncludeBeefy(stringToBoolean(cookies.get('includeBeefy')))
         setIncludeFarms(stringToBoolean(cookies.get('includeFarms')))
         setIncludeBoardroom(stringToBoolean(cookies.get('includeBoardroom')))
+
+        cookies.set('includeBasic', true)
+        cookies.set('includeExpansionDebt', true)
+        cookies.set('includeWallet', true)
+        cookies.set('includeBeefy', true)
+        cookies.set('includeFarms', true)
+        cookies.set('includeBoardroom', true)
 
     }, [])
 

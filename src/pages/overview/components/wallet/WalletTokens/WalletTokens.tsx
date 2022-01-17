@@ -15,19 +15,17 @@ const WalletTokens = () => {
                 <InvestedCard
                     token="charge"
                     data={{
-                        symbol: 'Charge',
                         value: chargeStats.value,
                         topValue: chargeStats.tokens,
-                        tvl: chargeStats.tvl
+                        tvl: null
                     }}
                 />
                 <InvestedCard
                     token="static"
                     data={{
-                        symbol: 'Static',
                         value: staticStats.value,
                         topValue: staticStats.tokens,
-                        tvl: staticStats.tvl
+                        tvl: null
                     }}
                 />
             </SimpleGrid>

@@ -64,8 +64,7 @@ export const IconStatCard = (props: StatCardProps) => {
                         <Skeleton isLoaded={changeDaily.value !== undefined}>
                             <Flex my="auto">
                                 <Indicator type={isNegative ? 'down' : 'up'} />
-                                <Text>${format(changeDaily.value)} ({isNegative ? '' : '+'}{changeDaily.percent}%)</Text>
-                                <Text mx={2}> Daily</Text>
+                                <Text>${format(changeDaily.value)} ({isNegative ? '' : '+'}{changeDaily.percent}%) Daily</Text>
                             </Flex>
                         </Skeleton>
                     </HStack>

@@ -1,14 +1,13 @@
 import React, {useEffect} from 'react';
-import {Button, Flex, Heading, Spacer, Text, useDisclosure, Image, useMediaQuery, Box} from "@chakra-ui/react";
+import {Button, Flex, Heading, Spacer, Text, useDisclosure, Image, useMediaQuery, Box, HStack} from "@chakra-ui/react";
 import {formatWalletAddr} from "../../helpers/formating";
+import {useColorModeValue as mode} from "@chakra-ui/react";
 import {useWalletProvider} from "../../hooks/useWalletProvider";
 import { ColorModeSwitcher } from '../ColorModeSwitcher/ColorModeSwitcher';
 import { Skeleton } from "@chakra-ui/react"
 import {useTokenPrices} from "../../contexts/TokenPricesContext";
 import {getTokenUrl} from "../../helpers/util";
 import {NavContent} from "../Navbar/NavContent";
-import {useWalletModal} from "@pancakeswap-libs/uikit";
-import { useWallet } from "@binance-chain/bsc-use-wallet";
 
 
 const TopNavBar = () => {
@@ -18,8 +17,8 @@ const TopNavBar = () => {
 
     const { walletAddress, onPresentAccountModal, onPresentConnectModal } = useWalletProvider()
 
-    const tokenView = <Flex flexWrap={isMobile ? "wrap": "nowrap"} mt={isMobile ? 5 : 0}>
-        <Flex>
+    const tokenView = <HStack spacing={3} flexWrap={isMobile ? "wrap": "nowrap"} mt={isMobile ? 5 : 0}>
+        <Flex mx={3}>
             <Image mx={2} my="auto" src={getTokenUrl("static")} width="35px" height="35px"/>
             <Skeleton isLoaded={staticPrice > 0}  my="auto">
                 <Text my="auto"  fontWeight="bold">${staticPrice}</Text>
@@ -49,7 +48,7 @@ const TopNavBar = () => {
                 <Text my="auto"  fontWeight="bold">${chargeLp}</Text>
             </Skeleton>
         </Flex>
-    </Flex>
+    </HStack>
 
     if(!tokens){
         return null
@@ -65,9 +64,11 @@ const TopNavBar = () => {
                 <Spacer/>
                 {!isMobile && tokenView}
                 <ColorModeSwitcher my="auto" mx={5}/>
-                <Button  justify="flex-end" colorScheme="blue" my="auto"
-                         onClick={walletAddress ? onPresentAccountModal : onPresentConnectModal}>
-                    {walletAddress ? formatWalletAddr(walletAddress) : "Connect"}
+                <Button
+                    bg={mode('white', 'gray.700')}
+                    my="auto" w="150px" border={mode("2px solid rgb(0, 0, 0)", "2px solid white")}
+                    onClick={walletAddress ? onPresentAccountModal : onPresentConnectModal}>
+                    {walletAddress ? formatWalletAddr(walletAddress) : "Connect Wallet"}
                 </Button>
             </Flex>
             {isMobile && tokenView}

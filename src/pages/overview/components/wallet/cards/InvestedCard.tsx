@@ -13,10 +13,10 @@ import {getTokenUrl} from "../../../../../common/helpers/util";
 export interface StatCardProps {
     token: string,
     data: {
-        symbol: string
+        symbol?: string|undefined
         topValue: any,
         value: number
-        tvl: number
+        tvl?: number|null
     }
 }
 
@@ -53,7 +53,7 @@ export const InvestedCard = (props: StatCardProps) => {
                     </Skeleton>
                 </HStack>
                 }
-                <Text color={mode('black', 'white')}>{symbol}</Text>
+                {symbol && <Text color={mode('black', 'white')}>{symbol}</Text> }
             </Flex>
         </Box>
     )

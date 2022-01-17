@@ -18,8 +18,8 @@ import {HiX} from "@react-icons/all-files/hi/HiX";
 import {HiOutlineMenu} from "@react-icons/all-files/hi/HiOutlineMenu";
 
 const links = [
-    { label: 'Overview', to: 'overview' },
-    { label: 'Earnings', to: 'earnings' },
+    { label: 'Account Overview', to: 'overview' },
+    { label: 'Earnings History', to: 'earnings' },
     // { label: 'Strategy', to: 'strategy' },
 ]
 
