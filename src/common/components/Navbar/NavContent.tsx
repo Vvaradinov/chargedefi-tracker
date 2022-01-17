@@ -4,7 +4,6 @@ import {
     Button,
     Center,
     HStack,
-    Link,
     Stack,
     StackDivider,
     StackProps,
@@ -51,7 +50,7 @@ const MobileNavContent = (props: BoxProps) => {
                             <NavLink.Mobile to={link.to}>{link.label}</NavLink.Mobile>
                         </NavListItem>
                     ))}
-                    <Link href="https://docs.chargedefi.fi/">GitBook</Link>
+                    <a href="https://docs.chargedefi.fi/">GitBook</a>
                 </Stack>
             </NavList>
         </Box>
@@ -66,7 +65,7 @@ const DesktopNavContent = (props: StackProps) => {
                     {link.label}
                 </NavLink.Desktop>
             ))}
-            <Link href="https://docs.chargedefi.fi/">GitBook</Link>
+            <a href="https://docs.chargedefi.fi/">GitBook</a>
         </HStack>
     )
 }
