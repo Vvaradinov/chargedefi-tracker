@@ -1,4 +1,3 @@
-import {formatUS} from "../../../../../common/helpers/formating";
 import {useEffect, useState} from "react";
 import {useWalletAddress} from "../../../../../common/contexts/WalletAddressContext";
 import chargeABI from "../../../contracts/charge.json";
@@ -26,7 +25,7 @@ export const useWalletCharge = () => {
         const balanceOfCharge = await chargeContract.balanceOf(walletAddress).call()
         const tvl = 0
 
-        const tokens = formatUS(balanceOfCharge / 1e18)
+        const tokens = (balanceOfCharge / 1e18)
         const value = ((balanceOfCharge / 1e18) * chargePrice)
 
         setChargeStats({

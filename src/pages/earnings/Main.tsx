@@ -36,14 +36,14 @@ const Main = () => {
                         <Img src={getTokenUrl("static-busd")} w="50px" h="30px"/>
                         <Text px={2}>Farm</Text>
                     </Tab>
-                    <Tab>
-                        <Img src={getTokenUrl("charge-busd")} w="50px" h="30px"/>
-                        <Text px={2}>Beefy</Text>
-                    </Tab>
-                    <Tab>
-                        <Img src={getTokenUrl("static-busd")} w="50px" h="30px"/>
-                        <Text px={2}>Beefy</Text>
-                    </Tab>
+                    {/*<Tab>*/}
+                    {/*    <Img src={getTokenUrl("charge-busd")} w="50px" h="30px"/>*/}
+                    {/*    <Text px={2}>Beefy</Text>*/}
+                    {/*</Tab>*/}
+                    {/*<Tab>*/}
+                    {/*    <Img src={getTokenUrl("static-busd")} w="50px" h="30px"/>*/}
+                    {/*    <Text px={2}>Beefy</Text>*/}
+                    {/*</Tab>*/}
                 </TabList>
 
                 <TabPanels>

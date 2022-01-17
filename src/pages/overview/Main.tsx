@@ -23,13 +23,13 @@ const Main = () => {
 
     return (
         <>
-            <HStack spacing={5} px={5} pt={5}>
-                <Checkbox isChecked={includeBasic} onChange={e => setIncludeBasic(e.target.checked)}>Basics</Checkbox>
-                <Checkbox isChecked={includeExpansionDebt} onChange={e => setIncludeExpansionDebt(e.target.checked)}>Expansion/Debt</Checkbox>
-                <Checkbox isChecked={includeWallet} onChange={e => setIncludeWallet(e.target.checked)}>Wallet</Checkbox>
-                <Checkbox isChecked={includeBeefy} onChange={e => setIncludeBeefy(e.target.checked)}>Beefy</Checkbox>
-                <Checkbox isChecked={includeFarms} onChange={e => setIncludeFarms(e.target.checked)}>Farms</Checkbox>
-                <Checkbox isChecked={includeBoardroom} onChange={e => setIncludeBoardroom(e.target.checked)}>Boardroom</Checkbox>
+            <HStack spacing={5} px={5} pt={5} flexWrap="wrap" justifyContent="center">
+                <Checkbox my="auto" isChecked={includeBasic} onChange={e => setIncludeBasic(e.target.checked)}>Basics</Checkbox>
+                <Checkbox my="auto" isChecked={includeExpansionDebt} onChange={e => setIncludeExpansionDebt(e.target.checked)}>Expansion/Debt</Checkbox>
+                <Checkbox my="auto" isChecked={includeWallet} onChange={e => setIncludeWallet(e.target.checked)}>Wallet</Checkbox>
+                <Checkbox my="auto" isChecked={includeBeefy} onChange={e => setIncludeBeefy(e.target.checked)}>Beefy</Checkbox>
+                <Checkbox my="auto" isChecked={includeFarms} onChange={e => setIncludeFarms(e.target.checked)}>Farms</Checkbox>
+                <Checkbox my="auto" isChecked={includeBoardroom} onChange={e => setIncludeBoardroom(e.target.checked)}>Boardroom</Checkbox>
             </HStack>
             {includeBasic && <ProtocolStats/> }
             {includeExpansionDebt && <ExpansionStats/> }

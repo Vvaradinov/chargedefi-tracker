@@ -26,21 +26,31 @@ export const useFarms = () => {
 
     const staticBusdLpC = new web3.eth.Contract(staticBusdLpContract as any, staticBusdLpAddress, {from: walletAddress})
 
-    const [staticBusd, setStaticBusd] = useState<any>({})
-    const [chargeBusd, setChargeBusd] = useState<any>({})
 
     const [stats, setStats] = useState<any>({})
 
     const get = async() => {
-        const staticLpAmount = (await staticFarmContract.userInfo(0, walletAddress).call()).amount / 1e18
-        const chargeLpAmount = (await chargeFarmContract.userInfo(0, walletAddress).call()).amount / 1e18
-        const staticPoolReward = (await staticFarmContract.pendingReward(walletAddress, 0).call()) / 1e18
-        const chargePoolReward = (await chargeFarmContract.pendingReward(walletAddress, 0).call()) / 1e18
-        const staticDaily = (await staticFarmContract.APR(0).call() / 1e18) / 365 * 100
-        const chargeDaily = (await chargeFarmContract.APR(0).call() / 1e18) / 365 * 100
 
-        const staticTVL = ((await staticFarmContract.TVL(0).call()) / 1e18).toFixed(0)
-        const chargeTVL = ((await chargeFarmContract.TVL(0).call()) / 1e18).toFixed(0)
+        const stats = await Promise.all([
+            staticFarmContract.userInfo(0, walletAddress).call(),
+            chargeFarmContract.userInfo(0, walletAddress).call(),
+            staticFarmContract.pendingReward(walletAddress, 0).call(),
+            chargeFarmContract.pendingReward(walletAddress, 0).call(),
+            staticFarmContract.APR(0).call(),
+            chargeFarmContract.APR(0).call(),
+            staticFarmContract.TVL(0).call(),
+            chargeFarmContract.TVL(0).call(),
+        ])
+
+        const staticLpAmount = stats[0].amount / 1e18
+        const chargeLpAmount = stats[1].amount / 1e18
+        const staticPoolReward = stats[2] / 1e18
+        const chargePoolReward = stats[3] / 1e18
+        const staticDaily = (stats[4] / 1e18) / 365 * 100
+        const chargeDaily = (stats[5] / 1e18) / 365 * 100
+
+        const staticTVL = (stats[6] / 1e18).toFixed(0)
+        const chargeTVL = (stats[7] / 1e18).toFixed(0)
         const chargeRewardValue = (chargePoolReward * chargePrice).toFixed(2)
         const staticRewardValue = (staticPoolReward * chargePrice).toFixed(2)
         const staticLpValue = (staticLpAmount * staticLp).toFixed(2)
@@ -73,6 +83,6 @@ export const useFarms = () => {
     },[staticPrice, chargePrice])
 
     return {
-        staticBusd, chargeBusd, stats
+        stats
     }
 }

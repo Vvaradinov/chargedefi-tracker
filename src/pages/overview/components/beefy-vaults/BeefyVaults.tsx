@@ -12,7 +12,7 @@ const BeefyVaults = () => {
                 <IconStatCard
                     token="charge-busd"
                     data={{
-                      symbol: 'Charge-BUSD LP / $',
+                      symbol: 'Charge-BUSD LP',
                       value: chargeVault.toDollar,
                       topValue: chargeVault.lp,
                       changeDaily: { value: chargeVault.dailyChange, percent: chargeVault.dailyApr },
@@ -21,7 +21,7 @@ const BeefyVaults = () => {
                 <IconStatCard
                     token="static-busd"
                     data={{
-                        symbol: 'Static-BUSD LP / $',
+                        symbol: 'Static-BUSD LP',
                         value: staticVault.toDollar,
                         topValue: staticVault.lp,
                         changeDaily: { value: staticVault.dailyChange, percent: staticVault.dailyApr },

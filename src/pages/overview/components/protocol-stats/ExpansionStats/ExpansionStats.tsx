@@ -12,7 +12,7 @@ const ExpansionStats = () => {
                 <IconStatCard
                     token="static"
                     data={{
-                        symbol: 'New Static / $',
+                        symbol: 'New Static',
                         value: staticDollarAmount!,
                         topValue: staticAmount,
                     }
@@ -21,7 +21,7 @@ const ExpansionStats = () => {
                 <IconStatCard
                     token="charge"
                     data={{
-                        symbol: "New Charge / $",
+                        symbol: "New Charge",
                         value: chargeDollarAmount!,
                         topValue: chargeAmount
                     }}
@@ -29,7 +29,7 @@ const ExpansionStats = () => {
                 <IconStatCard
                     token="pulse"
                     data={{
-                        symbol: "Pulse Debt / $",
+                        symbol: "Pulse Debt",
                         value: pulseRepayAmount!,
                         topValue: pulseRepay
                     }}

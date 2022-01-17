@@ -20,7 +20,7 @@ import {HiOutlineMenu} from "@react-icons/all-files/hi/HiOutlineMenu";
 const links = [
     { label: 'Overview', to: 'overview' },
     { label: 'Earnings', to: 'earnings' },
-    { label: 'Strategy', to: 'strategy' },
+    // { label: 'Strategy', to: 'strategy' },
 ]
 
 const MobileNavContent = (props: BoxProps) => {
@@ -38,8 +38,9 @@ const MobileNavContent = (props: BoxProps) => {
             </Center>
             <NavList
                 pos="absolute"
+                zIndex={222}
                 insetX="0"
-                bg="blue.600"
+                bg="gray.600"
                 top="64px"
                 animate={isOpen ? 'enter' : 'exit'}
             >
@@ -57,7 +58,7 @@ const MobileNavContent = (props: BoxProps) => {
 
 const DesktopNavContent = (props: StackProps) => {
     return (
-        <HStack spacing="8" align="stretch" {...props}>
+        <HStack spacing="8" align="stretch" {...props} my="auto">
             {links.map((link, index) => (
                 <NavLink.Desktop key={index} to={link.to}>
                     {link.label}

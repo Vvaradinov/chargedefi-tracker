@@ -2,7 +2,6 @@ import boardRoomStaticLPABI from "../../../contracts/lp-token-boardroom.json"
 import {useWalletAddress} from "../../../../../common/contexts/WalletAddressContext";
 import {useEffect, useState} from "react";
 import {lpTokenBoardroomAddress, treasuryAddress} from "../../../../../common/helpers/consts";
-import {formatUS} from "../../../../../common/helpers/formating";
 import {useTokenPrices} from "../../../../../common/contexts/TokenPricesContext";
 import treasuryABI from "../../../contracts/treasury.json";
 
@@ -21,12 +20,19 @@ export const useBoardRoomLp = () => {
 
     const get = async() => {
 
-        const earned = await lpBoardroomContract.earned(walletAddress).call()
-        const balanceOfLpPair = await lpBoardroomContract.balanceOf(walletAddress).call()
-        const tvl = (await lpBoardroomContract.totalSupply().call() / 1e18) * staticLp
+        const stats = await Promise.all([
+            lpBoardroomContract.earned(walletAddress).call(),
+            lpBoardroomContract.balanceOf(walletAddress).call(),
+            lpBoardroomContract.totalSupply().call(),
+            treasuryContract.PERIOD().call(),
+            lpBoardroomContract.latestSnapshotIndex().call(),
+        ])
+        const earned = stats[0]
+        const balanceOfLpPair = stats[1]
+        const tvl = (stats[2] / 1e18) * staticLp
 
-        const period = (await treasuryContract.PERIOD().call()) / 3600
-        const latestSnapshotIndex = await lpBoardroomContract.latestSnapshotIndex().call()
+        const period = stats[3] / 3600
+        const latestSnapshotIndex = stats[4]
         const lastHistory = await lpBoardroomContract.boardHistory(latestSnapshotIndex).call()
         const lastRewards0PerShare = lastHistory[2];
         const lastRewards1PerShare = lastHistory[4];

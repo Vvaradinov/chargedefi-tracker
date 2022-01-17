@@ -1,4 +1,4 @@
-import {Flex, Heading } from '@chakra-ui/react'
+import {Flex, Heading, useColorMode} from '@chakra-ui/react'
 import "@fontsource/metropolis"
 import {useEffect, useMemo, useState} from "react";
 import {WalletAddressContext} from './common/contexts/WalletAddressContext';
@@ -14,11 +14,17 @@ import {QueryClient, QueryClientProvider} from "react-query";
 import {BrowserRouter , Routes, Route, Link} from "react-router-dom";
 import {default as OverviewMain} from "./pages/overview/Main"
 import {default as EarningsMain} from "./pages/earnings/Main"
+import {ThemeProvider} from "styled-components";
+import { ModalProvider } from "@pancakeswap-libs/uikit";
+import {dark, light, PancakeTheme} from "@pancakeswap-libs/uikit";
+import * as bsc from "@binance-chain/bsc-use-wallet";
+
 
 const Web3 = require("web3")
 const web3 = new Web3('https://bsc-dataseed1.binance.org:443');
 
 function App() {
+    const { colorMode } = useColorMode();
 
     const [walletAddress, setWalletAddress] = useState<string>();
     const providedWallet = useMemo<any>(() => ({walletAddress, setWalletAddress}), [walletAddress, setWalletAddress])
@@ -71,6 +77,9 @@ function App() {
             })
     }
 
+    const rpcUrl = "https://bsc-dataseed.binance.org/"
+    const chainId = 56;
+
     useEffect(() => {
         getTokenPrices()
         setInterval(() => getTokenPrices(), 300000)
@@ -80,10 +89,18 @@ function App() {
         <QueryClientProvider client={queryClient}>
             <TokenPricesContext.Provider value={providedTokens}>
                 <WalletAddressContext.Provider value={providedWallet}>
-                    <Flex w="100vw" h="100vh" flexDir="column" px={5} py={8} overflowX="hidden"
+                    <Flex w="100vw" h="100vh" flexDir="column" px={{xl:12, md: 5}} py={8} overflowX="hidden"
                           bg={mode("#fafbfd", "gray.800")}>
                         <BrowserRouter>
-                            {tokens && <TopNavBar/>}
+                            {tokens &&
+                            <ThemeProvider theme={colorMode === "dark" ? dark as PancakeTheme : light as PancakeTheme}>
+                                <bsc.UseWalletProvider chainId={chainId} connectors={{walletconnect: {rpcUrl}, bsc}}>
+                                    <ModalProvider >
+                                        <TopNavBar/>
+                                    </ModalProvider>
+                                </bsc.UseWalletProvider>
+                            </ThemeProvider>
+                            }
 
                             <Routes>
                                 <Route path="/" element={<OverviewMain/>}/>

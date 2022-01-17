@@ -15,7 +15,7 @@ const WalletTokens = () => {
                 <InvestedCard
                     token="charge"
                     data={{
-                        symbol: 'Charge / $',
+                        symbol: 'Charge',
                         value: chargeStats.value,
                         topValue: chargeStats.tokens,
                         tvl: chargeStats.tvl
@@ -24,7 +24,7 @@ const WalletTokens = () => {
                 <InvestedCard
                     token="static"
                     data={{
-                        symbol: 'Static / $',
+                        symbol: 'Static',
                         value: staticStats.value,
                         topValue: staticStats.tokens,
                         tvl: staticStats.tvl

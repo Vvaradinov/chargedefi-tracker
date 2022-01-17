@@ -85,7 +85,7 @@ const UserStats = ({ includeBeefy, includeFarms, includeBoardroom, includeWallet
         historical_data.set(today, historical_object);
         const hist_string = JSON.stringify(Object.fromEntries(historical_data));
         cookies.set('historical_data', hist_string, { path: '/' });
-        console.log("saving new value to cookie: " + hist_string);
+        // console.log("saving new value to cookie: " + hist_string);
     }
 
     let roi = 0;

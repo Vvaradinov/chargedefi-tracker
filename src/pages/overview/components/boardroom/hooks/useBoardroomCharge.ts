@@ -1,4 +1,3 @@
-import {formatUS} from "../../../../../common/helpers/formating";
 import {useEffect, useState} from "react";
 import {useWalletAddress} from "../../../../../common/contexts/WalletAddressContext";
 import boarRoomABI from "../../../contracts/charge-boardroom.json";
@@ -27,12 +26,22 @@ export const useBoardRoomCharge = () => {
     const [stats, setStats] = useState<any>({})
 
     const get = async() => {
-        const earned = await boardRoomContract.earned(walletAddress).call()
-        const balanceOfCharge = await boardRoomContract.balanceOf(walletAddress).call()
-        const tvl = (await boardRoomContract.totalSupply().call() / 1e18) * chargePrice
 
-        const period = (await treasuryContract.PERIOD().call()) / 3600
-        const latestSnapshotIndex = await boardRoomContract.latestSnapshotIndex().call()
+        const stats = await Promise.all([
+            boardRoomContract.earned(walletAddress).call(),
+            boardRoomContract.balanceOf(walletAddress).call(),
+            boardRoomContract.totalSupply().call(),
+            treasuryContract.PERIOD().call(),
+            boardRoomContract.latestSnapshotIndex().call()
+
+        ])
+
+        const earned = stats[0]
+        const balanceOfCharge = stats[1]
+        const tvl = (stats[2] / 1e18) * chargePrice
+
+        const period = stats[3] / 3600
+        const latestSnapshotIndex = stats[4]
         const lastHistory = await boardRoomContract.boardHistory(latestSnapshotIndex).call()
         const lastRewards0PerShare = lastHistory[2];
         const lastRewards1PerShare = lastHistory[4];
@@ -47,9 +56,9 @@ export const useBoardRoomCharge = () => {
         const rewards1PerYear = epochRewards1PerShare*(24/period)*365*chargePrice;
         const apr = (rewards0PerYear + rewards1PerYear) *100 / chargePrice;
 
-        const tokens = formatUS(balanceOfCharge / 1e18)
+        const tokens = (balanceOfCharge / 1e18)
         const value = ((balanceOfCharge / 1e18) * chargePrice)
-        const earnedTokens = formatUS(earned[0] / 1e18)
+        const earnedTokens = (earned[0] / 1e18)
         const earnedValue = ((earned[0] / 1e18) * staticPrice)
         const daily = apr / 365
 

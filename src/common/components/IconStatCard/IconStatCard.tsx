@@ -36,6 +36,7 @@ function format(value: number) {
     return new Intl.NumberFormat('en-US', { style: 'decimal', currency: 'USD' }).format(value)
 }
 
+
 export const IconStatCard = (props: StatCardProps) => {
     const { data, token } = props
     const { value, changeDaily, symbol, topValue } = data
@@ -49,7 +50,7 @@ export const IconStatCard = (props: StatCardProps) => {
                 <Image layerStyle={token} src={getTokenUrl(token)} bg={mode('white', 'gray.500')} rounded="full"/>
                 <Skeleton isLoaded={topValue !== undefined || !isNaN(topValue)} w="100%" h="30px">
                     <Text fontWeight="bold" fontSize="20px" color={mode('gray.500', 'white')}>
-                        {topValue}
+                        {format(topValue)}
                     </Text>
                 </Skeleton>
             </HStack>

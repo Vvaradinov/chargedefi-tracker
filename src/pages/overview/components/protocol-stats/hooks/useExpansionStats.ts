@@ -5,8 +5,6 @@ import chargeContract from "../../../../../common/contracts/charge_abi.json";
 import pulseContract from "../../../../../common/contracts/pulse_abi.json";
 
 import {useWalletAddress} from "../../../../../common/contexts/WalletAddressContext";
-import {fromWei, toBN} from "../../../../../common/helpers/web3-helpers";
-import {formatUS} from "../../../../../common/helpers/formating";
 import {useEffect, useState} from "react";
 import {useTokenPrices} from "../../../../../common/contexts/TokenPricesContext";
 
@@ -19,10 +17,10 @@ export const useExpansionStats = () => {
     const { tokens } = useTokenPrices()!
     const { staticPrice, pulsePrice, chargePrice } = tokens
 
-    const treasuryC = new web3.eth.Contract(treasuryContract, treasuryAddress, {from: walletAddress})
-    const staticC = new web3.eth.Contract(staticContract, staticAddress, {from: walletAddress})
-    const chargeC = new web3.eth.Contract(chargeContract, CHARGE_ADDRESS, {from: walletAddress})
-    const pulseC = new web3.eth.Contract(pulseContract, pulseAddress, {from: walletAddress})
+    const treasuryC = new web3.eth.Contract(treasuryContract, treasuryAddress, {from: walletAddress}).methods
+    const staticC = new web3.eth.Contract(staticContract, staticAddress, {from: walletAddress}).methods
+    const chargeC = new web3.eth.Contract(chargeContract, CHARGE_ADDRESS, {from: walletAddress}).methods
+    const pulseC = new web3.eth.Contract(pulseContract, pulseAddress, {from: walletAddress}).methods
 
 
     const [staticDollarAmount, setStaticDollarAmount] = useState<number>()
@@ -33,27 +31,35 @@ export const useExpansionStats = () => {
     const [pulseRepayAmount, setPulseRepayAmount] = useState<any>()
 
     const get = async () => {
-        staticC.methods.totalSupply().call().then((i:any) => {
-            setStaticDollarAmount((staticPrice - 1.01) * 0.1 * parseInt(fromWei(i)) * staticPrice)
-            let amount = (staticPrice - 1.01) * 0.1 * parseInt(fromWei(i))
-            console.log(formatUS(amount))
-            setStaticAmount(formatUS(amount))
+        const stats = await Promise.all([
+            staticC.totalSupply().call(),
+            chargeC.mintLimitOf(treasuryAddress).call(),
+            chargeC.mintedAmountOf(treasuryAddress).call(),
+            treasuryC.sharesMintedPerEpoch.call().call(),
+            pulseC.totalSupply().call(),
+            treasuryC.bondDepletionFloorPercent.call().call(),
 
-        })
-        let mintLimit = toBN(await chargeC.methods.mintLimitOf(treasuryAddress).call())
-        let mintedAmount = toBN(await chargeC.methods.mintedAmountOf(treasuryAddress).call())
-        let amountMintable = mintLimit > mintedAmount ? mintLimit.sub(mintedAmount) : 0
-        const chargePerEpoch = fromWei(await treasuryC.methods.sharesMintedPerEpoch.call().call())
+        ])
+
+        setStaticDollarAmount((staticPrice - 1.01) * 0.1 * stats[0] / 1e18 * staticPrice)
+        let amount = (staticPrice - 1.01) * 0.1 * stats[0] / 1e18
+        setStaticAmount((amount))
+
+        let mintLimit = stats[1] / 1e18
+        let mintedAmount = stats[2] / 1e18
+        let amountMintable = mintLimit > mintedAmount ? mintLimit - mintedAmount : 0
+
+        const chargePerEpoch = stats[3] / 1e18
         const finalMintCharge = Math.min(amountMintable, chargePerEpoch)
-        setChargeAmount(formatUS(finalMintCharge))
+        setChargeAmount((finalMintCharge))
         setChargeDollarAmount(chargePrice * finalMintCharge)
 
-        const totalBondsToRepay = toBN(await pulseC.methods.totalSupply().call())
-            .mul(toBN(await treasuryC.methods.bondDepletionFloorPercent.call().call()))
-            .div(toBN(10000))
-        setPulseRepay(parseInt(fromWei(totalBondsToRepay)))
-        setPulseRepayAmount(fromWei(totalBondsToRepay) * pulsePrice)
+        const totalBondsToRepay = (stats[4] * stats[5]) / 10000 / 1e18
+        setPulseRepay(totalBondsToRepay)
+        setPulseRepayAmount(totalBondsToRepay * pulsePrice)
 
+        // const bondRepayPercent = await treasuryC.bondRepayPercent.call().call()
+        // console.log(bondRepayPercent / 10000)
     }
 
     useEffect(() => {
