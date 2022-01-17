@@ -11,6 +11,7 @@ import ConnectDapp from "../../common/components/ConnectDapp/ConnectDapp";
 import {Checkbox, Flex, HStack} from "@chakra-ui/react";
 import {useIncludeTrackers} from "./hooks/useIncludeTrackers";
 import InfoTooltip from "../../common/components/InfoTooltip/InfoTooltip";
+import Footer from "../../common/components/Footer/Footer";
 
 const Main = () => {
     const { walletAddress } = useWalletAddress()!
@@ -57,6 +58,7 @@ const Main = () => {
             {includeBeefy && <BeefyVaults/> }
             {includeFarms && <Farms/> }
             {includeBoardroom && <BoardRoomMain/> }
+            <Footer/>
 
         </>
     );

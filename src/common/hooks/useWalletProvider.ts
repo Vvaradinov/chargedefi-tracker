@@ -10,9 +10,8 @@ import {Cookies} from "react-cookie";
 
 const cookies = new Cookies()
 export const useWalletProvider = () => {
-
+    const accessType = cookies.get("accessType")
     const {walletAddress, setWalletAddress} = useWalletAddress()!;
-
     const { account, connect, reset, error, status, connector } = useWallet();
     const { onPresentConnectModal, onPresentAccountModal } = useWalletModal(
         connect,
@@ -21,22 +20,32 @@ export const useWalletProvider = () => {
     );
     const postWalletAddress = useMutation("postAddress", api.postWalletAddress)
 
-    useDidUpdate(() => {
-        if(walletAddress && cookies.get('isWallet') === "false"){
-            connect('bsc')
-        }
-    },[walletAddress])
+    const logoutWallet = () => {
+        cookies.remove("addr")
+        setWalletAddress(undefined)
+    }
 
+    useEffect(() => {
+        if(cookies.get('accessType') === "1" && cookies.get('addr') !== undefined){
+            connect(cookies.get("connector"))
+        }
+    }, [])
 
     useEffect(() => {
         if(account){
             setWalletAddress(account)
             postWalletAddress.mutate(account)
-        } else {
-            setWalletAddress(undefined)
-            cookies.remove('isWallet')
+            cookies.set('addr', account, {path: '/'})
+            cookies.set('accessType', 1, { path: '/' })
+            cookies.set('connector', connector, {path: '/'})
         }
     }, [account])
+
+    useDidUpdate(() => {
+        if(status === "disconnected"){
+            logoutWallet()
+        }
+    }, [status])
 
     useEffect(() => {
         (window as any).ethereum.on('accountsChanged', (accounts: any) => {
@@ -45,8 +54,8 @@ export const useWalletProvider = () => {
         })
     }, [])
 
-
     return {
+        accessType, logoutWallet, setWalletAddress,
         walletAddress, onPresentConnectModal, onPresentAccountModal
     }
 }

@@ -13,9 +13,8 @@ const BoardRoomLpTable = () => {
     const { data, isLoading, isError} = useBoardroomLpEarnings()
 
     if(!data || data.length === 0){
-        return <Heading> Table is updated at the end of every epoch (approximately 5 minutes after epoch ends).
-            For now this table will only show earnings from the moment you have first connected your account.
-            A future version of this will record all your past earnings and will automatically listen and record deposit and withdraw events</Heading>
+        return <Heading> Having in mind this is the first time you are using this app (with this wallet), the table will be populated at the start of the next epoch (in the first 5 minutes).
+            A future version of this will record all your past earnings and will automatically listen and record deposit and withdrawal events</Heading>
     }
 
     return (
@@ -72,7 +71,7 @@ const BoardRoomLpTable = () => {
                 {data && data.map((i:any, key:number) =>
                     <Tr>
                         <Td>
-                            <Tag colorScheme="blue">{dayjs.utc(i.date).tz(timeZone).toDate().toLocaleString()}</Tag>
+                            <Tag colorScheme="blue.200">{dayjs.utc(i.date).tz(timeZone).toDate().toLocaleString()}</Tag>
                         </Td>
                         <Td>
                             <Flex>

@@ -50,7 +50,7 @@ const ChargeEarningsTable = ({ data }: Props) => {
                 {data && data.map((i:any, key:number) =>
                     <Tr>
                         <Td>
-                            <Tag colorScheme="blue">{dayjs.utc(i.date).tz(timeZone).toDate().toLocaleString()}</Tag>
+                            <Tag colorScheme="blue.100">{dayjs.utc(i.date).tz(timeZone).toDate().toLocaleString()}</Tag>
                         </Td>
                         <Td>
                             <Flex>

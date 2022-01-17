@@ -20,19 +20,19 @@ const Main = () => {
         <Flex flexDir="column" py={5}>
             <Tabs isFitted>
                 <TabList>
-                    <Tab>
+                    <Tab  _focus={{outline: "none"}}>
                         <Img src={getTokenUrl("static-busd")} w="50px" h="30px"/>
                         <Text px={2}>Static-BUSD Boardroom</Text>
                     </Tab>
-                    <Tab>
+                    <Tab _focus={{outline: "none"}}>
                         <Img src={getTokenUrl("charge")} w="30px" h="30px"/>
                         <Text px={2}>Charge Boardroom</Text>
                     </Tab>
-                    <Tab>
+                    <Tab  _focus={{outline: "none"}}>
                         <Img src={getTokenUrl("charge-busd")} w="50px" h="30px"/>
                         <Text px={2}>Charge-BUSD Farm</Text>
                     </Tab>
-                    <Tab>
+                    <Tab  _focus={{outline: "none"}}>
                         <Img src={getTokenUrl("static-busd")} w="50px" h="30px"/>
                         <Text px={2}>Static-BUSD Farm</Text>
                     </Tab>
