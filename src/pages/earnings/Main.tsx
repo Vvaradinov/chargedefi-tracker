@@ -1,4 +1,4 @@
-import { Flex, Heading, Img, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
+import { Flex, Heading, Img, Spacer, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import React from 'react';
 import {getTokenUrl} from "../../common/helpers/util";
 import BoardRoomLpTable from "./components/boardroom/BoardRoomLpTable";
@@ -18,7 +18,7 @@ const Main = () => {
         return <ConnectDapp/>
     }
     return (
-        <Flex flexDir="column" py={5}>
+        <Flex flexDir="column" py={5} h="100%">
             <Tabs isFitted>
                 <TabList>
                     <Tab  _focus={{outline: "none"}}>
@@ -60,6 +60,7 @@ const Main = () => {
                     </TabPanel>
                 </TabPanels>
             </Tabs>
+            <Spacer/>
             <Footer/>
         </Flex>
     );

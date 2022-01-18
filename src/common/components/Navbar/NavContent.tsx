@@ -50,7 +50,7 @@ const MobileNavContent = (props: BoxProps) => {
                             <NavLink.Mobile to={link.to}>{link.label}</NavLink.Mobile>
                         </NavListItem>
                     ))}
-                    <a href="https://docs.chargedefi.fi/">GitBook</a>
+                    <a href="https://docs.chargedefi.fi/" target="_blank">GitBook</a>
                 </Stack>
             </NavList>
         </Box>
@@ -65,7 +65,7 @@ const DesktopNavContent = (props: StackProps) => {
                     {link.label}
                 </NavLink.Desktop>
             ))}
-            <a href="https://docs.chargedefi.fi/">GitBook</a>
+            <a href="https://docs.chargedefi.fi/" target="_blank">GitBook</a>
         </HStack>
     )
 }

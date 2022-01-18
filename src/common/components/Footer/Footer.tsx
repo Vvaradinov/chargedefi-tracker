@@ -28,15 +28,15 @@ const Footer = () => {
                         <Icon as={AiOutlineMedium}  w="35px" h="35px"/>
                     </Link>
                     <Link href="https://docs.chargedefi.fi/"  target="_blank" >
-                        <Image src="https://www.svgrepo.com/show/330505/gitbook.svg"
-                               bgColor={mode('transparent', 'white')}  w="35px" h="40px"/>
+                        <Image src={mode("https://www.svgrepo.com/show/330505/gitbook.svg", "https://i.imgur.com/1h1N9Rp.png")}
+                               bgColor={mode('transparent', 'transparent')}  w="35px" h="40px"/>
                     </Link>
                     <Link  href="https://www.chargedefi.fi/charge_whitepaper.pdf" target="_blank" >
                         <Icon as={FaClipboardList} w="30px" h="30px"  />
                     </Link>
                     <Link href="https://www.certik.com/projects/chargedefi"  target="_blank" >
-                        <Image src="https://www.chargedefi.fi/static/media/certik-icon.37c78b75.png" w="30px" h="30px"
-                        bgColor={mode('transparent', 'white')}/>
+                        <Image src={"https://www.chargedefi.fi/static/media/certik-icon.37c78b75.png"}
+                               w="30px" h="30px"/>
                     </Link>
                 </HStack>
             </Flex>

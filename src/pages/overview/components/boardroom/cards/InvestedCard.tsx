@@ -16,7 +16,7 @@ export interface StatCardProps {
         symbol: string
         topValue: any,
         value: number
-        tvl: number
+        tvl?: number
     }
 }
 

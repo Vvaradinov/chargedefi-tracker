@@ -8,7 +8,7 @@ import UserStats from "./components/user-stats/UserStats";
 import {default as BoardRoomMain} from "./components/boardroom/BoardRoom";
 import {useWalletAddress} from "../../common/contexts/WalletAddressContext";
 import ConnectDapp from "../../common/components/ConnectDapp/ConnectDapp";
-import {Checkbox, Flex, HStack} from "@chakra-ui/react";
+import {Checkbox, Flex, HStack, Spacer} from "@chakra-ui/react";
 import {useIncludeTrackers} from "./hooks/useIncludeTrackers";
 import InfoTooltip from "../../common/components/InfoTooltip/InfoTooltip";
 import Footer from "../../common/components/Footer/Footer";
@@ -25,7 +25,7 @@ const Main = () => {
 
     return (
         <>
-            <HStack spacing={5} px={5} pt={5} flexWrap="wrap" justifyContent="center">
+            <HStack spacing={5} px={5} pt={5} flexWrap="wrap" justifyContent="center" h="100%">
                 <Flex>
                     <Checkbox my="auto" isChecked={includeBasic} onChange={e => setIncludeBasic(e.target.checked)}>Basics</Checkbox>
                     <InfoTooltip iconSize={5} label={"Includes basic protocol information"}/>
@@ -58,6 +58,7 @@ const Main = () => {
             {includeBeefy && <BeefyVaults/> }
             {includeFarms && <Farms/> }
             {includeBoardroom && <BoardRoomMain/> }
+            <Spacer/>
             <Footer/>
         </>
     );

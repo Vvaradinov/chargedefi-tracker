@@ -19,7 +19,7 @@ const ExpansionStats = () => {
                 <IconStatCard
                     token="static"
                     data={{
-                        symbol: 'New Static',
+                        symbol: 'Static Expansion',
                         value: staticDollarAmount!,
                         topValue: staticAmount,
                     }
@@ -28,7 +28,7 @@ const ExpansionStats = () => {
                 <IconStatCard
                     token="charge"
                     data={{
-                        symbol: "New Charge",
+                        symbol: "Charge Expansion",
                         value: chargeDollarAmount!,
                         topValue: chargeAmount
                     }}
