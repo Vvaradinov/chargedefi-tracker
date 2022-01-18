@@ -25,11 +25,11 @@ export const useWalletProvider = () => {
         setWalletAddress(undefined)
     }
 
-    // useEffect(() => {
-    //     if(cookies.get('accessType') === "1" && cookies.get('addr') !== undefined){
-    //         connect(cookies.get("connector"))
-    //     }
-    // }, [])
+    useEffect(() => {
+        if(cookies.get('accessType') === "1" && cookies.get('addr') !== undefined){
+            connect(cookies.get("connector"))
+        }
+    }, [])
 
     useEffect(() => {
         if(account){

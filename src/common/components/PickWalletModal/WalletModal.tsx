@@ -57,7 +57,7 @@ const WalletModal = ({isOpen, onClose, onSelectWallet}: Props) => {
                     </Flex>
                 </ModalBody>
                 <ModalFooter>
-                    <Button colorScheme="blue.100" onClick={logout}>Logout</Button>
+                    <Button colorScheme="blue" onClick={logout}>Logout</Button>
                 </ModalFooter>
             </ModalContent>
             }

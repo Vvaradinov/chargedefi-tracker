@@ -71,7 +71,7 @@ const BoardRoomLpTable = () => {
                 {data && data.map((i:any, key:number) =>
                     <Tr>
                         <Td>
-                            <Tag colorScheme="blue.200">{dayjs.utc(i.date).tz(timeZone).toDate().toLocaleString()}</Tag>
+                            <Tag colorScheme="blue">{dayjs.utc(i.date).tz(timeZone).toDate().toLocaleString()}</Tag>
                         </Td>
                         <Td>
                             <Flex>
