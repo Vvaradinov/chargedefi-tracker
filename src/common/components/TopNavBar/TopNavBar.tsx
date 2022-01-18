@@ -7,8 +7,10 @@ import { ColorModeSwitcher } from '../ColorModeSwitcher/ColorModeSwitcher';
 import { Skeleton } from "@chakra-ui/react"
 import {useTokenPrices} from "../../contexts/TokenPricesContext";
 import {getTokenUrl} from "../../helpers/util";
+
 import {NavContent} from "../Navbar/NavContent";
-import {Cookies} from "react-cookie";
+import "../../assets/main.css"
+
 
 const TopNavBar = () => {
 
@@ -17,7 +19,7 @@ const TopNavBar = () => {
 
     const [isMobile] = useMediaQuery('(max-width: 1400px)')
 
-    const { walletAddress, onPresentAccountModal, onPresentConnectModal, accessType, logoutWallet, status } = useWalletProvider()
+    const { walletAddress, onPresentAccountModal, onPresentConnectModal, accessType, logoutWallet, } = useWalletProvider()
 
 
     const tokenView = <HStack spacing={3} experimental_spaceY={isMobile ? 2 : 0} flexWrap={isMobile ? "wrap": "nowrap"}

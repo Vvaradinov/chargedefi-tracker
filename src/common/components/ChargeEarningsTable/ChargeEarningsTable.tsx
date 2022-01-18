@@ -11,7 +11,7 @@ type Props = {
 const ChargeEarningsTable = ({ data }: Props) => {
     return (
         <Table variant="simple">
-            <TableCaption placement="top"> Table is updated at the end of every epoch (approximately 5 minutes after epoch ends)</TableCaption>
+            <TableCaption placement="top"> New records will be added at the start of each epoch (in the first 5 minutes)</TableCaption>
             <Thead>
                 <Tr>
                     <Th>

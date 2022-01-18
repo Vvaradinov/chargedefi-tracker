@@ -15,7 +15,7 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import {default as OverviewMain} from "./pages/overview/Main"
 import {default as EarningsMain} from "./pages/earnings/Main"
 import {ThemeProvider} from "styled-components";
-import { ModalProvider } from "@pancakeswap-libs/uikit";
+import {ModalProvider} from "@pancakeswap-libs/uikit";
 import {dark, light, PancakeTheme} from "@pancakeswap-libs/uikit";
 
 

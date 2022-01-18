@@ -36,6 +36,17 @@
     opacity: 0;
 }
 
+.tooltip-override {
+    font-family: 'Ubuntu Mono', sans-serif !important;
+    border-radius: 30px !important;
+    background: #312f30 !important;
+    color: white !important;
+    max-width: 230px !important;
+    opacity: 1;
+    padding: 0.5rem 1rem !important;
+    font-weight: 300;
+}
+
 .sc-AxiKw.dDcmFj,
 .sc-AxiKw.dKUHwn {
     border-radius: 50px;
@@ -73,4 +84,12 @@
 .WlnNC {
     margin: 24px 0 18px;
     font-family: 'Ubuntu Mono', sans-serif;
+}
+
+div[role='presentation'] {
+    background: black;
+}
+
+div[style='height:fit-content'] {
+    position: absolute;
 }

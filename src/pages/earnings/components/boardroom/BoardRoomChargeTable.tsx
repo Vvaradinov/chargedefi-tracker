@@ -13,14 +13,13 @@ const BoardRoomLpTable = () => {
     const { data, isLoading, isError} = useBoardroomChargeEarnings()
 
     if(!data || data.length === 0){
-        return <Text textAlign="center"> Having in mind this is the first time you are using this app (with this wallet), the table will be populated at the start of the next epoch (in the first 5 minutes).
-            A future version of this will record all your past earnings and will automatically listen and record deposit and withdrawal events</Text>
+        return <Text textAlign="center"> This table is being populated at the start of each new epoch (in the first 5 minutes). A future version of this will record all your past earnings and will automatically listen and record deposit and withdrawal events</Text>
     }
 
     return (
         <Skeleton isLoaded={!isLoading && !isError}>
             <Table variant="simple">
-            <TableCaption placement="top"> Table is updated at the end of every epoch (approximately 5 minutes after epoch ends)</TableCaption>
+            <TableCaption placement="top"> New records will be added at the start of each epoch (in the first 5 minutes)</TableCaption>
             <Thead>
                 <Tr>
                     <Th>
