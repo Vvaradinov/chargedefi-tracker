@@ -5,6 +5,7 @@ import {FiTwitter} from "@react-icons/all-files/fi/FiTwitter";
 import {FaTelegram} from "@react-icons/all-files/fa/FaTelegram";
 import {FaDiscord} from "@react-icons/all-files/fa/FaDiscord";
 import {FaClipboardList} from "@react-icons/all-files/fa/FaClipboardList";
+import certikWhite from "../../assets/certik-icon-white.png"
 
 const Footer = () => {
 
@@ -35,7 +36,7 @@ const Footer = () => {
                         <Icon as={FaClipboardList} w="30px" h="30px"  />
                     </Link>
                     <Link href="https://www.certik.com/projects/chargedefi"  target="_blank" >
-                        <Image src={"https://www.chargedefi.fi/static/media/certik-icon.37c78b75.png"}
+                        <Image src={mode("https://www.chargedefi.fi/static/media/certik-icon.37c78b75.png", certikWhite)}
                                w="30px" h="30px"/>
                     </Link>
                 </HStack>
