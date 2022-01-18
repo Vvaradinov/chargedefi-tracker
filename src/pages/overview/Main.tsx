@@ -59,7 +59,6 @@ const Main = () => {
             {includeFarms && <Farms/> }
             {includeBoardroom && <BoardRoomMain/> }
             <Footer/>
-
         </>
     );
 };

@@ -17,7 +17,6 @@ import {default as EarningsMain} from "./pages/earnings/Main"
 import {ThemeProvider} from "styled-components";
 import { ModalProvider } from "@pancakeswap-libs/uikit";
 import {dark, light, PancakeTheme} from "@pancakeswap-libs/uikit";
-import * as bsc from "@binance-chain/bsc-use-wallet";
 
 
 const Web3 = require("web3")
@@ -77,9 +76,6 @@ function App() {
             })
     }
 
-    const rpcUrl = "https://bsc-dataseed.binance.org/"
-    const chainId = 56;
-
     useEffect(() => {
         getTokenPrices()
         setInterval(() => getTokenPrices(), 300000)
@@ -95,7 +91,6 @@ function App() {
                                   bg={mode("#fafbfd", "gray.800")}>
                                 <Router>
                                     {tokens && <TopNavBar/>}
-
                                     <Routes>
                                         <Route path="/" element={<OverviewMain/>}/>
                                         <Route path="/overview" element={<OverviewMain/>}/>

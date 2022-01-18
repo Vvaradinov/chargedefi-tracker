@@ -15,12 +15,13 @@ const TopNavBar = () => {
     const {tokens} = useTokenPrices()!
     const { staticPrice, pulsePrice, chargePrice, staticLp, chargeLp} = tokens
 
-    const [isMobile] = useMediaQuery('(max-width: 1000px)')
+    const [isMobile] = useMediaQuery('(max-width: 1400px)')
 
     const { walletAddress, onPresentAccountModal, onPresentConnectModal, accessType, logoutWallet, status } = useWalletProvider()
 
 
-    const tokenView = <HStack spacing={3} flexWrap={isMobile ? "wrap": "nowrap"} mt={isMobile ? 5 : 0}>
+    const tokenView = <HStack spacing={3} experimental_spaceY={isMobile ? 2 : 0} flexWrap={isMobile ? "wrap": "nowrap"}
+                              mt={isMobile ? 5 : 0} justifyContent={isMobile ? "center" : "none"}>
         <Flex mx={3}>
             <Image mx={2} my="auto" src={getTokenUrl("static")} width="35px" height="35px"/>
             <Skeleton isLoaded={staticPrice > 0}  my="auto">
