@@ -1,5 +1,5 @@
 import {VStack, Heading, Input, Text, Flex, Button, useToast, InputLeftElement, InputGroup} from '@chakra-ui/react';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useWalletAddress} from "../../contexts/WalletAddressContext";
 import {isAddress} from "../../helpers/web3-helpers";
 import {IoWalletOutline} from "@react-icons/all-files/io5/IoWalletOutline";
@@ -20,16 +20,18 @@ const ConnectDapp = () => {
     const postWalletAddress = useMutation("postAddress", api.postWalletAddress)
 
 
-    if (cookies.get('addr') !== undefined) {
-        setWalletAddress(cookies.get('addr'));
-    }
+    useEffect(() => {
+        if (cookies.get('walletAddress') !== undefined) {
+            setWalletAddress(cookies.get('walletAddress'));
+        }
+    },[])
 
     const onSubmit = () => {
         if(isAddress(addr!)){
             setWalletAddress(addr)
             postWalletAddress.mutate(addr!)
             cookies.set('accessType', 2, { path: '/' });
-            cookies.set('addr', addr, {path: '/'})
+            cookies.set('walletAddress', addr, {path: '/'})
         } else {
             toast({
                 title: "Invalid address",
@@ -42,6 +44,7 @@ const ConnectDapp = () => {
     }
 
     const { walletAddress, onPresentAccountModal, onPresentConnectModal } = useWalletProvider()
+
 
     return (
         <VStack my="auto"  textAlign="center" spacing="24px">

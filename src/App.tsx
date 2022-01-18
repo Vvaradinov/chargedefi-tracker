@@ -11,7 +11,7 @@ import {busdAddress, CHARGE_LP_ADDRESS, CHARGE_ADDRESS, STATIC_LP_ADDRESS, stati
 import chargeABI from "./common/contracts/charge_abi.json"
 import lpABI from "./pages/overview/contracts/lp-token-boardroom.json"
 import {QueryClient, QueryClientProvider} from "react-query";
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import {HashRouter as Router, Routes, Route} from "react-router-dom";
 import {default as OverviewMain} from "./pages/overview/Main"
 import {default as EarningsMain} from "./pages/earnings/Main"
 import {ThemeProvider} from "styled-components";
@@ -87,28 +87,26 @@ function App() {
 
     return (
         <ThemeProvider theme={colorMode === "dark" ? dark as PancakeTheme : light as PancakeTheme}>
-            <bsc.UseWalletProvider chainId={chainId} connectors={{walletconnect: {rpcUrl}, bsc}}>
-                <ModalProvider >
-                    <QueryClientProvider client={queryClient}>
-                        <TokenPricesContext.Provider value={providedTokens}>
-                            <WalletAddressContext.Provider value={providedWallet}>
-                                <Flex w="100vw" h="100vh" flexDir="column" px={{xl:7, md: 5}} py={8} overflowX="hidden"
-                                      bg={mode("#fafbfd", "gray.800")}>
-                                    <Router>
-                                        {tokens && <TopNavBar/>}
+            <ModalProvider >
+                <QueryClientProvider client={queryClient}>
+                    <TokenPricesContext.Provider value={providedTokens}>
+                        <WalletAddressContext.Provider value={providedWallet}>
+                            <Flex w="100vw" h="100vh" flexDir="column" px={{xl:7, md: 5}} py={8} overflowX="hidden"
+                                  bg={mode("#fafbfd", "gray.800")}>
+                                <Router>
+                                    {tokens && <TopNavBar/>}
 
-                                        <Routes>
-                                            <Route path="/" element={<OverviewMain/>}/>
-                                            <Route path="/overview" element={<OverviewMain/>}/>
-                                            <Route path="/earnings" element={<EarningsMain/>}/>
-                                        </Routes>
-                                    </Router>
-                                </Flex>
-                            </WalletAddressContext.Provider>
-                        </TokenPricesContext.Provider>
-                    </QueryClientProvider>
-                </ModalProvider>
-            </bsc.UseWalletProvider>
+                                    <Routes>
+                                        <Route path="/" element={<OverviewMain/>}/>
+                                        <Route path="/overview" element={<OverviewMain/>}/>
+                                        <Route path="/earnings" element={<EarningsMain/>}/>
+                                    </Routes>
+                                </Router>
+                            </Flex>
+                        </WalletAddressContext.Provider>
+                    </TokenPricesContext.Provider>
+                </QueryClientProvider>
+            </ModalProvider>
         </ThemeProvider>
     )
 }

@@ -21,13 +21,14 @@ export const useWalletProvider = () => {
     const postWalletAddress = useMutation("postAddress", api.postWalletAddress)
 
     const logoutWallet = () => {
-        cookies.remove("addr")
+        cookies.remove("walletAddress")
         setWalletAddress(undefined)
     }
-
+    console.log(status)
+    console.log(error)
     useEffect(() => {
-        if(cookies.get('accessType') === "1" && cookies.get('addr') !== undefined){
-            connect(cookies.get("connector"))
+        if(cookies.get('accessType') === "1" && cookies.get('walletAddress') !== undefined && status === "disconnected"){
+            connect(cookies.get("walletType"))
         }
     }, [])
 
@@ -35,15 +36,17 @@ export const useWalletProvider = () => {
         if(account){
             setWalletAddress(account)
             postWalletAddress.mutate(account)
-            cookies.set('addr', account, {path: '/'})
+            cookies.set('walletAddress', account, {path: '/'})
             cookies.set('accessType', 1, { path: '/' })
-            cookies.set('connector', connector, {path: '/'})
+            cookies.set('walletType', connector, {path: '/'})
         }
     }, [account])
 
     useDidUpdate(() => {
-        if(status === "disconnected"){
-            logoutWallet()
+        switch (status){
+            case "disconnected":
+                logoutWallet()
+                break;
         }
     }, [status])
 
@@ -54,8 +57,9 @@ export const useWalletProvider = () => {
         })
     }, [])
 
+
     return {
-        accessType, logoutWallet, setWalletAddress,
+        accessType, logoutWallet, setWalletAddress, status,
         walletAddress, onPresentConnectModal, onPresentAccountModal
     }
 }

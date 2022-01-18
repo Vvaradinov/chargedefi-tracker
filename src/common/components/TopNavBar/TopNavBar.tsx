@@ -8,15 +8,17 @@ import { Skeleton } from "@chakra-ui/react"
 import {useTokenPrices} from "../../contexts/TokenPricesContext";
 import {getTokenUrl} from "../../helpers/util";
 import {NavContent} from "../Navbar/NavContent";
-
+import {Cookies} from "react-cookie";
 
 const TopNavBar = () => {
+
     const {tokens} = useTokenPrices()!
     const { staticPrice, pulsePrice, chargePrice, staticLp, chargeLp} = tokens
 
     const [isMobile] = useMediaQuery('(max-width: 1000px)')
 
-    const { walletAddress, onPresentAccountModal, onPresentConnectModal, accessType, logoutWallet } = useWalletProvider()
+    const { walletAddress, onPresentAccountModal, onPresentConnectModal, accessType, logoutWallet, status } = useWalletProvider()
+
 
     const tokenView = <HStack spacing={3} flexWrap={isMobile ? "wrap": "nowrap"} mt={isMobile ? 5 : 0}>
         <Flex mx={3}>
@@ -60,10 +62,8 @@ const TopNavBar = () => {
         <Box>
             <Flex>
                 {!isMobile && <Image src="https://www.chargedefi.fi/static/media/charge.53089c19.png" w="50px" h="50px" my="auto" mx={4}/>}
-
                 <NavContent.Desktop display={{ base: 'none', md: 'flex' }} />
                 <NavContent.Mobile display={{ base: 'flex', md: 'none' }} />
-                {/*{isOpen && <WalletModal isOpen={isOpen} onClose={onClose} onSelectWallet={onConnectWallet} /> }*/}
                 <Spacer/>
                 {!isMobile && tokenView}
                 <ColorModeSwitcher my="auto" mx={5}/>

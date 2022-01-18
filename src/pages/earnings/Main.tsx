@@ -9,6 +9,7 @@ import BeefyChargeTable from "./components/beefy-vaults/BeefyChargeTable";
 import FarmChargeTable from "./components/farms/FarmChargeTable";
 import FarmStaticTable from "./components/farms/FarmStaticTable";
 import ConnectDapp from "../../common/components/ConnectDapp/ConnectDapp";
+import Footer from "../../common/components/Footer/Footer";
 
 const Main = () => {
     const { walletAddress} = useWalletAddress()!
@@ -67,6 +68,7 @@ const Main = () => {
                     </TabPanel>
                 </TabPanels>
             </Tabs>
+            <Footer/>
         </Flex>
     );
 };
