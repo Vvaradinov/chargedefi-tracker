@@ -1,12 +1,19 @@
-import {CHARGE_ADDRESS, pulseAddress, staticAddress, treasuryAddress} from "../../../../../common/helpers/consts";
+import {
+    CHARGE_ADDRESS,
+    oracleAddress,
+    pulseAddress,
+    staticAddress,
+    treasuryAddress
+} from "../../../../../common/helpers/consts";
 import treasuryContract from "../../../contracts/treasury.json";
 import staticContract from "../../../../../common/contracts/static_abi.json";
 import chargeContract from "../../../../../common/contracts/charge_abi.json";
 import pulseContract from "../../../../../common/contracts/pulse_abi.json";
-
+import oracleContract from "../../../contracts/oracle.json"
 import {useWalletAddress} from "../../../../../common/contexts/WalletAddressContext";
 import {useEffect, useState} from "react";
 import {useTokenPrices} from "../../../../../common/contexts/TokenPricesContext";
+import {toBN} from "../../../../../common/helpers/web3-helpers";
 
 
 const Web3 = require("web3")
@@ -17,11 +24,14 @@ export const useExpansionStats = () => {
     const { tokens } = useTokenPrices()!
     const { staticPrice, pulsePrice, chargePrice } = tokens
 
+    const oracleC = new web3.eth.Contract(oracleContract, oracleAddress, {from: walletAddress}).methods
     const treasuryC = new web3.eth.Contract(treasuryContract, treasuryAddress, {from: walletAddress}).methods
     const staticC = new web3.eth.Contract(staticContract, staticAddress, {from: walletAddress}).methods
     const chargeC = new web3.eth.Contract(chargeContract, CHARGE_ADDRESS, {from: walletAddress}).methods
     const pulseC = new web3.eth.Contract(pulseContract, pulseAddress, {from: walletAddress}).methods
 
+
+    const [stats, setStats] = useState<any>({})
 
     const [staticDollarAmount, setStaticDollarAmount] = useState<number>()
     const [staticAmount, setStaticAmount] = useState<any>()
@@ -38,11 +48,28 @@ export const useExpansionStats = () => {
             treasuryC.sharesMintedPerEpoch.call().call(),
             pulseC.totalSupply().call(),
             treasuryC.bondDepletionFloorPercent.call().call(),
-
+            oracleC.twap(staticAddress, 1e9).call(),
         ])
 
-        setStaticDollarAmount((staticPrice - 1.01) * 0.1 * stats[0] / 1e18 * staticPrice)
-        let amount = (staticPrice - 1.01) * 0.1 * stats[0] / 1e18
+
+        let balancesPromises: Promise<any>[] = [];
+        balancesPromises.push(staticC.totalSupply().call());
+        balancesPromises.push(staticC.balanceOf(treasuryAddress).call());
+
+        balancesPromises = balancesPromises.concat(
+            ["0x53D55291c12EF31b3f986102933177815DB72b3A", "0x7692bCB5F646abcdFA436658dC02d075856ac33C"].map((boardroom) =>
+                staticC.balanceOf(boardroom).call())
+        );
+
+        const circulatingSupply = (await Promise.all(balancesPromises)).reduce(
+            (a, b, i) => (i == 0 ? toBN(a).add(toBN(b)) : toBN(a).sub(toBN(b))),
+            toBN("0")
+        ) / 1e18;
+
+
+        const twap = stats[6] / 1e9
+        setStaticDollarAmount((twap - 1.01) * 0.1 * stats[0] / 1e18 * twap)
+        let amount = (twap - 1.01) * 0.1 * circulatingSupply
         setStaticAmount((amount))
 
         let mintLimit = stats[1] / 1e18

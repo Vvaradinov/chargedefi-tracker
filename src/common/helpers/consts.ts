@@ -13,7 +13,7 @@ export const boardroomAllocationAddress = "0xf10209043A750Bb3cb5c9c718Eb7212b3AC
 export const chargeBoardroomAddress = "0x53D55291c12EF31b3f986102933177815DB72b3A"
 export const staticBusdLpAddress = "0x69758726b04e527238B261ab00236AFE9F34929D"
 export const lpTokenBoardroomAddress = "0x7692bCB5F646abcdFA436658dC02d075856ac33C"
-export const staticOracleAddress = "0x1a68153a8C3Aa1c3B821Dc5927B0BBA8c13a0A0b"
+export const oracleAddress = "0x1a68153a8C3Aa1c3B821Dc5927B0BBA8c13a0A0b"
 
 
 export const CHARGE_FARM_ADDRESS = "0x60c489a4df20a440bfE68277e47140d178DBA9aC"

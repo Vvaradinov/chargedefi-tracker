@@ -24,8 +24,7 @@ export const useWalletProvider = () => {
         cookies.remove("walletAddress")
         setWalletAddress(undefined)
     }
-    console.log(status)
-    console.log(error)
+
     useEffect(() => {
         if(cookies.get('accessType') === "1" && cookies.get('walletAddress') !== undefined && status === "disconnected"){
             connect(cookies.get("walletType"))
