@@ -68,8 +68,8 @@ export const useExpansionStats = () => {
 
 
         const twap = stats[6] / 1e9
-        setStaticDollarAmount((twap - 1.01) * 0.1 * stats[0] / 1e18 * twap)
-        let amount = (twap - 1.01) * 0.1 * circulatingSupply
+        setStaticDollarAmount((twap - 1.01)  * stats[0] / 1e18 * twap)
+        let amount = (twap - 1.01)  * circulatingSupply
         setStaticAmount((amount))
 
         let mintLimit = stats[1] / 1e18
