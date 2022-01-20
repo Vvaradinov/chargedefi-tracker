@@ -49,12 +49,13 @@ export const useWalletProvider = () => {
         }
     }, [status])
 
-    useEffect(() => {
-        (window as any).ethereum.on('accountsChanged', (accounts: any) => {
-            setWalletAddress(accounts[0])
-            postWalletAddress.mutate(accounts[0])
-        })
-    }, [])
+    // TODO: Consider if this really is needed
+    // useEffect(() => {
+    //     (window as any).ethereum.on('accountsChanged', (accounts: any) => {
+    //         setWalletAddress(accounts[0])
+    //         postWalletAddress.mutate(accounts[0])
+    //     })
+    // }, [])
 
 
     return {
