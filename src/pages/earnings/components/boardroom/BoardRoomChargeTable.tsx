@@ -2,9 +2,6 @@ import React from 'react';
 import {Flex, Img, Skeleton, Table, TableCaption, Tag, Tbody, Td, Text, Th, Thead, Tr} from "@chakra-ui/react";
 import {getTokenUrl, timeZone} from "../../../../common/helpers/util";
 import dayjs from "dayjs";
-import utc from 'dayjs/plugin/utc'
-import tz from 'dayjs/plugin/timezone'
-import {useBoardroomChargeEarnings} from "./hooks/useBoardroomChargeEarnings";
 import InfoTooltip from "../../../../common/components/InfoTooltip/InfoTooltip";
 
 

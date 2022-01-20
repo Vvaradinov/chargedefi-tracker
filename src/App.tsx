@@ -87,7 +87,7 @@ function App() {
                 <QueryClientProvider client={queryClient}>
                     <TokenPricesContext.Provider value={providedTokens}>
                         <WalletAddressContext.Provider value={providedWallet}>
-                            <Flex w="100vw" h="100vh" flexDir="column" px={{xl:7, md: 5}} py={8} overflowX="hidden"
+                            <Flex w="100vw" h="100vh" flexDir="column" px={{xl:7, md: 5}} py={4} overflowX="hidden"
                                   bg={mode("#F5F5F5", "gray.800")}>
                                 <Router>
                                     {tokens && <TopNavBar/>}

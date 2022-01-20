@@ -5,6 +5,7 @@ import {
     Center,
     HStack,
     Stack,
+    Link,
     StackDivider,
     StackProps,
     useColorModeValue,
@@ -47,10 +48,23 @@ const MobileNavContent = (props: BoxProps) => {
                 <Stack spacing="0" divider={<StackDivider borderColor="whiteAlpha.200" />}>
                     {links.map((link, index) => (
                         <NavListItem key={index}>
-                            <NavLink.Mobile to={link.to}>{link.label}</NavLink.Mobile>
+                            <NavLink.Mobile onClick={onToggle} to={link.to}>{link.label}</NavLink.Mobile>
                         </NavListItem>
                     ))}
-                    <a href="https://docs.chargedefi.fi/" target="_blank">GitBook</a>
+                    <Link href="https://docs.chargedefi.fi/" target="_blank">
+                        <Box
+                            display="block"
+                            textAlign="center"
+                            fontWeight="bold"
+                            py="5"
+                            fontSize="lg"
+                            color="white"
+                            w="full"
+                            _hover={{
+                                bg: 'blackAlpha.200',
+                            }}
+                            > Gitbook</Box>
+                    </Link>
                 </Stack>
             </NavList>
         </Box>

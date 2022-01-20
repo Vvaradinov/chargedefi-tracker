@@ -26,6 +26,10 @@
 }
 
 
+body {
+    height: 100%;
+    width: 100%;
+}
 ::-webkit-scrollbar-thumb {
     background: darkgrey;
     width               : 9px;

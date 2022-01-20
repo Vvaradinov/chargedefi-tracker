@@ -30,8 +30,8 @@ const Main = () => {
 
     return (
         <Flex flexDir="column" py={5} h="100%">
-            <Tabs isFitted>
-                <TabList>
+            <Tabs isFitted w="100%">
+                <TabList w="100%" overflow={"auto"}>
                     <Tab  _focus={{outline: "none"}}>
                         <Img src={getTokenUrl("static-busd")} w="50px" h="30px"/>
                         <Text px={2}>Static-BUSD Boardroom</Text>
@@ -56,7 +56,7 @@ const Main = () => {
                     </Tab>
                 </TabList>
 
-                <TabPanels>
+                <TabPanels overflow="auto">
                     <TabPanel>
                         <BoardRoomLpTable data={brLPData} isLoading={brLPLoading} isError={brLPError}/>
                     </TabPanel>
