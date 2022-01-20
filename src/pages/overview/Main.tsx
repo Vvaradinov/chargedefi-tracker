@@ -51,7 +51,7 @@ const Main = () => {
                     <InfoTooltip iconSize={5} label={"Includes ChargeDefi Boardroom from main website and tracks earnings"}/>
                 </Flex>
             </HStack>
-            <UserStats includeBeefy={includeBeefy} includeBoardroom={includeBoardroom} includeFarms={includeFarms} includeWallet={includeWallet}/>
+            <UserStats includeBeefy={includeBeefy!} includeBoardroom={includeBoardroom!} includeFarms={includeFarms!} includeWallet={includeWallet!}/>
             {includeBasic && <ProtocolStats/> }
             {includeExpansionDebt && <ExpansionStats/> }
             {includeWallet && <Wallet/> }
