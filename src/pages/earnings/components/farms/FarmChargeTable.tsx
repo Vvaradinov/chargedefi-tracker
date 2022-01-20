@@ -4,8 +4,13 @@ import ChargeEarningsTable from "../../../../common/components/ChargeEarningsTab
 import {Skeleton, Text} from "@chakra-ui/react";
 
 
-const FarmChargeTable = () => {
-    const { data, isLoading, isError} = useFarmsChargeEarnings()
+type Props = {
+    data: Array<any>
+    isLoading: boolean
+    isError: boolean
+}
+
+const FarmChargeTable = ({ data, isLoading, isError}: Props) => {
 
     if(!data || data.length === 0){
         return <Text textAlign="center"> This table is being populated at the start of each new epoch (in the first 5 minutes). A future version of this will record all your past earnings and will automatically listen and record deposit and withdrawal events</Text>

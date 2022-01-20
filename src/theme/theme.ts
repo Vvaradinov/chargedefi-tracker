@@ -102,7 +102,7 @@ export const theme = extendTheme({
             bubblegum: 'linear-gradient(139.73deg, #313D5C 0%, #3D2A54 100%)',
         },
         blue: {
-            100: '#41B1EF',
+            100: '#3B67B9',
             200: '#3B67B9',
             300: '#3B67B9',
 

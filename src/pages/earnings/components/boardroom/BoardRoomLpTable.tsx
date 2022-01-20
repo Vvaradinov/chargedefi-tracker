@@ -7,9 +7,14 @@ import utc from 'dayjs/plugin/utc'
 import tz from 'dayjs/plugin/timezone'
 import InfoTooltip from "../../../../common/components/InfoTooltip/InfoTooltip";
 
-const BoardRoomLpTable = () => {
+type Props = {
+    data: Array<any>
+    isLoading: boolean
+    isError: boolean
+}
 
-    const { data, isLoading, isError} = useBoardroomLpEarnings()
+const BoardRoomLpTable = ({ data, isLoading, isError}: Props) => {
+
 
     if(!data || data.length === 0){
         return <Text textAlign="center"> This table is being populated at the start of each new epoch (in the first 5 minutes). A future version of this will record all your past earnings and will automatically listen and record deposit and withdrawal events</Text>
@@ -69,7 +74,7 @@ const BoardRoomLpTable = () => {
                 {data && data.map((i:any, key:number) =>
                     <Tr>
                         <Td>
-                            <Tag colorScheme="blue">{dayjs.utc(i.date).tz(timeZone).toDate().toLocaleString()}</Tag>
+                            <Tag textColor="white" colorScheme="blue">{dayjs.utc(i.date).tz(timeZone).toDate().toLocaleString()}</Tag>
                         </Td>
                         <Td>
                             <Flex>
