@@ -16,7 +16,7 @@ export interface StatCardProps {
         symbol: string
         topValue: any,
         value: number
-        tvl: number
+        tvl?: number
     }
 }
 
@@ -33,13 +33,15 @@ export const InvestedCard = (props: StatCardProps) => {
             <HStack>
                 <Image layerStyle={token} src={getTokenUrl(token)} bg={mode('white', 'gray.500')} rounded="full"/>
                 <Skeleton isLoaded={topValue !== undefined && !isNaN(topValue)} w="100%" h="30px">
-                    <Text fontWeight="bold" fontSize="20px" color={mode('gray.500', 'white')}>
-                        {format(topValue)}
-                    </Text>
+                    <Text fontWeight="bold" fontSize="20px" color={mode('gray.500', 'white')}>{symbol}</Text>
                 </Skeleton>
             </HStack>
             <Skeleton isLoaded={value !== undefined && !isNaN(value)}>
-                <Heading as="h4" size="lg" my="3" fontWeight="extrabold">${format(value)}</Heading>
+                <Flex my={3} flexWrap="wrap">
+                    <Heading as="h4" size="lg"  mx={2} color={mode('black', 'white')}>{format(topValue)}</Heading>
+                    <Heading as="h4" fontSize="26px" my="auto" color="gray.400" mx={2}>(${format(value)})</Heading>
+
+                </Flex>
             </Skeleton>
 
             <Flex justify="space-between" align="center" fontWeight="medium" fontSize="sm">
@@ -53,7 +55,6 @@ export const InvestedCard = (props: StatCardProps) => {
                     </Skeleton>
                 </HStack>
                 }
-                <Text color={mode('black', 'white')}>{symbol}</Text>
             </Flex>
         </Box>
     )

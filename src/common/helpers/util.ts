@@ -1,5 +1,15 @@
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import tz from "dayjs/plugin/timezone";
 
 
+
+dayjs.extend(utc)
+dayjs.extend(tz)
+export const timeZone = dayjs.tz.guess()
+
+
+export const stringToBoolean = (string: string) => string === 'false' ? false : !!string
 
 export const interval30 = (fn: any) => {
     setInterval(() => fn(), 5000)

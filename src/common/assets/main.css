@@ -35,3 +35,61 @@
     cursor              : pointer;
     opacity: 0;
 }
+
+.tooltip-override {
+    font-family: 'Ubuntu Mono', sans-serif !important;
+    border-radius: 30px !important;
+    background: #312f30 !important;
+    color: white !important;
+    max-width: 230px !important;
+    opacity: 1;
+    padding: 0.5rem 1rem !important;
+    font-weight: 300;
+}
+
+.sc-AxiKw.dDcmFj,
+.sc-AxiKw.dKUHwn {
+    border-radius: 50px;
+    min-height: 55px;
+    padding: 0 5px 0 24px;
+}
+
+.sc-AxirZ.kHqTkH {
+    font-size: 1.125rem;
+    font-weight: 300;
+    font-family: 'Ubuntu Mono', sans-serif;
+}
+
+.sc-AxhUy.sc-AxgMl.sc-fzoVTD.godqMb {
+    padding: 10px;
+}
+
+.sc-AxiKw svg:not(:first-child) {
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+}
+
+.sc-fzowVh.hMCYF {
+    padding: 12px 5px 12px 24px;
+    min-height: 55px;
+}
+
+.sc-fzowVh.hMCYF h2 {
+    font-size: 1.875rem;
+    font-family: 'Ubuntu Mono', sans-serif;
+    font-weight: 300;
+}
+
+.WlnNC {
+    margin: 24px 0 18px;
+    font-family: 'Ubuntu Mono', sans-serif;
+}
+
+div[role='presentation'] {
+    background: black;
+}
+
+div[style='height:fit-content'] {
+    position: absolute;
+}

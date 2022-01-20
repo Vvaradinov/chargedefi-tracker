@@ -3,6 +3,9 @@ import { Modal, ModalHeader, ModalContent, ModalOverlay, useColorModeValue as mo
 import wallets from "./wallets.json"
 import React from 'react';
 import {useWalletAddress} from "../../contexts/WalletAddressContext";
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 type Props = {
     isOpen: boolean
@@ -15,6 +18,8 @@ const WalletModal = ({isOpen, onClose, onSelectWallet}: Props) => {
     const { walletAddress, setWalletAddress } = useWalletAddress()!
     const logout = () => {
         setWalletAddress(undefined)
+        cookies.remove('addr');
+
         localStorage.removeItem("wallet")
         onClose()
     }

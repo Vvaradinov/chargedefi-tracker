@@ -6,16 +6,16 @@ import {InvestedCard} from "../boardroom/cards/InvestedCard";
 
 const Farms = () => {
 
-    const { staticBusd, chargeBusd, stats} = useFarms()
+    const {stats} = useFarms()
 
     return (
       <>
           <Heading py={5} px={5}>Farms </Heading>
-          <SimpleGrid columns={{ base: 1, md: 2 }} spacing="6" pt={5} px={5}>
+          <SimpleGrid columns={{ base: 1, md: 4 }} spacing="6" pt={5} px={5}>
               <InvestedCard
                  token="static-busd"
                   data={{
-                      symbol: 'Static-BUSD / $',
+                      symbol: 'Static-BUSD',
                       value: stats.staticLpValue,
                       topValue: stats.staticLpAmount,
                       tvl: stats.staticTVL
@@ -24,7 +24,7 @@ const Farms = () => {
               <IconStatCard
                   token="charge"
                   data={{
-                      symbol: 'Charge Earned / $',
+                      symbol: 'Charge Earned',
                       value: stats.staticRewardValue,
                       topValue: stats.staticPoolReward,
                       changeDaily: stats.staticChangeDaily
@@ -33,7 +33,7 @@ const Farms = () => {
               <InvestedCard
                   token="charge-busd"
                   data={{
-                      symbol: 'Charge-BUSD / $',
+                      symbol: 'Charge-BUSD',
                       value: stats.chargeLpValue,
                       topValue: stats.chargeLpAmount,
                       tvl: stats.chargeTVL
@@ -42,7 +42,7 @@ const Farms = () => {
               <IconStatCard
                   token="charge"
                   data={{
-                      symbol: 'Charge Earned / $',
+                      symbol: 'Charge Earned',
                       value: stats.chargeRewardValue,
                       topValue: stats.chargePoolReward,
                       changeDaily: stats.chargeChangeDaily
