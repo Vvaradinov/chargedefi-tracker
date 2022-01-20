@@ -56,8 +56,8 @@ export const useFarms = () => {
         const staticLpValue = (staticLpAmount * staticLp)
         const chargeLpValue = (chargeLpAmount * chargeLp)
 
-        console.log((staticLpAmount * staticDaily / 100).toFixed(2))
-        console.log((chargeLpAmount * chargeDaily / 100).toFixed(2))
+        // console.log((staticLpAmount * staticDaily / 100).toFixed(2))
+        // console.log((chargeLpAmount * chargeDaily / 100).toFixed(2))
         setStats({
             // LPs
             staticLpAmount,

@@ -25,7 +25,7 @@ const Main = () => {
 
     return (
         <>
-            <HStack spacing={5} px={5} pt={5} flexWrap="wrap" justifyContent="center" h="100%">
+            <HStack spacing={5} px={5} pt={5} flexWrap="wrap" justifyContent="center">
                 <Flex>
                     <Checkbox my="auto" isChecked={includeBasic} onChange={e => setIncludeBasic(e.target.checked)}>Basics</Checkbox>
                     <InfoTooltip iconSize={5} label={"Includes basic protocol information"}/>
