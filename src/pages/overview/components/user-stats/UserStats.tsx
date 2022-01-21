@@ -56,6 +56,7 @@ const UserStats = ({ includeBeefy, includeFarms, includeBoardroom, includeWallet
     }
 
     const cookies = new Cookies();
+    const cookiesOptions = { path: '/', maxAge: 2592000 };
 
     if (totalValue > 0) {
         let historical_data = new Map();
@@ -85,7 +86,7 @@ const UserStats = ({ includeBeefy, includeFarms, includeBoardroom, includeWallet
 
         historical_data.set(today, historical_object);
         const hist_string = JSON.stringify(Object.fromEntries(historical_data));
-        cookies.set('historical_data', hist_string, { path: '/' });
+        cookies.set('historical_data', hist_string, cookiesOptions);
         // console.log("saving new value to cookie: " + hist_string);
     }
 
@@ -98,10 +99,10 @@ const UserStats = ({ includeBeefy, includeFarms, includeBoardroom, includeWallet
     function updateInvestment (value:string) {
         const numberValue = Number(value);
         if (isNumber(numberValue) && numberValue != 0) {
-            cookies.set('investment', value, { path: '/' });
+            cookies.set('investment', value, cookiesOptions);
             setInvestment(value);
         } else {
-            cookies.set('investment', 0, { path: '/' });
+            cookies.set('investment', 0, cookiesOptions);
             setInvestment('0');
         }
     }

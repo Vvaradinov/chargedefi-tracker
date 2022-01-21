@@ -3,6 +3,7 @@ import {Cookies} from "react-cookie";
 import {stringToBoolean} from "../../../common/helpers/util";
 
 const cookies = new Cookies();
+const cookiesOptions = { path: '/', maxAge: 2592000 };
 
 export const useIncludeTrackers = () => {
     const [includeBasic, setIncludeBasic] = useState<boolean>();
@@ -33,12 +34,12 @@ export const useIncludeTrackers = () => {
     }, [])
 
     useEffect(() => {
-        cookies.set('includeBasic', includeBasic)
-        cookies.set('includeExpansionDebt', includeExpansionDebt)
-        cookies.set('includeWallet', includeWallet)
-        cookies.set('includeBeefy', includeBeefy)
-        cookies.set('includeFarms', includeFarms)
-        cookies.set('includeBoardroom', includeBoardroom)
+        cookies.set('includeBasic', includeBasic, cookiesOptions)
+        cookies.set('includeExpansionDebt', includeExpansionDebt, cookiesOptions)
+        cookies.set('includeWallet', includeWallet, cookiesOptions)
+        cookies.set('includeBeefy', includeBeefy, cookiesOptions)
+        cookies.set('includeFarms', includeFarms, cookiesOptions)
+        cookies.set('includeBoardroom', includeBoardroom, cookiesOptions)
     }, [includeBasic, includeWallet, includeExpansionDebt, includeBeefy, includeFarms, includeBoardroom])
 
     return {

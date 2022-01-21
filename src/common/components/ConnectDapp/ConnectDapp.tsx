@@ -11,7 +11,7 @@ import {formatWalletAddr} from "../../helpers/formating";
 import {useWalletProvider} from "../../hooks/useWalletProvider";
 
 const cookies = new Cookies();
-
+const cookiesOptions = { path: '/', maxAge: 2592000 };
 const ConnectDapp = () => {
 
     const { setWalletAddress } = useWalletAddress()!
@@ -30,8 +30,8 @@ const ConnectDapp = () => {
         if(isAddress(addr!)){
             setWalletAddress(addr)
             postWalletAddress.mutate(addr!)
-            cookies.set('accessType', 2, { path: '/' });
-            cookies.set('walletAddress', addr, {path: '/'})
+            cookies.set('accessType', 2, cookiesOptions);
+            cookies.set('walletAddress', addr, cookiesOptions)
         } else {
             toast({
                 title: "Invalid address",

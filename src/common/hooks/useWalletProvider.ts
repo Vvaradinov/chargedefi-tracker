@@ -9,6 +9,8 @@ import {Cookies} from "react-cookie";
 
 
 const cookies = new Cookies()
+const cookiesOptions = { path: '/', maxAge: 2592000 };
+
 export const useWalletProvider = () => {
     const accessType = cookies.get("accessType")
     const {walletAddress, setWalletAddress} = useWalletAddress()!;
@@ -35,9 +37,9 @@ export const useWalletProvider = () => {
         if(account){
             setWalletAddress(account)
             postWalletAddress.mutate(account)
-            cookies.set('walletAddress', account, {path: '/'})
-            cookies.set('accessType', 1, { path: '/' })
-            cookies.set('walletType', connector, {path: '/'})
+            cookies.set('walletAddress', account, cookiesOptions)
+            cookies.set('accessType', 1, cookiesOptions)
+            cookies.set('walletType', connector, cookiesOptions)
         }
     }, [account])
 
