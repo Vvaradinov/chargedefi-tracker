@@ -97,10 +97,10 @@ const UserStats = ({ includeBeefy, includeFarms, includeBoardroom, includeWallet
     }
 
     function updateInvestment (value:string) {
-        const numberValue = Number(value);
-        if (isNumber(numberValue) && numberValue != 0) {
-            cookies.set('investment', value, cookiesOptions);
-            setInvestment(value);
+        const numberValue = +value;
+        if (!isNaN(numberValue) && numberValue != 0) {
+            cookies.set('investment', numberValue, cookiesOptions);
+            setInvestment(numberValue.toString());
         } else {
             cookies.set('investment', 0, cookiesOptions);
             setInvestment('0');
