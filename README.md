@@ -1,5 +1,5 @@
 # ChargeDefi Tracker
-#### [chargedefitracker.com](https://chargedefitracker.com/)
+#### [tracker.chargedefi.fi/](http://tracker.chargedefi.fi/)
 
 This project was created so I can easily track all of my investments across the different ChargeDefi vaults, farms and boardroom in one tab.
 
