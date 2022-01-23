@@ -41,8 +41,6 @@ function formatTop(value: number) {
 }
 
 
-
-
 export const IconStatCard = (props: StatCardProps) => {
     const { data, token } = props
     const { value, changeDaily, symbol, topValue } = data

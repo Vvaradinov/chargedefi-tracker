@@ -7,6 +7,7 @@ import {
     CHARGE_ADDRESS,
 } from "../../../../../common/helpers/consts";
 import {useTokenPrices} from "../../../../../common/contexts/TokenPricesContext";
+import {useAggregateWallets} from "../../../../../common/contexts/AggregateWalletsContext";
 
 const Web3 = require("web3")
 const web3 = new Web3('https://bsc-dataseed1.binance.org:443');
@@ -14,32 +15,31 @@ const web3 = new Web3('https://bsc-dataseed1.binance.org:443');
 
 export const useWalletCharge = () => {
     const {walletAddress} = useWalletAddress()!
+    const { aggregateWallets } = useAggregateWallets()!
     const { tokens } = useTokenPrices()!
     const { staticPrice, chargePrice } = tokens
 
-    const chargeContract = new web3.eth.Contract(chargeABI, CHARGE_ADDRESS, {from: walletAddress}).methods
+    const chargeContract = new web3.eth.Contract(chargeABI, CHARGE_ADDRESS, ).methods
 
     const [chargeStats, setChargeStats] = useState<any>({})
 
     const get = async() => {
-        const balanceOfCharge = await chargeContract.balanceOf(walletAddress).call()
-        const tvl = 0
 
-        const tokens = (balanceOfCharge / 1e18)
-        const value = ((balanceOfCharge / 1e18) * chargePrice)
+        const balanceCalls = aggregateWallets.map(i => chargeContract.balanceOf(i).call())
+        const totalBalances = await Promise.all(balanceCalls)
 
+        let tokens
+        if(aggregateWallets.length > 1) {
+            tokens = totalBalances.reduce((i: any, k: any) => i / 1e18 + k / 1e18)
+        } else {
+            tokens = await balanceCalls[0] / 1e18
+        }
+
+        const value = tokens * chargePrice
         setChargeStats({
-            tvl: tvl.toFixed(0),
             tokens: tokens,
             value: value.toFixed(2),
-            earnedTokens:0,
-            earnedValue: 0,
-            changeDaily: {
-                percent: 0,
-                value: (value * (0 / 100)).toFixed(2)
-            }
         })
-        // console.log(new Date(await boardroomC.methods.nextEpochPoint().call() * 1e3))
     }
 
     useEffect(() => {

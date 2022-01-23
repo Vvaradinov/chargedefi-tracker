@@ -12,14 +12,16 @@ import {Checkbox, Flex, HStack, Spacer} from "@chakra-ui/react";
 import {useIncludeTrackers} from "./hooks/useIncludeTrackers";
 import InfoTooltip from "../../common/components/InfoTooltip/InfoTooltip";
 import Footer from "../../common/components/Footer/Footer";
+import {useAggregateWallets} from "../../common/contexts/AggregateWalletsContext";
 
 const Main = () => {
     const { walletAddress } = useWalletAddress()!
+    const { aggregateWallets } = useAggregateWallets()!
     const { includeWallet, setIncludeWallet, includeBeefy, setIncludeBeefy, includeFarms, setIncludeFarms,
             includeBoardroom, setIncludeBoardroom, includeBasic, setIncludeBasic,
             includeExpansionDebt, setIncludeExpansionDebt} = useIncludeTrackers()
 
-    if(!walletAddress){
+    if(!walletAddress && !aggregateWallets){
         return <ConnectDapp/>
     }
 

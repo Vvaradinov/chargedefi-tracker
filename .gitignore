@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+yarn.lock
+.idea/workspace.xml
 /.pnp
 .pnp.js
 

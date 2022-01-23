@@ -2,7 +2,7 @@ import React from 'react';
 import {Flex, Heading, SimpleGrid} from "@chakra-ui/react";
 import {useWalletCharge} from "../hooks/useWalletCharge";
 import {useWalletStatic} from "../hooks/useWalletStatic";
-import { InvestedCard } from '../../boardroom/cards/InvestedCard';
+import {IconStatCard} from "../../../../../common/components/IconStatCard/IconStatCard";
 
 const WalletTokens = () => {
     const { chargeStats } = useWalletCharge()
@@ -11,21 +11,20 @@ const WalletTokens = () => {
         <>
             <Heading>Wallet</Heading>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing="6" pt={5}>
-                <InvestedCard
-                    token="charge"
+                <IconStatCard
+                    token={"charge"}
                     data={{
                         symbol: "Charge",
                         value: chargeStats.value,
-                        topValue: chargeStats.tokens,
-
+                        topValue: chargeStats.tokens
                     }}
                 />
-                <InvestedCard
-                    token="static"
+                <IconStatCard
+                    token={"charge"}
                     data={{
                         symbol: "Static",
                         value: staticStats.value,
-                        topValue: staticStats.tokens,
+                        topValue: staticStats.tokens
                     }}
                 />
             </SimpleGrid>

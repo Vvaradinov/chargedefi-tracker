@@ -19,7 +19,7 @@ const TopNavBar = () => {
 
     const [isMobile] = useMediaQuery('(max-width: 1400px)')
 
-    const { walletAddress, onPresentAccountModal, onPresentConnectModal, accessType, logoutWallet, } = useWalletProvider()
+    const { aggregateWallets, onPresentAccountModal, onPresentConnectModal, accessType, logoutWallet, } = useWalletProvider()
 
 
     const tokenView = <HStack spacing={3} experimental_spaceY={isMobile ? 2 : 0} flexWrap={isMobile ? "wrap": "nowrap"}
@@ -73,8 +73,8 @@ const TopNavBar = () => {
                 <Button
                     bg={mode('white', 'gray.700')}
                     my="auto" w="150px" border={mode("2px solid rgb(0, 0, 0)", "2px solid white")}
-                    onClick={walletAddress && accessType === "2" ? logoutWallet : walletAddress ? onPresentAccountModal : onPresentConnectModal}>
-                    {walletAddress ? formatWalletAddr(walletAddress) : "Connect Wallet"}
+                    onClick={aggregateWallets && aggregateWallets.length > 1 && accessType === "2" ? logoutWallet : aggregateWallets ? onPresentAccountModal : onPresentConnectModal}>
+                    {aggregateWallets && aggregateWallets.length > 0 ? formatWalletAddr(aggregateWallets[0]) : "Connect Wallet"}
                 </Button>
             </Flex>
             {isMobile && tokenView}

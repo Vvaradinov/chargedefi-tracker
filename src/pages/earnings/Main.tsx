@@ -84,12 +84,6 @@ const Main = () => {
                     <TabPanel>
                         <FarmStaticTable data={farmStaticData} isLoading={farmStaticLoading} isError={farmStaticError}/>
                     </TabPanel>
-                    {/*<TabPanel>*/}
-                    {/*    <BeefyChargeTable/>*/}
-                    {/*</TabPanel>*/}
-                    {/*<TabPanel>*/}
-                    {/*    <BeefyStaticTable/>*/}
-                    {/*</TabPanel>*/}
                 </TabPanels>
             </Tabs>
             <Spacer/>

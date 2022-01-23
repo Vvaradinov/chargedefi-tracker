@@ -4,35 +4,59 @@ import {useEffect, useState} from "react";
 import {lpTokenBoardroomAddress, treasuryAddress} from "../../../../../common/helpers/consts";
 import {useTokenPrices} from "../../../../../common/contexts/TokenPricesContext";
 import treasuryABI from "../../../contracts/treasury.json";
+import {useAggregateWallets} from "../../../../../common/contexts/AggregateWalletsContext";
 
 const Web3 = require("web3")
 const web3 = new Web3('https://bsc-dataseed1.binance.org:443');
 
 export const useBoardRoomLp = () => {
     const {walletAddress} = useWalletAddress()!
+    const { aggregateWallets } = useAggregateWallets()!
     const { tokens } = useTokenPrices()!
     const { staticPrice, chargePrice, staticLp } = tokens
 
-    const lpBoardroomContract = new web3.eth.Contract(boardRoomStaticLPABI, lpTokenBoardroomAddress, {from: walletAddress}).methods
-    const treasuryContract = new web3.eth.Contract(treasuryABI,treasuryAddress, {from: walletAddress}).methods
+    const lpBoardroomContract = new web3.eth.Contract(boardRoomStaticLPABI, lpTokenBoardroomAddress, ).methods
+    const treasuryContract = new web3.eth.Contract(treasuryABI,treasuryAddress, ).methods
 
     const [stats, setStats] = useState<any>({})
 
     const get = async() => {
 
-        const stats = await Promise.all([
-            lpBoardroomContract.earned(walletAddress).call(),
-            lpBoardroomContract.balanceOf(walletAddress).call(),
+        const earnings = aggregateWallets.map(i => lpBoardroomContract.earned(i).call())
+        const balances = aggregateWallets.map(i => lpBoardroomContract.balanceOf(i).call())
+        const chainCalls = await Promise.all(([
+            await Promise.all(earnings),
+            await Promise.all(balances),
             lpBoardroomContract.totalSupply().call(),
             treasuryContract.PERIOD().call(),
             lpBoardroomContract.latestSnapshotIndex().call(),
-        ])
-        const earned = stats[0]
-        const balanceOfLpPair = stats[1]
-        const tvl = (stats[2] / 1e18) * staticLp
 
-        const period = stats[3] / 3600
-        const latestSnapshotIndex = stats[4]
+        ]))
+
+
+        let balanceOfLpPair
+        let staticEarned
+        let chargeEarned
+        if(aggregateWallets.length > 1) {
+            staticEarned = chainCalls[0].reduce((prev: any, curr: any) => [prev[0] / 1e18 + curr[0] / 1e18])
+            chargeEarned = chainCalls[0].reduce((prev: any, curr: any) => [prev[1] / 1e18 + curr[1] / 1e18])
+            balanceOfLpPair = chainCalls[1].reduce((prev: any, curr: any) => prev / 1e18 + curr / 1e18)
+        } else {
+            staticEarned = chainCalls[0][0][0] / 1e18
+            chargeEarned = chainCalls[0][0][1] / 1e18
+            balanceOfLpPair = chainCalls[1][0] / 1e18
+        }
+
+        const staticValue = staticEarned * staticPrice
+        const chargeValue = chargeEarned * chargePrice
+        const lpTokens = balanceOfLpPair
+        const lpTokensValue = balanceOfLpPair * staticLp
+
+
+        const tvl = (chainCalls[2] / 1e18) * staticLp
+
+        const period = chainCalls[3] / 3600
+        const latestSnapshotIndex = chainCalls[4]
         const lastHistory = await lpBoardroomContract.boardHistory(latestSnapshotIndex).call()
         const lastRewards0PerShare = lastHistory[2];
         const lastRewards1PerShare = lastHistory[4];
@@ -46,14 +70,6 @@ export const useBoardRoomLp = () => {
         const rewards0PerYear = epochRewards0PerShare*(24/period)*365*staticPrice;
         const rewards1PerYear = epochRewards1PerShare*(24/period)*365*chargePrice;
         const apr = (rewards0PerYear + rewards1PerYear) *100 / staticLp;
-
-        const staticEarned = earned[0] / 1e18
-        const chargeEarned = earned[1] / 1e18
-        const staticValue = staticEarned * staticPrice
-        const chargeValue = chargeEarned * chargePrice
-        const lpTokens = balanceOfLpPair / 1e18
-        const lpTokensValue = ((balanceOfLpPair / 1e18) * staticLp)
-
         const dailyTotal = apr / 365
 
         const staticDaily = (rewards0PerYear * 100 / staticLp) / 365

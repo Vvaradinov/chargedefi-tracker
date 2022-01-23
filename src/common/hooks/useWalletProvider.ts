@@ -6,6 +6,7 @@ import {useWalletModal} from "@pancakeswap-libs/uikit";
 import {useWallet} from "@binance-chain/bsc-use-wallet";
 import {useDidUpdate} from "./useDidUpdate";
 import {Cookies} from "react-cookie";
+import {useAggregateWallets} from "../contexts/AggregateWalletsContext";
 
 
 const cookies = new Cookies()
@@ -14,6 +15,7 @@ const cookiesOptions = { path: '/', maxAge: 2592000 };
 export const useWalletProvider = () => {
     const accessType = cookies.get("accessType")
     const {walletAddress, setWalletAddress} = useWalletAddress()!;
+    const { aggregateWallets, setAggregateWallets} = useAggregateWallets()!
     const { account, connect, reset, error, status, connector } = useWallet();
     const { onPresentConnectModal, onPresentAccountModal } = useWalletModal(
         connect,
@@ -23,21 +25,21 @@ export const useWalletProvider = () => {
     const postWalletAddress = useMutation("postAddress", api.postWalletAddress)
 
     const logoutWallet = () => {
-        cookies.remove("walletAddress")
-        setWalletAddress(undefined)
+        cookies.remove("aggregateWallets")
+        setAggregateWallets(undefined)
     }
 
     useEffect(() => {
-        if(cookies.get('accessType') === "1" && cookies.get('walletAddress') !== undefined && status === "disconnected"){
+        if(accessType === "1" && cookies.get('aggregateWallets') !== undefined && status === "disconnected"){
             connect(cookies.get("walletType"))
         }
     }, [])
 
     useEffect(() => {
         if(account){
-            setWalletAddress(account)
+            setAggregateWallets([account])
             postWalletAddress.mutate(account)
-            cookies.set('walletAddress', account, cookiesOptions)
+            cookies.set('aggregateWallets', [account], cookiesOptions)
             cookies.set('accessType', 1, cookiesOptions)
             cookies.set('walletType', connector, cookiesOptions)
         }
@@ -51,17 +53,9 @@ export const useWalletProvider = () => {
         }
     }, [status])
 
-    // TODO: Consider if this really is needed
-    // useEffect(() => {
-    //     (window as any).ethereum.on('accountsChanged', (accounts: any) => {
-    //         setWalletAddress(accounts[0])
-    //         postWalletAddress.mutate(accounts[0])
-    //     })
-    // }, [])
-
 
     return {
-        accessType, logoutWallet, setWalletAddress, status,
+        accessType, logoutWallet, setWalletAddress, status, aggregateWallets,
         walletAddress, onPresentConnectModal, onPresentAccountModal
     }
 }

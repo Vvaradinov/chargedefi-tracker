@@ -17,6 +17,7 @@ import {default as EarningsMain} from "./pages/earnings/Main"
 import {ThemeProvider} from "styled-components";
 import {ModalProvider} from "@pancakeswap-libs/uikit";
 import {dark, light, PancakeTheme} from "@pancakeswap-libs/uikit";
+import { AggregateWalletsContext } from './common/contexts/AggregateWalletsContext';
 
 
 const Web3 = require("web3")
@@ -28,17 +29,21 @@ function App() {
     const [walletAddress, setWalletAddress] = useState<string>();
     const providedWallet = useMemo<any>(() => ({walletAddress, setWalletAddress}), [walletAddress, setWalletAddress])
 
+    const [aggregateWallets, setAggregateWallets] = useState<Array<string>>();
+    const providedAggregateWallets = useMemo<any>(() => ({aggregateWallets, setAggregateWallets}), [aggregateWallets, setAggregateWallets])
+
     const [tokens, setTokens] = useState<any>({})
     const providedTokens = useMemo<any>(() => ({tokens, setTokens}), [tokens, setTokens])
+
 
     const queryClient = new QueryClient()
 
     const getTokenPrices = async () => {
-        const busdToken = new web3.eth.Contract(chargeABI, busdAddress, {from: walletAddress})
-        const staticToken = new web3.eth.Contract(chargeABI, staticAddress, {from: walletAddress})
-        const chargeToken = new web3.eth.Contract(chargeABI, CHARGE_ADDRESS, {from: walletAddress})
-        const staticLpToken = new web3.eth.Contract(lpABI, STATIC_LP_ADDRESS, {from: walletAddress})
-        const chargeLpToken = new web3.eth.Contract(lpABI, CHARGE_LP_ADDRESS, {from: walletAddress})
+        const busdToken = new web3.eth.Contract(chargeABI, busdAddress, )
+        const staticToken = new web3.eth.Contract(chargeABI, staticAddress, )
+        const chargeToken = new web3.eth.Contract(chargeABI, CHARGE_ADDRESS, )
+        const staticLpToken = new web3.eth.Contract(lpABI, STATIC_LP_ADDRESS, )
+        const chargeLpToken = new web3.eth.Contract(lpABI, CHARGE_LP_ADDRESS, )
 
         // Regular coin prices
         const chargePrice = await busdToken.methods.balanceOf(CHARGE_LP_ADDRESS).call() / await chargeToken.methods.balanceOf(CHARGE_LP_ADDRESS).call()
@@ -87,6 +92,7 @@ function App() {
                 <QueryClientProvider client={queryClient}>
                     <TokenPricesContext.Provider value={providedTokens}>
                         <WalletAddressContext.Provider value={providedWallet}>
+                            <AggregateWalletsContext.Provider value={providedAggregateWallets}>
                             <Flex w="100vw" h="100vh" flexDir="column" px={{xl:7, md: 5}} py={4} overflowX="hidden"
                                   bg={mode("#F5F5F5", "gray.800")}>
                                 <Router>
@@ -98,6 +104,7 @@ function App() {
                                     </Routes>
                                 </Router>
                             </Flex>
+                            </AggregateWalletsContext.Provider>
                         </WalletAddressContext.Provider>
                     </TokenPricesContext.Provider>
                 </QueryClientProvider>

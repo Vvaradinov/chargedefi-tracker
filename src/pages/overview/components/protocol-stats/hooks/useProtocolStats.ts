@@ -41,9 +41,9 @@ export const useProtocolStats = () => {
     const [state, dispatch] = useReducer(reducer, initialState, initState)
 
     // Contract objects
-    const boardroomC = new web3.eth.Contract(boardRoomContract, chargeBoardroomAddress, {from: walletAddress}).methods
-    const treasuryC = new web3.eth.Contract(treasuryContract, treasuryAddress, {from: walletAddress}).methods
-    const staticC = new web3.eth.Contract(staticContract, staticAddress, {from: walletAddress}).methods
+    const boardroomC = new web3.eth.Contract(boardRoomContract, chargeBoardroomAddress, ).methods
+    const treasuryC = new web3.eth.Contract(treasuryContract, treasuryAddress, ).methods
+    const staticC = new web3.eth.Contract(staticContract, staticAddress, ).methods
 
 
     const get = async() => {

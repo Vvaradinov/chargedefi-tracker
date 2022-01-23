@@ -24,11 +24,11 @@ export const useExpansionStats = () => {
     const { tokens } = useTokenPrices()!
     const { staticPrice, pulsePrice, chargePrice } = tokens
 
-    const oracleC = new web3.eth.Contract(oracleContract, oracleAddress, {from: walletAddress}).methods
-    const treasuryC = new web3.eth.Contract(treasuryContract, treasuryAddress, {from: walletAddress}).methods
-    const staticC = new web3.eth.Contract(staticContract, staticAddress, {from: walletAddress}).methods
-    const chargeC = new web3.eth.Contract(chargeContract, CHARGE_ADDRESS, {from: walletAddress}).methods
-    const pulseC = new web3.eth.Contract(pulseContract, pulseAddress, {from: walletAddress}).methods
+    const oracleC = new web3.eth.Contract(oracleContract, oracleAddress, ).methods
+    const treasuryC = new web3.eth.Contract(treasuryContract, treasuryAddress, ).methods
+    const staticC = new web3.eth.Contract(staticContract, staticAddress, ).methods
+    const chargeC = new web3.eth.Contract(chargeContract, CHARGE_ADDRESS, ).methods
+    const pulseC = new web3.eth.Contract(pulseContract, pulseAddress, ).methods
 
 
     const [stats, setStats] = useState<any>({})
