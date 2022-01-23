@@ -39,8 +39,8 @@ export const useExpansionStats = () => {
     const [chargeAmount, setChargeAmount] = useState<any>()
     const [pulseRepay, setPulseRepay] = useState<any>()
     const [pulseRepayAmount, setPulseRepayAmount] = useState<any>()
-    const [pulseRedeemDollar, setPulseRedeemDollar] = useState<any>(0)
-    const [pulseRedeemAmount, setPulseRedeemAmount] = useState<any>(0)
+    const [pulseRedeemDollar, setPulseRedeemDollar] = useState<any>()
+    const [pulseRedeemAmount, setPulseRedeemAmount] = useState<any>()
 
     const get = async () => {
         const stats = await Promise.all([
@@ -74,6 +74,8 @@ export const useExpansionStats = () => {
             setStaticDollarAmount((twap - 1.01) * circulatingSupply  * twap)
             let amount = (twap - 1.01) * circulatingSupply
             setStaticAmount((amount))
+            setPulseRedeemAmount(0)
+            setPulseRedeemDollar(0)
         } else {
             let pulseRepay = (twap - 1.01) * 0.1 * circulatingSupply * 0.25
             let amount = (twap - 1.01) * 0.1 * circulatingSupply - pulseRepay
