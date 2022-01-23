@@ -39,6 +39,8 @@ export const useExpansionStats = () => {
     const [chargeAmount, setChargeAmount] = useState<any>()
     const [pulseRepay, setPulseRepay] = useState<any>()
     const [pulseRepayAmount, setPulseRepayAmount] = useState<any>()
+    const [pulseRedeemDollar, setPulseRedeemDollar] = useState<any>(0)
+    const [pulseRedeemAmount, setPulseRedeemAmount] = useState<any>(0)
 
     const get = async () => {
         const stats = await Promise.all([
@@ -69,12 +71,15 @@ export const useExpansionStats = () => {
 
         const twap = stats[6] / 1e9
         if(twap < 1) {
-            setStaticDollarAmount((twap - 1.01) * stats[0] / 1e18 * twap)
+            setStaticDollarAmount((twap - 1.01) * circulatingSupply  * twap)
             let amount = (twap - 1.01) * circulatingSupply
             setStaticAmount((amount))
         } else {
-            setStaticDollarAmount((twap - 1.01) * 0.1 * stats[0] / 1e18 * twap)
-            let amount = (twap - 1.01) * 0.1 * circulatingSupply
+            let pulseRepay = (twap - 1.01) * 0.1 * circulatingSupply * 0.25
+            let amount = (twap - 1.01) * 0.1 * circulatingSupply - pulseRepay
+            setPulseRedeemAmount(pulseRepay)
+            setPulseRedeemDollar(pulseRepay * pulsePrice)
+            setStaticDollarAmount(amount * twap)
             setStaticAmount((amount))
         }
         let mintLimit = stats[1] / 1e18
@@ -90,8 +95,6 @@ export const useExpansionStats = () => {
         setPulseRepay(totalBondsToRepay)
         setPulseRepayAmount(totalBondsToRepay * pulsePrice)
 
-        // const bondRepayPercent = await treasuryC.bondRepayPercent.call().call()
-        // console.log(bondRepayPercent / 10000)
     }
 
     useEffect(() => {
@@ -100,6 +103,6 @@ export const useExpansionStats = () => {
 
     return {
         staticDollarAmount, staticAmount, chargeDollarAmount, chargeAmount,
-        pulseRepay, pulseRepayAmount
+        pulseRepay, pulseRepayAmount, pulseRedeemAmount, pulseRedeemDollar
     }
 }
