@@ -7,6 +7,9 @@ import {FaDiscord} from "@react-icons/all-files/fa/FaDiscord";
 import {FaClipboardList} from "@react-icons/all-files/fa/FaClipboardList";
 import certikWhite from "../../assets/certik-icon-white.png"
 import {FaYoutube} from "@react-icons/all-files/fa/FaYoutube";
+import {FaInstagram} from "@react-icons/all-files/fa/FaInstagram";
+import {FaReddit} from "@react-icons/all-files/fa/FaReddit";
+import {SiTiktok} from "@react-icons/all-files/si/SiTiktok";
 
 const Footer = () => {
 
@@ -37,13 +40,24 @@ const Footer = () => {
                     <Link  href="https://www.chargedefi.fi/charge_whitepaper.pdf" target="_blank" >
                         <Icon as={FaClipboardList} w="30px" h="30px"  />
                     </Link>
+                    <Link href="https://www.certik.com/projects/chargedefi"  target="_blank" >
+                        <Image src={mode("https://www.chargedefi.fi/static/media/certik-icon.37c78b75.png", certikWhite)}
+                               maxW="30px" w="30px"  h="30px"/>
+                    </Link>
                     <Link  href="https://www.youtube.com/channel/UCi60sDOAOOMS7UrXLrsuk_Q" target="_blank">
                         <Icon as={FaYoutube} w="30px" h="30px"  />
                     </Link>
-                    <Link href="https://www.certik.com/projects/chargedefi"  target="_blank" >
-                        <Image src={mode("https://www.chargedefi.fi/static/media/certik-icon.37c78b75.png", certikWhite)}
-                               minW="100%" maxW="100%" w="100%" h="30px"/>
+                    <Link href="https://www.instagram.com/chargedefi.fi/" target="_blank">
+                        <Icon as={FaInstagram} w="30px" h="30px"/>
                     </Link>
+                    <Link href="https://www.reddit.com/r/chargedefi" target="_blank">
+                        <Icon as={FaReddit} w="30px" h="30px"/>
+                    </Link>
+
+                    <Link href="https://www.tiktok.com/@chargedefi" target="_blank">
+                        <Icon as={SiTiktok} w="30px" h="30px"/>
+                    </Link>
+
                 </HStack>
             </Flex>
         </>
