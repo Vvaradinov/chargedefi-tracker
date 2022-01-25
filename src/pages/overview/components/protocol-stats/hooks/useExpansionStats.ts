@@ -70,7 +70,7 @@ export const useExpansionStats = () => {
 
 
         const twap = stats[6] / 1e9
-        if(twap < 1) {
+        if(twap < 1.01) {
             setStaticDollarAmount((twap - 1.01) * circulatingSupply  * twap)
             let amount = (twap - 1.01) * circulatingSupply
             setStaticAmount((amount))
