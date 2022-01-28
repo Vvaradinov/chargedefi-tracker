@@ -14,6 +14,7 @@ import {QueryClient, QueryClientProvider} from "react-query";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import {default as OverviewMain} from "./pages/overview/Main"
 import {default as EarningsMain} from "./pages/earnings/Main"
+import {default as ProtocolMain} from "./pages/protocol/Main"
 import {ThemeProvider} from "styled-components";
 import {ModalProvider} from "@pancakeswap-libs/uikit";
 import {dark, light, PancakeTheme} from "@pancakeswap-libs/uikit";
@@ -95,6 +96,7 @@ function App() {
                                         <Route path="/" element={<OverviewMain/>}/>
                                         <Route path="/overview" element={<OverviewMain/>}/>
                                         <Route path="/earnings" element={<EarningsMain/>}/>
+                                        <Route path="/protocol" element={<ProtocolMain/>}/>
                                     </Routes>
                                 </Router>
                             </Flex>

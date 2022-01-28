@@ -1,11 +1,17 @@
 import {useWalletAddress} from "../../../../../common/contexts/WalletAddressContext";
 import {useEffect, useReducer} from "react";
 import boardRoomContract from "../../../contracts/charge-boardroom.json";
-import {chargeBoardroomAddress, staticAddress, treasuryAddress} from "../../../../../common/helpers/consts";
+import {
+    chargeBoardroomAddress,
+    oracleAddress,
+    staticAddress,
+    treasuryAddress
+} from "../../../../../common/helpers/consts";
 import treasuryContract from "../../../contracts/treasury.json";
 import staticContract from "../../../../../common/contracts/static_abi.json";
 import {fromWei} from "../../../../../common/helpers/web3-helpers";
 import {useTokenPrices} from "../../../../../common/contexts/TokenPricesContext";
+import oracleContract from "../../../contracts/oracle.json";
 
 
 const Web3 = require("web3")
@@ -35,6 +41,7 @@ export const useProtocolStats = () => {
         epochUnderOne: null,
         nextEpochDate: null,
         timer: null,
+        twap: null
     }
     const initState = () => { return initialState}
 
@@ -43,7 +50,7 @@ export const useProtocolStats = () => {
     // Contract objects
     const boardroomC = new web3.eth.Contract(boardRoomContract, chargeBoardroomAddress, {from: walletAddress}).methods
     const treasuryC = new web3.eth.Contract(treasuryContract, treasuryAddress, {from: walletAddress}).methods
-    const staticC = new web3.eth.Contract(staticContract, staticAddress, {from: walletAddress}).methods
+    const oracleC = new web3.eth.Contract(oracleContract, oracleAddress, {from: walletAddress}).methods
 
 
     const get = async() => {
@@ -53,11 +60,9 @@ export const useProtocolStats = () => {
             dispatch({type:"updateState", name:"nextEpochDate", value:new Date(nextEpoch * 1e3)}))
         treasuryC.epochsUnderOne.call().call().then((i:any) =>
             dispatch({type: "updateState", name: "epochUnderOne", value: i}))
-        staticC.totalSupply().call().then((i:any) =>
-            dispatch({type: "updateState", name: "expansionDollarValue",
-                value: format((staticPrice - 1.01) * 0.1 * parseInt(fromWei(i))) })
-        )
-
+        oracleC.twap(staticAddress, 1e9).call().then((i:any) => {
+            dispatch({type: "updateState", name: "twap", value: i / 1e9})
+        })
     }
 
     const countdown = () => {
@@ -81,6 +86,17 @@ export const useProtocolStats = () => {
         }, 1000)
 
     }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            oracleC.twap(staticAddress, 1e9).call().then((i:any) => {
+                dispatch({type: "updateState", name: "twap", value: i / 1e9})
+            })
+        }, 10000)
+        return () => {
+            clearInterval(interval)
+        }
+    }, [])
 
     useEffect(() => {
         if(state.nextEpochDate !== null){

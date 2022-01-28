@@ -21,6 +21,8 @@ import {HiOutlineMenu} from "@react-icons/all-files/hi/HiOutlineMenu";
 const links = [
     { label: 'Account Overview', to: 'overview' },
     { label: 'Earnings History', to: 'earnings' },
+    { label: 'Protocol History', to: 'protocol' },
+
     // { label: 'Strategy', to: 'strategy' },
 ]
 

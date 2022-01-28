@@ -18,8 +18,6 @@ import {getTokenUrl} from "../../common/helpers/util";
 import BoardRoomLpTable from "./components/boardroom/BoardRoomLpTable";
 import {useWalletAddress} from "../../common/contexts/WalletAddressContext";
 import BoardRoomChargeTable from "./components/boardroom/BoardRoomChargeTable";
-import BeefyStaticTable from "./components/beefy-vaults/BeefyStaticTable";
-import BeefyChargeTable from "./components/beefy-vaults/BeefyChargeTable";
 import FarmChargeTable from "./components/farms/FarmChargeTable";
 import FarmStaticTable from "./components/farms/FarmStaticTable";
 import ConnectDapp from "../../common/components/ConnectDapp/ConnectDapp";
@@ -84,12 +82,6 @@ const Main = () => {
                     <TabPanel>
                         <FarmStaticTable data={farmStaticData} isLoading={farmStaticLoading} isError={farmStaticError}/>
                     </TabPanel>
-                    {/*<TabPanel>*/}
-                    {/*    <BeefyChargeTable/>*/}
-                    {/*</TabPanel>*/}
-                    {/*<TabPanel>*/}
-                    {/*    <BeefyStaticTable/>*/}
-                    {/*</TabPanel>*/}
                 </TabPanels>
             </Tabs>
             <Spacer/>

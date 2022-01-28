@@ -68,7 +68,6 @@ export const useExpansionStats = () => {
             toBN("0")
         ) / 1e18;
 
-
         const twap = stats[6] / 1e9
         if(twap < 1.01) {
             setStaticDollarAmount((twap - 1.01) * circulatingSupply  * twap)
@@ -77,7 +76,7 @@ export const useExpansionStats = () => {
             setPulseRedeemAmount(0)
             setPulseRedeemDollar(0)
         } else {
-            let pulseRepay = (twap - 1.01) * 0.1 * circulatingSupply * 0.25
+            let pulseRepay = (twap - 1.01) * 0.1 * circulatingSupply * 0.05
             let amount = (twap - 1.01) * 0.1 * circulatingSupply - pulseRepay
             setPulseRedeemAmount(pulseRepay)
             setPulseRedeemDollar(pulseRepay * pulsePrice)
