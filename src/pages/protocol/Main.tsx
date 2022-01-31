@@ -54,13 +54,13 @@ const Main = () => {
                     <Tab _focus={{outline: "none"}} px={3}>
                         <Icon as={FaRegMoneyBillAlt} w="30px" h="30px"/>
                         <Text px={2}>Expansion</Text>
-                        <Tag borderRadius='full' textColor="white" colorScheme="blue">{data && data.expansion_stats.length > 0 ? data.protocol_stats.length : "Empty" }</Tag>
+                        <Tag borderRadius='full' textColor="white" colorScheme="blue">{data && data.expansion_stats.length > 0 ? data.expansion_stats.length : "Empty" }</Tag>
 
                     </Tab>
                     <Tab  _focus={{outline: "none"}} px={3}>
                         <Icon as={FaBurn} w="30px" h="30px"/>
                         <Text px={2}>Rebase</Text>
-                        <Tag borderRadius='full' textColor="white" colorScheme="blue">{data && data.rebase_stats.length > 0 ? data.protocol_stats.length : "Empty" }</Tag>
+                        <Tag borderRadius='full' textColor="white" colorScheme="blue">{data && data.rebase_stats.length > 0 ? data.rebase_stats.length : "Empty" }</Tag>
                     </Tab>
                 </TabList>
 
