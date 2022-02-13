@@ -58,7 +58,7 @@ const TopNavBar = () => {
     return (
         <Box>
             <Flex>
-                {!isMobile && <Image src="https://www.chargedefi.fi/static/media/charge.53089c19.png" w="50px" h="50px" my="auto" mx={4}/>}
+                {!isMobile && <Image src={getTokenUrl("charge")} w="50px" h="50px" my="auto" mx={4}/>}
                 <NavContent.Desktop display={{ base: 'none', md: 'flex' }} />
                 <NavContent.Mobile display={{ base: 'flex', md: 'none' }} />
                 <Spacer/>
