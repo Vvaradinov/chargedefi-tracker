@@ -31,12 +31,6 @@ const TopNavBar = () => {
             </Skeleton>
         </Flex>
         <Flex>
-            <Image mx={2} my="auto" src={getTokenUrl("pulse")} width="35px" height="35px"/>
-            <Skeleton isLoaded={pulsePrice > 0}  my="auto" >
-                <Text my="auto"  fontWeight="bold">${pulsePrice}</Text>
-            </Skeleton>
-        </Flex>
-        <Flex>
             <Image mx={2} my="auto" src={getTokenUrl("charge")} width="35px" height="35px"/>
             <Skeleton isLoaded={chargePrice > 0}  my="auto">
                 <Text my="auto"  fontWeight="bold">${chargePrice}</Text>
