@@ -26,6 +26,7 @@ import GeneralProtocolTable from "./general/GeneralProtocolTable";
 import ExpansionTable from "./expansion/ExpansionTable";
 import RebaseTable from "./rebase/RebaseTable";
 import {useQuery} from "react-query";
+import _  from "lodash";
 import * as api from "./api"
 
 const Main = () => {
@@ -66,13 +67,13 @@ const Main = () => {
 
                 <TabPanels overflow="auto">
                     <TabPanel>
-                        <GeneralProtocolTable data={data && data.protocol_stats}/>
+                        <GeneralProtocolTable data={data && _.orderBy(data.protocol_stats, "date", "desc")}/>
                     </TabPanel>
                     <TabPanel>
-                        <ExpansionTable data={data && data.expansion_stats}/>
+                        <ExpansionTable data={data && _.orderBy(data.expansion_stats, "date", "desc")}/>
                     </TabPanel>
                     <TabPanel>
-                        <RebaseTable data={data && data.rebase_stats}/>
+                        <RebaseTable data={data && _.orderBy(data.rebase_stats, "date", "desc")}/>
                     </TabPanel>
                 </TabPanels>
             </Tabs>
