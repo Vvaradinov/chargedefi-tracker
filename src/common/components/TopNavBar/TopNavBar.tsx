@@ -54,7 +54,6 @@ const TopNavBar = () => {
         return null
     }
 
-
     return (
         <Box>
             <Flex>

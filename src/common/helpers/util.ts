@@ -18,14 +18,14 @@ export const interval30 = (fn: any) => {
 export const getTokenUrl = (token: string) => {
     switch (token){
         case "charge":
-            return "https://www.chargedefi.fi/static/media/charge-wb.2725bf56.png"
+            return require("../assets/tokens/charge-bsc.svg").default
         case "static":
-            return "https://www.chargedefi.fi/static/media/static-wb.110b300e.png"
+            return require("../assets/tokens/static-bsc.svg").default
         case "pulse":
             return "https://www.chargedefi.fi/static/media/pulse.d06a42ec.png"
         case "static-busd":
-            return "https://www.chargedefi.fi/static/media/static-busd-wb.68f012c0.png"
+            return require("../assets/tokens/static-busd.svg").default
         case "charge-busd":
-            return "https://www.chargedefi.fi/static/media/charge-busd-wb.c7aa4cac.png"
+            return require("../assets/tokens/charge-busd.svg").default
     }
 }
