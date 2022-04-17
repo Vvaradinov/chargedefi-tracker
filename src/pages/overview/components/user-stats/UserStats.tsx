@@ -10,6 +10,7 @@ import { isNumber } from '@chakra-ui/utils';
 
 import InfoTooltip from "../../../../common/components/InfoTooltip/InfoTooltip";
 import {useWalletTokens} from "../wallet/hooks/useWalletTokens";
+import {getSavedChain} from "../../../../service/chain_cookie.service";
 
 type Props = {
     includeBeefy: boolean
@@ -98,17 +99,17 @@ const UserStats = ({ includeBeefy, includeFarms, includeBoardroom, includeWallet
     function updateInvestment (value:string) {
         const numberValue = +value;
         if (!isNaN(numberValue) && numberValue != 0) {
-            cookies.set('investment', numberValue, cookiesOptions);
+            cookies.set(  getSavedChain() === "BSC" ? "bsc_investment" : "ftm_investment", numberValue, cookiesOptions);
             setInvestment(numberValue.toString());
         } else {
-            cookies.set('investment', 0, cookiesOptions);
+            cookies.set(getSavedChain() === "BSC" ? "bsc_investment" : "ftm_investment", 0, cookiesOptions);
             setInvestment('0');
         }
     }
 
-    if (investment == "" && cookies.get('investment') !== undefined) {
+    if (investment == "" && cookies.get(getSavedChain() === "BSC" ? "bsc_investment" : "ftm_investment") !== undefined) {
         console.log("retrieving investment from cookie!");
-        setInvestment(cookies.get('investment'));
+        setInvestment(cookies.get(getSavedChain() === "BSC" ? "bsc_investment" : "ftm_investment"));
     }
 
     return (

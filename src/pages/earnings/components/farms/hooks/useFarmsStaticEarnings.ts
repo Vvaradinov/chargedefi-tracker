@@ -5,10 +5,11 @@ import {useWeb3React} from "@web3-react/core";
 
 
 export const useFarmsStaticEarnings = () => {
-    const {account: walletAddress} = useWeb3React()!
+    const {account} = useWeb3React()!
+    const { walletAddress } = useWalletAddress()!
 
     const { data, isLoading, error, isError } = useQuery("getFarmsStaticEarnings",
-        () => api.getFarmsEarnings(walletAddress!, "static"))
+        () => api.getFarmsEarnings(walletAddress! || account!, "static"))
 
     return {
         data, isLoading, error, isError
