@@ -2,66 +2,102 @@ import {useEffect, useState} from "react";
 import {useWalletAddress} from "../contexts/WalletAddressContext";
 import {useMutation} from "react-query";
 import * as api from "../api/api"
-import {useWalletModal} from "@pancakeswap-libs/uikit";
-import {useWallet} from "@binance-chain/bsc-use-wallet";
+import {ConnectorNames, useWalletModal} from "@pancakeswap-libs/uikit";
 import {useDidUpdate} from "./useDidUpdate";
-import {Cookies} from "react-cookie";
-
-
-const cookies = new Cookies()
-const cookiesOptions = { path: '/', maxAge: 2592000 };
+import {useWeb3React} from "@web3-react/core";
+import useAuth from "./useAuth";
+import {isAddress} from "../helpers/web3-helpers";
+import {useToast} from "@chakra-ui/react";
+import {getSavedChain, getWalletCookie, removeWalletCookie, setWalletCookie} from "../../service/chain_cookie.service";
+import {connectorsByName} from "../utils/web3React";
+import {cookies} from "../helpers/util";
 
 export const useWalletProvider = () => {
-    const accessType = cookies.get("accessType")
-    const {walletAddress, setWalletAddress} = useWalletAddress()!;
-    const { account, connect, reset, error, status, connector } = useWallet();
-    const { onPresentConnectModal, onPresentAccountModal } = useWalletModal(
-        connect,
-        reset,
-        walletAddress
-    );
+    const toast = useToast()
+    const { walletAddress, setWalletAddress} = useWalletAddress()!
+    const {account: wallet, active, activate} = useWeb3React()
+    const {login, logout} = useAuth()
+    const { onPresentConnectModal, onPresentAccountModal } = useWalletModal(login, logout, wallet!)
+
     const postWalletAddress = useMutation("postAddress", api.postWalletAddress)
 
+    const isEmpty = Object.keys(walletAddress).length === 0;
+    const [accessType, setAccessType] = useState("1")
+    const [addr, setAddr] = useState<string>()
+
+
+    useEffect(() => {
+        setAccessType(cookies.get("access_type"))
+        if(getWalletCookie() !== undefined) {
+            setWalletAddress(getWalletCookie())
+        }
+    },[])
+
+
     const logoutWallet = () => {
-        cookies.remove("walletAddress")
-        setWalletAddress(undefined)
+        removeWalletCookie()
+        setWalletAddress({} as any)
+    }
+    const onSubmit = () => {
+        if(isAddress(addr!)){
+            postWalletAddress.mutate(addr!)
+            setWalletCookie(addr!)
+            setWalletAddress(addr!)
+            cookies.set('access_type', 2);
+            setAccessType("2")
+        } else {
+            toast({
+                title: "Invalid address",
+                description: "Please provide a wallet BSC address",
+                status: "error",
+                duration: 6000,
+                isClosable: true
+            })
+        }
     }
 
-    useEffect(() => {
-        if(cookies.get('accessType') === "1" && cookies.get('walletAddress') !== undefined && status === "disconnected"){
-            connect(cookies.get("walletType"))
-        }
-    }, [])
 
-    useEffect(() => {
-        if(account){
-            setWalletAddress(account)
-            postWalletAddress.mutate(account)
-            cookies.set('walletAddress', account, cookiesOptions)
-            cookies.set('accessType', 1, cookiesOptions)
-            cookies.set('walletType', connector, cookiesOptions)
-        }
-    }, [account])
+    // useEffect(() => {
+    //     if(cookies.get('accessType') === "1" && cookies.get('walletAddress') !== undefined && status === "disconnected"){
+    //         connect(cookies.get("walletType"))
+    //     }
+    // }, [])
+    //
+    // useEffect(() => {
+    //     if(account){
+    //         postWalletAddress.mutate(account)
+    //         cookies.set('walletAddress', account, cookiesOptions)
+    //         cookies.set('accessType', 1, cookiesOptions)
+    //         cookies.set('walletType', connector, cookiesOptions)
+    //     }
+    // }, [account])
 
     useDidUpdate(() => {
-        switch (status){
-            case "disconnected":
-                logoutWallet()
-                break;
+        if(active){
+            setWalletAddress(wallet!)
+            setWalletCookie(wallet!)
+        } else {
+            if(getSavedChain() === undefined || getSavedChain() === "bsc") {
+                setWalletAddress({} as any)
+                console.log("HERE")
+                cookies.remove("bsc_wallet")
+            }
         }
-    }, [status])
+    }, [active])
+
 
     // TODO: Consider if this really is needed
-    // useEffect(() => {
-    //     (window as any).ethereum.on('accountsChanged', (accounts: any) => {
-    //         setWalletAddress(accounts[0])
-    //         postWalletAddress.mutate(accounts[0])
-    //     })
-    // }, [])
+    useEffect(() => {
+        (window as any).ethereum.on('accountsChanged', (accounts: any) => {
+            setWalletCookie(accounts[0])
+            setWalletAddress(accounts[0])
+            postWalletAddress.mutate(accounts[0])
+        })
+    }, [])
 
 
     return {
-        accessType, logoutWallet, setWalletAddress, status,
-        walletAddress, onPresentConnectModal, onPresentAccountModal
+        addr, setAddr, accessType, setAccessType, onSubmit,
+        logoutWallet, wallet, isEmpty, walletAddress, onPresentConnectModal, onPresentAccountModal
     }
 }

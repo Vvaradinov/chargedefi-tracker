@@ -1,4 +1,13 @@
-import {Flex, Heading, useColorMode} from '@chakra-ui/react'
+import {
+    Box,
+    Button,
+    Flex,
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+    useColorMode,
+    VStack
+} from '@chakra-ui/react'
 import "@fontsource/metropolis"
 import {useEffect, useMemo, useState} from "react";
 import {WalletAddressContext} from './common/contexts/WalletAddressContext';
@@ -7,104 +16,74 @@ import TopNavBar from "./common/components/TopNavBar/TopNavBar";
 import {useColorModeValue as mode } from "@chakra-ui/react";
 import React from 'react';
 import "./common/assets/main.css"
-import {busdAddress, CHARGE_LP_ADDRESS, CHARGE_ADDRESS, STATIC_LP_ADDRESS, staticAddress} from "./common/helpers/consts";
-import chargeABI from "./common/contracts/charge_abi.json"
-import lpABI from "./pages/overview/contracts/lp-token-boardroom.json"
 import {QueryClient, QueryClientProvider} from "react-query";
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 import {default as OverviewMain} from "./pages/overview/Main"
 import {default as EarningsMain} from "./pages/earnings/Main"
 import {default as ProtocolMain} from "./pages/protocol/Main"
 import {ThemeProvider} from "styled-components";
 import {ModalProvider} from "@pancakeswap-libs/uikit";
 import {dark, light, PancakeTheme} from "@pancakeswap-libs/uikit";
+import {getLibrary} from "./common/utils/web3React";
+import {useWeb3React, Web3ReactProvider} from "@web3-react/core";
+import {getSavedChain, setChain} from "./service/chain_cookie.service";
+import {ReactComponent as Bnb} from "./common/assets/tokens/bnb.svg"
+import {ReactComponent as Ftm} from "./common/assets/tokens/fantom.svg"
+import {useTokenPrices} from "./common/hooks/useTokenPrices";
 
-
-const Web3 = require("web3")
-const web3 = new Web3('https://bsc-dataseed1.binance.org:443');
 
 function App() {
     const { colorMode } = useColorMode();
-
-    const [walletAddress, setWalletAddress] = useState<string>();
-    const providedWallet = useMemo<any>(() => ({walletAddress, setWalletAddress}), [walletAddress, setWalletAddress])
-
-    const [tokens, setTokens] = useState<any>({})
-    const providedTokens = useMemo<any>(() => ({tokens, setTokens}), [tokens, setTokens])
-
     const queryClient = new QueryClient()
 
-    const getTokenPrices = async () => {
-        const busdToken = new web3.eth.Contract(chargeABI, busdAddress, {from: walletAddress})
-        const staticToken = new web3.eth.Contract(chargeABI, staticAddress, {from: walletAddress})
-        const chargeToken = new web3.eth.Contract(chargeABI, CHARGE_ADDRESS, {from: walletAddress})
-        const staticLpToken = new web3.eth.Contract(lpABI, STATIC_LP_ADDRESS, {from: walletAddress})
-        const chargeLpToken = new web3.eth.Contract(lpABI, CHARGE_LP_ADDRESS, {from: walletAddress})
+    const [walletAddress, setWalletAddress] = useState<any>({})
+    const providedWalletAddress = useMemo<any>(() => ({walletAddress, setWalletAddress}), [walletAddress, setWalletAddress])
 
-        // Regular coin prices
-        const chargePrice = await busdToken.methods.balanceOf(CHARGE_LP_ADDRESS).call() / await chargeToken.methods.balanceOf(CHARGE_LP_ADDRESS).call()
-        const staticPrice = await busdToken.methods.balanceOf(STATIC_LP_ADDRESS).call() / await staticToken.methods.balanceOf(STATIC_LP_ADDRESS).call()
-        const pulsePrice = staticPrice
-        const busdPrice = 1
-
-        // Static LP token calculations
-        const tokensInPool0 = (await staticToken.methods.balanceOf(STATIC_LP_ADDRESS).call()) / 1e18
-        const busdInPool0 = (await busdToken.methods.balanceOf(STATIC_LP_ADDRESS).call()) / 1e18;
-        const totalLPtokens0 = (await staticLpToken.methods.totalSupply().call()) / 1e18;
-
-        const tokenPerLP0 = tokensInPool0 / totalLPtokens0;
-        const busdPerLP0 = busdInPool0 / totalLPtokens0;
-
-        const staticLp = tokenPerLP0 * staticPrice + busdPerLP0 * busdPrice;
-
-        // Charge LP token calculations
-        const tokensInPool1 = (await chargeToken.methods.balanceOf(CHARGE_LP_ADDRESS).call()) / 1e18
-        const busdInPool1 = (await busdToken.methods.balanceOf(CHARGE_LP_ADDRESS).call()) / 1e18;
-        const totalLPtokens1 = (await chargeLpToken.methods.totalSupply().call()) / 1e18;
-
-        const tokenPerLP1 = tokensInPool1 / totalLPtokens1;
-        const busdPerLP1 = busdInPool1 / totalLPtokens1;
-
-        const chargeLp = tokenPerLP1 * chargePrice + busdPerLP1 * busdPrice;
-
-        setTokens(
-            {
-                chargePrice: parseFloat(chargePrice.toFixed(3)),
-                staticPrice: parseFloat(staticPrice.toFixed(3)),
-                pulsePrice: parseFloat(pulsePrice.toFixed(3)),
-                staticLp: parseFloat(staticLp.toFixed(3)),
-                chargeLp: parseFloat(chargeLp.toFixed(3))
-            })
-    }
-
-    useEffect(() => {
-        getTokenPrices()
-        setInterval(() => getTokenPrices(), 300000)
-    }, [])
+    const { tokens, providedTokens } = useTokenPrices()
 
     return (
-        <ThemeProvider theme={colorMode === "dark" ? dark as PancakeTheme : light as PancakeTheme}>
-            <ModalProvider >
-                <QueryClientProvider client={queryClient}>
-                    <TokenPricesContext.Provider value={providedTokens}>
-                        <WalletAddressContext.Provider value={providedWallet}>
-                            <Flex w="100vw" h="100vh" flexDir="column" px={{xl:7, md: 5}} py={4} overflowX="hidden"
-                                  bg={mode("#F5F5F5", "gray.800")}>
-                                <Router>
-                                    {tokens && <TopNavBar/>}
-                                    <Routes>
-                                        <Route path="/" element={<OverviewMain/>}/>
-                                        <Route path="/overview" element={<OverviewMain/>}/>
-                                        <Route path="/earnings" element={<EarningsMain/>}/>
-                                        <Route path="/protocol" element={<ProtocolMain/>}/>
-                                    </Routes>
-                                </Router>
-                            </Flex>
-                        </WalletAddressContext.Provider>
-                    </TokenPricesContext.Provider>
-                </QueryClientProvider>
-            </ModalProvider>
-        </ThemeProvider>
+        <Web3ReactProvider getLibrary={getLibrary}>
+            <WalletAddressContext.Provider value={providedWalletAddress}>
+                <ThemeProvider theme={colorMode === "dark" ? dark as PancakeTheme : light as PancakeTheme}>
+                    <ModalProvider >
+                        <QueryClientProvider client={queryClient}>
+                            <TokenPricesContext.Provider value={providedTokens}>
+                                <Flex w="100vw" h="100vh" flexDir="column" px={{xl:7, md: 5}} py={4} overflowX="hidden"
+                                      bg={mode("#F5F5F5", "gray.800")} >
+                                    <Router>
+                                        {tokens && <TopNavBar/>}
+                                        <Routes>
+                                            <Route path="/" element={<OverviewMain/>}/>
+                                            <Route path="/overview" element={<OverviewMain/>}/>
+                                            <Route path="/earnings" element={<EarningsMain/>}/>
+                                            <Route path="/protocol" element={<ProtocolMain/>}/>
+                                        </Routes>
+                                    </Router>
+                                    <Box rounde="lg" position="fixed" bottom='15px' right={['16px', '24px']}>
+                                        <Popover isLazy>
+                                            <PopoverTrigger>
+
+                                                {getSavedChain() === "BSC" || getSavedChain() === undefined
+                                                    ? <Button size="lg" colorScheme="yellow" variant="solid" leftIcon={<Bnb  width="35px" height="35px"/>}>BNB Chain</Button>
+                                                    : <Button size="lg" colorScheme="blue" variant="solid" leftIcon={<Ftm  width="35px" height="35px"/>}>Fantom</Button>
+                                                }
+
+                                            </PopoverTrigger>
+                                            <PopoverContent w='max' bg={mode("#FAFAFA", "gray.800")} rounded="lg" px={2} py={4}>
+                                                <VStack spacing={3} mx={2}>
+                                                    <Button size="lg" colorScheme="yellow" variant="outline" leftIcon={<Bnb  width="35px" height="35px"/>} onClick={() => setChain("BSC")}>BNB Chain</Button>
+                                                    <Button size="lg" colorScheme="blue" variant="outline" leftIcon={<Ftm  width="35px" height="35px"/>} onClick={() => setChain("FTM")}>Fantom</Button>
+                                                </VStack>
+                                            </PopoverContent>
+                                        </Popover>
+                                    </Box>
+                                </Flex>
+                            </TokenPricesContext.Provider>
+                        </QueryClientProvider>
+                </ModalProvider>
+            </ThemeProvider>
+            </WalletAddressContext.Provider>
+        </Web3ReactProvider>
     )
 }
 export default App

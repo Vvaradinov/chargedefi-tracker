@@ -17,9 +17,9 @@ const Footer = () => {
     return (
         <>
             <Divider />
-            <Flex  pt={3} px={5} flexWrap="wrap">
-                <Heading>Our channels</Heading>
-                <Spacer/>
+            <Flex  pt={3} flexWrap="wrap">
+                {/*<Heading>Our channels</Heading>*/}
+                {/*<Spacer/>*/}
                 <HStack spacing={8} pt={2} flexDir="row" flexWrap="wrap">
                     <Link ml={9} href="https://twitter.com/ChargeDeFi"  target="_blank" >
                         <Icon as={FiTwitter}  w="30px" h="30px"/>

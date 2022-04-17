@@ -25,10 +25,12 @@
     /*background: transparent; !* make scrollbar transparent *!*/
 }
 
-
-body {
+.cls-bnb{fill:#f3ba2c;}
+body, html {
     height: 100%;
     width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 ::-webkit-scrollbar-thumb {
     background: darkgrey;

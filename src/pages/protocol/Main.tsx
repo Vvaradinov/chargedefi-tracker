@@ -28,20 +28,21 @@ import RebaseTable from "./rebase/RebaseTable";
 import {useQuery} from "react-query";
 import _  from "lodash";
 import * as api from "./api"
+import {useWeb3React} from "@web3-react/core";
 
 const Main = () => {
-    const { walletAddress } = useWalletAddress()!
-    const [isMobile] = useMediaQuery('(max-width: 860px)')
+    const { account } = useWeb3React()!
+    const { walletAddress} = useWalletAddress()!
+    const isEmpty = Object.keys(walletAddress).length === 0;
 
+    const [isMobile] = useMediaQuery('(max-width: 860px)')
     const {data, isLoading, isError} = useQuery("getProtocolStats", () => api.getFarmsEarnings())
 
-    console.log(data)
 
-
-
-    if(!walletAddress){
+    if(isEmpty) {
         return <ConnectDapp/>
     }
+
 
     return (
         <Flex flexDir="column" py={5} h="100%">

@@ -6,5 +6,5 @@ export type WalletAddress = {
     setWalletAddress: (newWalletAddr: string|undefined) => void
 }
 
-export const WalletAddressContext = createContext<WalletAddress|null>(null);
-export const useWalletAddress = () => useContext<WalletAddress|null>(WalletAddressContext);
+export const WalletAddressContext = createContext<WalletAddress|undefined>(undefined);
+export const useWalletAddress = () => useContext<WalletAddress|undefined>(WalletAddressContext);

@@ -9,42 +9,12 @@ import * as api from "../../api/api";
 import {useColorModeValue as mode} from "@chakra-ui/react";
 import {formatWalletAddr} from "../../helpers/formating";
 import {useWalletProvider} from "../../hooks/useWalletProvider";
+import {useWeb3React} from "@web3-react/core";
+import {Navigate} from "react-router-dom";
 
-const cookies = new Cookies();
-const cookiesOptions = { path: '/', maxAge: 2592000 };
 const ConnectDapp = () => {
 
-    const { setWalletAddress } = useWalletAddress()!
-    const [addr, setAddr] = useState<string>()
-    const toast = useToast()
-    const postWalletAddress = useMutation("postAddress", api.postWalletAddress)
-
-
-    useEffect(() => {
-        if (cookies.get('walletAddress') !== undefined) {
-            setWalletAddress(cookies.get('walletAddress'));
-        }
-    },[])
-
-    const onSubmit = () => {
-        if(isAddress(addr!)){
-            setWalletAddress(addr)
-            postWalletAddress.mutate(addr!)
-            cookies.set('accessType', 2, cookiesOptions);
-            cookies.set('walletAddress', addr, cookiesOptions)
-        } else {
-            toast({
-                title: "Invalid address",
-                description: "Please provide a wallet BSC address",
-                status: "error",
-                duration: 6000,
-                isClosable: true
-            })
-        }
-    }
-
-    const { walletAddress, onPresentAccountModal, onPresentConnectModal } = useWalletProvider()
-
+    const {onSubmit, addr, walletAddress, isEmpty, setAddr, wallet, onPresentAccountModal, onPresentConnectModal } = useWalletProvider()
 
     return (
         <VStack my="auto"  textAlign="center" spacing="24px">
@@ -52,8 +22,8 @@ const ConnectDapp = () => {
             <Button
                 bg={mode('white', 'gray.700')}
                 my="auto" w="300px" fontSize="24px" border={mode("2px solid rgb(0, 0, 0)", "2px solid white")}
-                onClick={walletAddress ? onPresentAccountModal : onPresentConnectModal}>
-                {walletAddress ? formatWalletAddr(walletAddress) : "Connect Wallet"}
+                onClick={!isEmpty ? onPresentAccountModal : onPresentConnectModal}>
+                {!isEmpty ? formatWalletAddr(walletAddress) : "Connect Wallet"}
             </Button>
             <Text  fontSize="24px">Or</Text>
             <Heading >Paste wallet address</Heading>
@@ -62,7 +32,7 @@ const ConnectDapp = () => {
                     <InputLeftElement
                         my="auto"
                         pointerEvents='none'
-                        children={<IoWalletOutline size="25px"  />}
+                        children={<IoWalletOutline size="25px"/>}
                     />
                     <Input placeholder="Wallet address..." size="lg" onChange={e => setAddr(e.target.value)}/>
                 </InputGroup>

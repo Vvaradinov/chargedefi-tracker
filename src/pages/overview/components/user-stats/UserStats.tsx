@@ -7,9 +7,9 @@ import {useFarms} from "../farms/hooks/useFarms";
 import {useBoardRoomCharge} from "../boardroom/hooks/useBoardroomCharge";
 import {useBoardRoomLp} from "../boardroom/hooks/useBoardRoomLp";
 import { isNumber } from '@chakra-ui/utils';
-import {useWalletCharge} from "../wallet/hooks/useWalletCharge";
-import {useWalletStatic} from "../wallet/hooks/useWalletStatic";
+
 import InfoTooltip from "../../../../common/components/InfoTooltip/InfoTooltip";
+import {useWalletTokens} from "../wallet/hooks/useWalletTokens";
 
 type Props = {
     includeBeefy: boolean
@@ -22,8 +22,7 @@ const UserStats = ({ includeBeefy, includeFarms, includeBoardroom, includeWallet
 
     const [investment, setInvestment] = useState<string>("");
 
-    const { chargeStats } = useWalletCharge()
-    const { staticStats } = useWalletStatic()
+    const { chargeValue, staticValue} = useWalletTokens()
     const { staticVault, chargeVault } = useBeefyVault();
     const { stats } = useFarms();
     const statsBoardRoomLp = useBoardRoomLp()
@@ -31,8 +30,8 @@ const UserStats = ({ includeBeefy, includeFarms, includeBoardroom, includeWallet
 
     let totalValue = 0;
     if (includeWallet) {
-        totalValue += Number(chargeStats.value);
-        totalValue += Number(staticStats.value);
+        totalValue += Number(chargeValue);
+        totalValue += Number(staticValue);
     }
 
     if (includeBeefy) {
@@ -48,11 +47,11 @@ const UserStats = ({ includeBeefy, includeFarms, includeBoardroom, includeWallet
     }
 
     if (includeBoardroom) {
-        totalValue += Number(statsBoardRoomLp.stats.value);
-        totalValue += Number(statsBoardRoomLp.stats.chargeValue);
-        totalValue += Number(statsBoardRoomLp.stats.staticValue);
-        totalValue += Number(statsBoardRoomCharge.stats.value);
-        totalValue += Number(statsBoardRoomCharge.stats.earnedValue);
+        totalValue += Number(statsBoardRoomLp.value);
+        totalValue += Number(statsBoardRoomLp.earnedChargeValue);
+        totalValue += Number(statsBoardRoomLp.earnedStaticValue);
+        totalValue += Number(statsBoardRoomCharge.value);
+        totalValue += Number(statsBoardRoomCharge.earnedValue);
     }
 
     const cookies = new Cookies();
@@ -67,10 +66,10 @@ const UserStats = ({ includeBeefy, includeFarms, includeBoardroom, includeWallet
         }
 
         const today = (new Date(new Date().setHours(0,0,0,0))).toLocaleDateString();
-        const walletTotal = Number(chargeStats.value) + Number(staticStats.value);
+        const walletTotal = Number(chargeValue) + Number(staticValue);
         const beefyTotal = Number(chargeVault.toDollar) + Number(staticVault.toDollar);
         const farmTotal = Number(stats.staticLpValue) + Number(stats.staticRewardValue) + Number(stats.chargeLpValue) + Number(stats.chargeRewardValue);
-        const boardroomTotal = Number(statsBoardRoomLp.stats.value) + Number(statsBoardRoomLp.stats.chargeValue) + Number(statsBoardRoomLp.stats.staticValue) + Number(statsBoardRoomCharge.stats.value) + Number(statsBoardRoomCharge.stats.earnedValue);
+        const boardroomTotal = Number(statsBoardRoomLp.value) + Number(statsBoardRoomLp.earnedChargeValue) + Number(statsBoardRoomLp.earnedStaticValue) + Number(statsBoardRoomCharge.value) + Number(statsBoardRoomCharge.earnedValue);
         const total = walletTotal + beefyTotal + farmTotal + boardroomTotal;
         const roiToday = total/Number(investment)-1;
 
@@ -120,7 +119,6 @@ const UserStats = ({ includeBeefy, includeFarms, includeBoardroom, includeWallet
             </Flex>
 
             <SimpleGrid columns={{ base: 1, md: 3 }} spacing="6" pt={5}>
-
                 <Flex w="100%">
                     <FormControl>
                         <FormLabel>Initial $ Investment</FormLabel>

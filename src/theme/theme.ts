@@ -1,6 +1,7 @@
 
 import {extendTheme} from "@chakra-ui/react";
 import "@fontsource/ubuntu-mono/700.css"
+import { theme } from '@chakra-ui/pro-theme'
 
 
 // export const theme = extendTheme({
@@ -19,7 +20,8 @@ import {
 } from '../common/assets/charge-styles';
 // import { light } from '@pancakeswap-libs/uikit';
 
-export const theme = extendTheme({
+export const myTheme = extendTheme({
+    colors: { ...theme.colors, brand: theme.colors.purple },
     fonts: {
         body: "Ubuntu Mono",
         heading: "Ubuntu Mono"
@@ -76,38 +78,6 @@ export const theme = extendTheme({
         modal: 100,
     },
     isDark: true,
-    colors: {
-        failure: '#ED4B9E',
-        primary: grey.primary,
-        primaryBright: '#53DEE9',
-        primaryDark: '#0098A1',
-        secondary: '#9A6AFF',
-        success: '#31D0AA',
-        warning: '#FFB237',
-        binance: '#F0B90B',
-        background: '#100C18',
-        backgroundDisabled: '#3c3742',
-        contrast: '#FFFFFF',
-        dropdown: '#1E1D20',
-        invertedContrast: '#191326',
-        input: '#483f5a',
-        inputSecondary: '#66578D',
-        tertiary: blue[200],
-        text: grey.primary,
-        textDisabled: '#666171',
-        textSubtle: '#A28BD4',
-        borderColor: 'transparent',
-        card: '#27262c',
-        gradients: {
-            bubblegum: 'linear-gradient(139.73deg, #313D5C 0%, #3D2A54 100%)',
-        },
-        blue: {
-            100: '#3B67B9',
-            200: '#3B67B9',
-            300: '#3B67B9',
-
-        }
-    },
     card: {
         background: '#27262c',
         borderRadius: '50px',
@@ -163,4 +133,4 @@ export const theme = extendTheme({
 
 });
 
-export default theme;
+export default myTheme;

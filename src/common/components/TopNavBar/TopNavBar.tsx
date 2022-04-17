@@ -1,5 +1,17 @@
 import React, {useEffect} from 'react';
-import {Button, Flex, Heading, Spacer, Text, useDisclosure, Image, useMediaQuery, Box, HStack} from "@chakra-ui/react";
+import {
+    Button,
+    Flex,
+    Heading,
+    Spacer,
+    Text,
+    useDisclosure,
+    Image,
+    useMediaQuery,
+    Box,
+    HStack,
+    Popover, PopoverTrigger, PopoverContent, VStack
+} from "@chakra-ui/react";
 import {formatWalletAddr} from "../../helpers/formating";
 import {useColorModeValue as mode} from "@chakra-ui/react";
 import {useWalletProvider} from "../../hooks/useWalletProvider";
@@ -15,11 +27,10 @@ import "../../assets/main.css"
 const TopNavBar = () => {
 
     const {tokens} = useTokenPrices()!
-    const { staticPrice, pulsePrice, chargePrice, staticLp, chargeLp} = tokens
-
+    const { staticPrice, chargePrice, staticLp, chargeLp} = tokens
     const [isMobile] = useMediaQuery('(max-width: 1400px)')
 
-    const { walletAddress, onPresentAccountModal, onPresentConnectModal, accessType, logoutWallet, } = useWalletProvider()
+    const { wallet, isEmpty, walletAddress, accessType, onPresentAccountModal, onPresentConnectModal, logoutWallet, } = useWalletProvider()
 
 
     const tokenView = <HStack spacing={3} experimental_spaceY={isMobile ? 2 : 0} flexWrap={isMobile ? "wrap": "nowrap"}
@@ -66,8 +77,8 @@ const TopNavBar = () => {
                 <Button
                     bg={mode('white', 'gray.700')}
                     my="auto" w="150px" border={mode("2px solid rgb(0, 0, 0)", "2px solid white")}
-                    onClick={walletAddress && accessType === "2" ? logoutWallet : walletAddress ? onPresentAccountModal : onPresentConnectModal}>
-                    {walletAddress ? formatWalletAddr(walletAddress) : "Connect Wallet"}
+                    onClick={!isEmpty ? logoutWallet : !isEmpty ? onPresentAccountModal : onPresentConnectModal}>
+                    {!isEmpty ? formatWalletAddr(walletAddress) : "Connect Wallet"}
                 </Button>
             </Flex>
             {isMobile && tokenView}

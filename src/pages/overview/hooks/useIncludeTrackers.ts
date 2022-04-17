@@ -1,28 +1,32 @@
 import {useEffect, useState} from "react";
-import {Cookies} from "react-cookie";
-import {stringToBoolean} from "../../../common/helpers/util";
+import {cookies, cookiesOptions, stringToBoolean} from "../../../common/helpers/util";
+import {defaultChain} from "../../../config";
 
-const cookies = new Cookies();
-const cookiesOptions = { path: '/', maxAge: 2592000 };
 
 export const useIncludeTrackers = () => {
-    const [includeBasic, setIncludeBasic] = useState<boolean>();
-    const [includeExpansionDebt, setIncludeExpansionDebt] = useState<boolean>()
-    const [includeWallet, setIncludeWallet] = useState<boolean>();
-    const [includeBeefy, setIncludeBeefy] = useState<boolean>();
-    const [includeFarms, setIncludeFarms] = useState<boolean>();
-    const [includeBoardroom, setIncludeBoardroom] = useState<boolean>();
+    const [includeBasic, setIncludeBasic] = useState<boolean>(false);
+    const [includeExpansionDebt, setIncludeExpansionDebt] = useState<boolean>(false)
+    const [includeWallet, setIncludeWallet] = useState<boolean>(false);
+    const [includeBeefy, setIncludeBeefy] = useState<boolean>(false);
+    const [includeFarms, setIncludeFarms] = useState<boolean>(false);
+    const [includeBoardroom, setIncludeBoardroom] = useState<boolean>(false);
 
+    const isBsc = defaultChain.shortName === "BSC"
 
     useEffect(() => {
         const address = cookies.get('walletAddress')
         if(!address){
-            setIncludeBasic(true)
-            setIncludeExpansionDebt(true)
-            setIncludeWallet(true)
-            setIncludeBoardroom(true)
-            setIncludeBeefy(false)
-            setIncludeFarms(false)
+            if(isBsc) {
+                setIncludeBasic(true)
+                setIncludeExpansionDebt(true)
+                setIncludeWallet(true)
+                setIncludeBoardroom(true)
+                setIncludeBeefy(false)
+                setIncludeFarms(false)
+            } else {
+                setIncludeFarms(true)
+                setIncludeWallet(true)
+            }
         } else {
             setIncludeBasic(stringToBoolean(cookies.get('includeBasic')))
             setIncludeExpansionDebt(stringToBoolean(cookies.get('includeExpansionDebt')))
@@ -43,6 +47,7 @@ export const useIncludeTrackers = () => {
     }, [includeBasic, includeWallet, includeExpansionDebt, includeBeefy, includeFarms, includeBoardroom])
 
     return {
+        isBsc,
         includeBasic, includeExpansionDebt, includeBeefy, includeFarms, includeBoardroom, includeWallet,
         setIncludeBasic, setIncludeExpansionDebt, setIncludeBeefy, setIncludeFarms, setIncludeBoardroom, setIncludeWallet
     }

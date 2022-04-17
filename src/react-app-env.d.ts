@@ -2,6 +2,7 @@
 /// <reference types="react" />
 /// <reference types="react-dom" />
 
+
 declare namespace NodeJS {
   interface ProcessEnv {
     readonly NODE_ENV: 'development' | 'production' | 'test';
@@ -141,3 +142,13 @@ declare module '*.module.sass' {
   const classes: { readonly [key: string]: string };
   export default classes;
 }
+
+/// <reference types="react-scripts" />
+
+interface WindowChain {
+  ethereum?: {
+    isMetaMask?: false;
+    request?: (...args: any[]) => void;
+  };
+}
+

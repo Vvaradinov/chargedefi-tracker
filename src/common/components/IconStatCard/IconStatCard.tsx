@@ -51,7 +51,7 @@ export const IconStatCard = (props: StatCardProps) => {
 
 
     return (
-        <Box bg={mode('white', 'gray.700')} px="6" py="4" shadow="base" rounded="lg" w="100%" mr={5}>
+        <Box bg={mode('white', 'gray.700')} px="6" py="4" shadow="md" rounded="lg" w="100%" mr={5}>
             <HStack>
                 <Image layerStyle={token} src={getTokenUrl(token)} bg={mode('white', 'gray.500')} rounded="full"/>
                 <Skeleton isLoaded={topValue !== undefined || !isNaN(topValue)} w="100%" h="30px">

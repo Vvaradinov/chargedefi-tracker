@@ -17,13 +17,15 @@ import { NavList } from './NavList'
 import { NavListItem } from './NavListItem'
 import {HiX} from "@react-icons/all-files/hi/HiX";
 import {HiOutlineMenu} from "@react-icons/all-files/hi/HiOutlineMenu";
+import {getSavedChain} from "../../../service/chain_cookie.service";
 
-const links = [
+
+const links = getSavedChain() === "BSC" ?  [
     { label: 'Account Overview', to: 'overview' },
     { label: 'Earnings History', to: 'earnings' },
     { label: 'Protocol History', to: 'protocol' },
-
-    // { label: 'Strategy', to: 'strategy' },
+] : [
+    { label: 'Account Overview', to: 'overview' },
 ]
 
 const MobileNavContent = (props: BoxProps) => {

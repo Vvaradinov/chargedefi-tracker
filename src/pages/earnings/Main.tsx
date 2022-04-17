@@ -26,11 +26,13 @@ import {useBoardroomChargeEarnings} from "./components/boardroom/hooks/useBoardr
 import {useBoardroomLpEarnings} from "./components/boardroom/hooks/useBoardroomLpEarnings";
 import {useFarmsChargeEarnings} from "./components/farms/hooks/useFarmsChargeEarnings";
 import {useFarmsStaticEarnings} from "./components/farms/hooks/useFarmsStaticEarnings";
+import {useWeb3React} from "@web3-react/core";
 
 const Main = () => {
+
+    const {account } = useWeb3React()!
     const { walletAddress} = useWalletAddress()!
-
-
+    const isEmpty = Object.keys(walletAddress).length === 0;
     const { data: brChargeData, isLoading: brChargeLoading, isError: brChargeError} = useBoardroomChargeEarnings()
     const { data: brLPData, isLoading: brLPLoading, isError: brLPError} = useBoardroomLpEarnings()
     const { data: farmChargeData, isLoading: farmChargeLoading, isError: farmChargeError} = useFarmsChargeEarnings()
@@ -38,7 +40,7 @@ const Main = () => {
 
     const [isMobile] = useMediaQuery('(max-width: 860px)')
 
-    if(!walletAddress){
+    if(isEmpty){
         return <ConnectDapp/>
     }
 

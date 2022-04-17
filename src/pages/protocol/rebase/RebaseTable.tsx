@@ -61,7 +61,7 @@ const RebaseTable = ({data}: Props) => {
                             <Td>
                                 <Tag textColor="white" colorScheme="blue">{dayjs.utc(i.date).tz(timeZone).toDate().toLocaleString()}</Tag>
                             </Td>
-                            <Td isNumeric>${formatUS(i.twap.toFixed(2))}</Td>
+                            {/*<Td isNumeric>${formatUS(i.twap.toFixed(2))}</Td>*/}
                             <Td isNumeric>{formatUS(i.static_burned.toFixed(3))}</Td>
                             <Td isNumeric>${formatUS(i.static_burn_dollar_amount.toFixed(2))}</Td>
                             <Td isNumeric>{formatUS(i.burn_percent.toFixed(2))}%</Td>
