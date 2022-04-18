@@ -23,9 +23,9 @@ const Wallet = () => {
                 <InvestedCard
                     token="static"
                     data={{
-                        symbol: "static",
-                        value: chargeValue,
-                        topValue: chargeAmount,
+                        symbol: "Static",
+                        value: staticValue,
+                        topValue: staticAmount,
 
                     }}
                 />
