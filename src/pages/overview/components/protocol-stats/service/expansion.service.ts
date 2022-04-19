@@ -83,7 +83,7 @@ export const getExpansionStats = async(web3: Web3, pulsePrice: any, chargePrice:
     const staticTreasurySupply = call.results.staticTreasurySupply.callsReturnContext[0].returnValues[0].hex / 1
     const circulatingSupply = staticTotalSupply - lpBoardroomBalance - boardroomBalance - staticTreasurySupply
     const bondDepletionFloorPercent = call.results.bondDepletionFloorPercent.callsReturnContext[0].returnValues[0].hex / 1
-    const totalBondsToRepay = call.results.pulseTotalSupply.callsReturnContext[0].returnValues[0].hex / 1e18
+    const totalBondsToRepay = call.results.pulseTotalSupply.callsReturnContext[0].returnValues[0].hex / 1e19
     let staticValue
     let staticAmount
     let pulseRepayValue = 0
