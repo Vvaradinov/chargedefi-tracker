@@ -34,14 +34,14 @@ const Main = () => {
     return (
         <>
             <HStack spacing={5} px={5} pt={5} flexWrap="wrap" justifyContent="center">
-                {isBsc && <Flex>
+                 <Flex>
                     <Checkbox my="auto" isChecked={includeBasic} onChange={e => setIncludeBasic(e.target.checked)}>Basics</Checkbox>
                     <InfoTooltip iconSize={5} label={"Includes basic protocol information"}/>
-                </Flex> }
-                {isBsc && <Flex>
+                </Flex>
+                <Flex>
                     <Checkbox my="auto" isChecked={includeExpansionDebt} onChange={e => setIncludeExpansionDebt(e.target.checked)}>Expansion/Debt</Checkbox>
                     <InfoTooltip iconSize={5} label={"Includes information about treasury expansion and debt updated each epoch"}/>
-                </Flex> }
+                </Flex>
                 <Flex>
                     <Checkbox my="auto" isChecked={includeWallet} onChange={e => setIncludeWallet(e.target.checked)}>Wallet</Checkbox>
                     <InfoTooltip iconSize={5} label={"Includes your current wallet holdings for Static and Charge"}/>
@@ -54,10 +54,10 @@ const Main = () => {
                     <Checkbox my="auto" isChecked={includeFarms} onChange={e => setIncludeFarms(e.target.checked)}>Farms</Checkbox>
                     <InfoTooltip iconSize={5} label={"Includes ChargeDefi Farms from main website and tracks earnings" }/>
                 </Flex>
-                {isBsc && <Flex>
+                <Flex>
                     <Checkbox my="auto" isChecked={includeBoardroom} onChange={e => setIncludeBoardroom(e.target.checked)}>Boardroom</Checkbox>
                     <InfoTooltip iconSize={5} label={"Includes ChargeDefi Boardroom from main website and tracks earnings"}/>
-                </Flex> }
+                </Flex>
             </HStack>
             <UserStats includeBeefy={includeBeefy!} includeBoardroom={includeBoardroom!} includeFarms={includeFarms!} includeWallet={includeWallet!}/>
             {includeBasic && <ProtocolStats/> }

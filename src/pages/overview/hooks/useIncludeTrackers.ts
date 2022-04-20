@@ -4,12 +4,12 @@ import {defaultChain} from "../../../config";
 
 
 export const useIncludeTrackers = () => {
-    const [includeBasic, setIncludeBasic] = useState<boolean>(false);
-    const [includeExpansionDebt, setIncludeExpansionDebt] = useState<boolean>(false)
+    const [includeBasic, setIncludeBasic] = useState<boolean>(true);
+    const [includeExpansionDebt, setIncludeExpansionDebt] = useState<boolean>(true)
     const [includeWallet, setIncludeWallet] = useState<boolean>(false);
     const [includeBeefy, setIncludeBeefy] = useState<boolean>(false);
-    const [includeFarms, setIncludeFarms] = useState<boolean>(false);
-    const [includeBoardroom, setIncludeBoardroom] = useState<boolean>(false);
+    const [includeFarms, setIncludeFarms] = useState<boolean>(true);
+    const [includeBoardroom, setIncludeBoardroom] = useState<boolean>(true);
 
     const isBsc = defaultChain.shortName === "BSC"
 

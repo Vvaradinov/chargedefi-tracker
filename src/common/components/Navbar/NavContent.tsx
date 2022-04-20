@@ -26,6 +26,7 @@ const links = getSavedChain() === "BSC" ?  [
     { label: 'Protocol History', to: 'protocol' },
 ] : [
     { label: 'Account Overview', to: 'overview' },
+    { label: 'Protocol History', to: 'protocol' },
 ]
 
 const MobileNavContent = (props: BoxProps) => {

@@ -3,11 +3,14 @@ import {Flex, Heading, SimpleGrid} from "@chakra-ui/react";
 import {IconStatCard} from "../../../../common/components/IconStatCard/IconStatCard";
 import {useExpansionStats} from "./hooks/useExpansionStats";
 import InfoTooltip from "../../../../common/components/InfoTooltip/InfoTooltip";
+import {defaultChain} from "../../../../config";
 
 const ExpansionStats = () => {
     const { staticAmount, staticValue, chargeAmount, chargeValue, pulseRepayAmount, pulseRepayValue,
         pulseLeftAmount, pulseLeftValue
     } = useExpansionStats()
+
+    const isBsc = defaultChain.shortName === "BSC"
     return (
         <Flex px={5} py={5} flexDir="column">
             <Flex>
@@ -35,6 +38,7 @@ const ExpansionStats = () => {
                         topValue: chargeAmount
                     }}
                     />
+                {isBsc &&
                 <IconStatCard
                     token="pulse"
                     data={{
@@ -42,7 +46,8 @@ const ExpansionStats = () => {
                         value: pulseLeftValue,
                         topValue: pulseLeftAmount
                     }}
-                />
+                /> }
+                {isBsc &&
                 <IconStatCard
                     token="pulse"
                     data={{
@@ -51,6 +56,7 @@ const ExpansionStats = () => {
                         topValue: pulseRepayAmount
                     }}
                 />
+                }
             </SimpleGrid>
         </Flex>
     );

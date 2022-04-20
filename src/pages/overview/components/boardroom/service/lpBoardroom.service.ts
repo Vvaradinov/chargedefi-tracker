@@ -2,31 +2,32 @@ import {ContractCallContext} from "ethereum-multicall";
 import * as config from "../../../../../config";
 import Web3 from "web3";
 import {doMulticall} from "../../../../../service/multicall.service";
+import {defaultChain} from "../../../../../config";
 
 const _generateContext = (address: string): ContractCallContext[] => {
     const contracts = config.defaultChain.deployments
     return  [
         {
             reference: 'earned',
-            contractAddress: contracts.LPTokenBoardroom.address,
-            abi: contracts.LPTokenBoardroom.abi,
+            contractAddress: defaultChain.staticLpBoardroom,
+            abi: contracts.Boardroom.abi,
             calls: [{reference: 'earned', methodName: "earned", methodParameters: [address] }]
         },
         {
             reference: 'balanceOf',
-            contractAddress: contracts.LPTokenBoardroom.address,
-            abi: contracts.LPTokenBoardroom.abi,
+            contractAddress: defaultChain.staticLpBoardroom,
+            abi: contracts.Boardroom.abi,
             calls: [{reference: 'balanceOf', methodName: "balanceOf", methodParameters: [address] }]
         },
         {
             reference: 'totalSupply',
-            contractAddress: contracts.LPTokenBoardroom.address,
-            abi: contracts.LPTokenBoardroom.abi,
+            contractAddress: defaultChain.staticLpBoardroom,
+            abi: contracts.Boardroom.abi,
             calls: [{reference: 'totalSupply', methodName: "totalSupply", methodParameters: [] }]
         },
         {
             reference: 'epoch',
-            contractAddress: contracts.Boardroom.address,
+            contractAddress: defaultChain.staticLpBoardroom,
             abi: contracts.Boardroom.abi,
             calls: [{reference: 'epoch', methodName: "epoch", methodParameters: [] }]
         },
@@ -34,13 +35,13 @@ const _generateContext = (address: string): ContractCallContext[] => {
             reference: 'TVL',
             contractAddress: contracts.BoardroomStats.address,
             abi: contracts.BoardroomStats.abi,
-            calls: [{reference: 'TVL', methodName: "TVL", methodParameters: [contracts.LPTokenBoardroom.address] }]
+            calls: [{reference: 'TVL', methodName: "TVL", methodParameters: [defaultChain.staticLpBoardroom] }]
         },
         {
             reference: 'APR',
             contractAddress: contracts.BoardroomStats.address,
             abi: contracts.BoardroomStats.abi,
-            calls: [{reference: 'APR', methodName: "APR", methodParameters: [contracts.LPTokenBoardroom.address] }]
+            calls: [{reference: 'APR', methodName: "APR", methodParameters: [defaultChain.staticLpBoardroom] }]
         },
 
     ];
@@ -52,15 +53,15 @@ const _generateContext2 = (epoch: number): ContractCallContext[] => {
     return [
         {
             reference: 'boardHistory',
-            contractAddress: contracts.LPTokenBoardroom.address,
-            abi: contracts.LPTokenBoardroom.abi,
+            contractAddress: defaultChain.staticLpBoardroom,
+            abi: contracts.Boardroom.abi,
             calls: [{reference: 'boardHistory', methodName: "boardHistory", methodParameters: [epoch] }]
         },
         {
             reference: 'prevBoardHistory',
-            contractAddress: contracts.LPTokenBoardroom.address,
-            abi: contracts.LPTokenBoardroom.abi,
-            calls: [{reference: 'boardHistory', methodName: "boardHistory", methodParameters: [epoch-1] }]
+            contractAddress: defaultChain.staticLpBoardroom,
+            abi: contracts.Boardroom.abi,
+            calls: [{reference: 'boardHistory', methodName: "boardHistory", methodParameters: [epoch === 0 ? 0 : epoch-1] }]
         },
     ]
 }

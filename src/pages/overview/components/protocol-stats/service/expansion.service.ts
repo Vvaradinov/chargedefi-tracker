@@ -2,8 +2,9 @@ import {ContractCallContext} from "ethereum-multicall";
 import * as config from "../../../../../config";
 import Web3 from "web3";
 import {doMulticall} from "../../../../../service/multicall.service";
+import {defaultChain} from "../../../../../config";
 
-const _generateContext = (): ContractCallContext[] => {
+const _generateContextBsc = (): ContractCallContext[] => {
     const contracts = config.defaultChain.deployments
     return  [
         {
@@ -48,6 +49,7 @@ const _generateContext = (): ContractCallContext[] => {
             abi: contracts.Treasury.abi,
             calls: [{reference: 'sharesMintedPerEpoch', methodName: "sharesMintedPerEpoch", methodParameters: [] }]
         },
+
         {
             reference: 'bondDepletionFloorPercent',
             contractAddress: contracts.Treasury.address,
@@ -68,10 +70,68 @@ const _generateContext = (): ContractCallContext[] => {
         },
     ];
 }
+const _generateContextFtm = (): ContractCallContext[] => {
+    const contracts = config.defaultChain.deployments
+    return  [
+        {
+            reference: 'boardroomBalance',
+            contractAddress: contracts.Static.address,
+            abi: contracts.Static.abi,
+            calls: [{reference: 'balanceOf', methodName: "balanceOf", methodParameters: [defaultChain.chargeBoardroom] }]
+        },
+        {
+            reference: 'lpBoardroomBalance',
+            contractAddress: contracts.Static.address,
+            abi: contracts.Static.abi,
+            calls: [{reference: 'balanceOf', methodName: "balanceOf", methodParameters: [defaultChain.staticLpBoardroom] }]
+        },
+        {
+            reference: 'staticTotalSupply',
+            contractAddress: contracts.Static.address,
+            abi: contracts.Static.abi,
+            calls: [{reference: 'totalSupply', methodName: "totalSupply", methodParameters: [] }]
+        },
+        {
+            reference: 'staticTreasurySupply',
+            contractAddress: contracts.Static.address,
+            abi: contracts.Static.abi,
+            calls: [{reference: 'balanceOf', methodName: "balanceOf", methodParameters: [contracts.Treasury.address] }]
+        },
+        {
+            reference: 'chargeMintLimit',
+            contractAddress: contracts.Charge.address,
+            abi: contracts.Charge.abi,
+            calls: [{reference: 'mintLimitOf', methodName: "mintLimitOf", methodParameters: [contracts.Treasury.address] }]
+        },
+        {
+            reference: 'mintedAmountOf',
+            contractAddress: contracts.Charge.address,
+            abi: contracts.Charge.abi,
+            calls: [{reference: 'mintedAmountOf', methodName: "mintedAmountOf", methodParameters: [contracts.Treasury.address] }]
+        },
+        {
+            reference: 'sharesMintedPerEpoch',
+            contractAddress: contracts.Treasury.address,
+            abi: contracts.Treasury.abi,
+            calls: [{reference: 'sharesMintedPerEpoch', methodName: "sharesMintedPerEpoch", methodParameters: [] }]
+        },
+
+        {
+            reference: 'twap',
+            contractAddress: contracts.Oracle.address,
+            abi: contracts.Oracle.abi,
+            calls: [{reference: 'twap', methodName: "twap", methodParameters: [contracts.Static.address, 1e9] }]
+        },
+    ];
+
+}
 
 
 export const getExpansionStats = async(web3: Web3, pulsePrice: any, chargePrice: any, staticPrice: any) => {
-    const call = await doMulticall(web3, _generateContext())
+    const isBsc = defaultChain.shortName === "BSC"
+    console.log(_generateContextFtm())
+    const call = await doMulticall(web3, isBsc ? _generateContextBsc() : _generateContextFtm())
+    console.log(call)
     const mintLimit = call.results.chargeMintLimit.callsReturnContext[0].returnValues[0].hex / 1e18
     const mintedAmount = call.results.mintedAmountOf.callsReturnContext[0].returnValues[0].hex / 1e18
     const chargeMint = mintLimit > mintedAmount ? mintLimit - mintedAmount : 0
@@ -82,12 +142,14 @@ export const getExpansionStats = async(web3: Web3, pulsePrice: any, chargePrice:
     const boardroomBalance = call.results.boardroomBalance.callsReturnContext[0].returnValues[0].hex / 1e18
     const staticTreasurySupply = call.results.staticTreasurySupply.callsReturnContext[0].returnValues[0].hex / 1
     const circulatingSupply = staticTotalSupply - lpBoardroomBalance - boardroomBalance - staticTreasurySupply
-    const bondDepletionFloorPercent = call.results.bondDepletionFloorPercent.callsReturnContext[0].returnValues[0].hex / 1
-    const totalBondsToRepay = call.results.pulseTotalSupply.callsReturnContext[0].returnValues[0].hex / 1e19
+
+    const bondDepletionFloorPercent = isBsc ? call.results.bondDepletionFloorPercent.callsReturnContext[0].returnValues[0].hex / 1 : 1
+    const totalBondsToRepay = isBsc ? call.results.pulseTotalSupply.callsReturnContext[0].returnValues[0].hex / 1e19 : 1
     let staticValue
     let staticAmount
     let pulseRepayValue = 0
     let pulseRepayAmount = 0
+    console.log(twap)
     if(twap < 1.01){
         staticValue = (twap - 1.01) * circulatingSupply  * twap
         staticAmount = (twap - 1.01) * circulatingSupply
