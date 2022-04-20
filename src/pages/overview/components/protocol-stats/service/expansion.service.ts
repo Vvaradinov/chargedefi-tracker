@@ -93,7 +93,7 @@ export const getExpansionStats = async(web3: Web3, pulsePrice: any, chargePrice:
         staticAmount = (twap - 1.01) * circulatingSupply
     } else {
         pulseRepayAmount = (twap - 1.01) * 0.1 * circulatingSupply * 0.05
-        pulseRepayValue = pulseRepayAmount * pulsePrice
+        pulseRepayValue = pulseRepayAmount * twap
         staticValue = ((twap - 1.01) * 0.1 * circulatingSupply - pulseRepayAmount) * twap
         staticAmount = (twap - 1.01) * 0.1 * circulatingSupply - pulseRepayAmount
     }
@@ -104,7 +104,7 @@ export const getExpansionStats = async(web3: Web3, pulsePrice: any, chargePrice:
         staticValue, staticAmount,
         pulseRepayAmount, pulseRepayValue,
         pulseLeftAmount: totalBondsToRepay * bondDepletionFloorPercent / 1000,
-        pulseLeftValue: (totalBondsToRepay * bondDepletionFloorPercent / 1000) * pulsePrice
+        pulseLeftValue: (totalBondsToRepay * bondDepletionFloorPercent / 1000) * twap
 
     }
 }
