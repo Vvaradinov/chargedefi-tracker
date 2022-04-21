@@ -66,7 +66,7 @@ const _generateContextBsc = (): ContractCallContext[] => {
             reference: 'twap',
             contractAddress: contracts.Oracle.address,
             abi: contracts.Oracle.abi,
-            calls: [{reference: 'twap', methodName: "twap", methodParameters: [contracts.Static.address, 1e9] }]
+            calls: [{reference: 'twap', methodName: "twap", methodParameters: [contracts.Static.address, 1e14] }]
         },
     ];
 }
@@ -120,7 +120,7 @@ const _generateContextFtm = (): ContractCallContext[] => {
             reference: 'twap',
             contractAddress: contracts.Oracle.address,
             abi: contracts.Oracle.abi,
-            calls: [{reference: 'twap', methodName: "twap", methodParameters: [contracts.Static.address, 1e9] }]
+            calls: [{reference: 'twap', methodName: "twap", methodParameters: [contracts.Static.address, 1e14] }]
         },
     ];
 
@@ -129,14 +129,12 @@ const _generateContextFtm = (): ContractCallContext[] => {
 
 export const getExpansionStats = async(web3: Web3, pulsePrice: any, chargePrice: any, staticPrice: any) => {
     const isBsc = defaultChain.shortName === "BSC"
-    console.log(_generateContextFtm())
     const call = await doMulticall(web3, isBsc ? _generateContextBsc() : _generateContextFtm())
-    console.log(call)
     const mintLimit = call.results.chargeMintLimit.callsReturnContext[0].returnValues[0].hex / 1e18
     const mintedAmount = call.results.mintedAmountOf.callsReturnContext[0].returnValues[0].hex / 1e18
     const chargeMint = mintLimit > mintedAmount ? mintLimit - mintedAmount : 0
     const chargeAmount = Math.min(chargeMint, call.results.sharesMintedPerEpoch.callsReturnContext[0].returnValues[0].hex / 1e18)
-    const twap = call.results.twap.callsReturnContext[0].returnValues[0].hex / 1e9
+    const twap = call.results.twap.callsReturnContext[0].returnValues[0].hex / 1e14
     const staticTotalSupply = call.results.staticTotalSupply.callsReturnContext[0].returnValues[0].hex / 1e18
     const lpBoardroomBalance = call.results.lpBoardroomBalance.callsReturnContext[0].returnValues[0].hex / 1e18
     const boardroomBalance = call.results.boardroomBalance.callsReturnContext[0].returnValues[0].hex / 1e18
@@ -149,7 +147,9 @@ export const getExpansionStats = async(web3: Web3, pulsePrice: any, chargePrice:
     let staticAmount
     let pulseRepayValue = 0
     let pulseRepayAmount = 0
-    console.log(twap)
+    // console.log(staticPrice)
+    // console.log(twap * staticPrice)
+
     if(twap < 1.01){
         staticValue = (twap - 1.01) * circulatingSupply  * twap
         staticAmount = (twap - 1.01) * circulatingSupply

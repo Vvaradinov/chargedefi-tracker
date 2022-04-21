@@ -31,7 +31,7 @@ const _generateContext = (): ContractCallContext[] => {
             reference: 'twap',
             contractAddress: contracts.Oracle.address,
             abi: contracts.Oracle.abi,
-            calls: [{reference: 'twap', methodName: "twap", methodParameters: [contracts.Static.address, 1e9] }]
+            calls: [{reference: 'twap', methodName: "twap", methodParameters: [contracts.Static.address, 1e14] }]
         },
     ];
 }
@@ -43,6 +43,6 @@ export const getProtocolStats = async(web3: Web3) => {
         epoch: call.results.epoch.callsReturnContext[0].returnValues[0].hex / 1,
         nextEpochPoint: call.results.nextEpochPoint.callsReturnContext[0].returnValues[0].hex * 1e3,
         epochsUnderOne: call.results.epochsUnderOne.callsReturnContext[0].returnValues[0].hex / 1,
-        twap: call.results.twap.callsReturnContext[0].returnValues[0].hex / 1e9,
+        twap: call.results.twap.callsReturnContext[0].returnValues[0].hex / 1e14,
     }
 }
