@@ -4,6 +4,7 @@ import InfoTooltip from "../../../common/components/InfoTooltip/InfoTooltip";
 import dayjs from "dayjs";
 import {getTokenUrl, timeZone} from "../../../common/helpers/util";
 import {formatUS} from "../../../common/helpers/formating";
+import {lpPair} from "../../../config";
 
 type Props = {
     data: Array<any>
@@ -48,8 +49,8 @@ const GeneralProtocolTable = ({data}: Props) => {
                         </Th>
                         <Th isNumeric>
                             <Flex justify="end">
-                                <Text>Static-BUSD BR TVL</Text>
-                                <InfoTooltip iconSize={4} label={"Static-BUSD Boardroom Total Value Locked"}/>
+                                <Text>{lpPair} BR TVL</Text>
+                                <InfoTooltip iconSize={4} label={`${lpPair} Boardroom Total Value Locked`}/>
                             </Flex>
                         </Th>
                         <Th isNumeric>
@@ -60,8 +61,8 @@ const GeneralProtocolTable = ({data}: Props) => {
                         </Th>
                         <Th isNumeric>
                             <Flex justify="end">
-                                <Text>Static-BUSD Farm TVL</Text>
-                                <InfoTooltip iconSize={4} label={"Static-BUSD Farm Total Value Locked"}/>
+                                <Text>{lpPair} Farm TVL</Text>
+                                <InfoTooltip iconSize={4} label={`${lpPair} Farm Total Value Locked`}/>
                             </Flex>
                         </Th>
                         <Th isNumeric>

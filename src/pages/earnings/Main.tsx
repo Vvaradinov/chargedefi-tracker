@@ -27,6 +27,7 @@ import {useBoardroomLpEarnings} from "./components/boardroom/hooks/useBoardroomL
 import {useFarmsChargeEarnings} from "./components/farms/hooks/useFarmsChargeEarnings";
 import {useFarmsStaticEarnings} from "./components/farms/hooks/useFarmsStaticEarnings";
 import {useWeb3React} from "@web3-react/core";
+import {lpPair} from "../../config";
 
 const Main = () => {
 
@@ -43,14 +44,13 @@ const Main = () => {
     if(isEmpty){
         return <ConnectDapp/>
     }
-
     return (
         <Flex flexDir="column" py={5} h="100%">
             <Tabs isFitted w="100%">
                 <TabList w="100%" flexWrap="wrap" flexDir={isMobile ? "column": "row"} >
                     <Tab  _focus={{outline: "none"}} px={3} >
                         <Img src={getTokenUrl("static-busd")} w="50px" h="30px"/>
-                        <Text px={2}>Static-BUSD Boardroom</Text>
+                        <Text px={2}>{lpPair} Boardroom</Text>
                         <Tag borderRadius='full' textColor="white" colorScheme="blue">{brLPData && brLPData.length > 0 ? brLPData.length : "Empty" }</Tag>
                     </Tab>
                     <Tab _focus={{outline: "none"}} px={3}>
@@ -66,7 +66,7 @@ const Main = () => {
                     </Tab>
                     <Tab  _focus={{outline: "none"}} px={3}>
                         <Img src={getTokenUrl("static-busd")} w="50px" h="30px"/>
-                        <Text px={2}>Static-BUSD Farm</Text>
+                        <Text px={2}>{lpPair} Farm</Text>
                         <Tag borderRadius='full' textColor="white" colorScheme="blue">{farmStaticData && farmStaticData.length > 0 ? farmStaticData.length : "Empty" }</Tag>
                     </Tab>
                 </TabList>

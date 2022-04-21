@@ -2,6 +2,7 @@ import {Flex, Heading, SimpleGrid, Text} from '@chakra-ui/react'
 import React from 'react';
 import {IconStatCard} from "../../../../common/components/IconStatCard/IconStatCard";
 import {useBeefyVault} from "./hooks/useBeefyVaults";
+import {lpPair} from "../../../../config";
 
 const BeefyVaults = () => {
     const { staticVault, chargeVault } = useBeefyVault()
@@ -21,7 +22,7 @@ const BeefyVaults = () => {
                 <IconStatCard
                     token="static-busd"
                     data={{
-                        symbol: 'Static-BUSD LP',
+                        symbol: `${lpPair} LP`,
                         value: staticVault.toDollar,
                         topValue: staticVault.lp,
                         changeDaily: { value: staticVault.dailyChange, percent: staticVault.dailyApr },

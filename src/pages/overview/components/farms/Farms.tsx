@@ -3,6 +3,7 @@ import {Heading, SimpleGrid} from "@chakra-ui/react";
 import {IconStatCard} from "../../../../common/components/IconStatCard/IconStatCard";
 import {useFarms} from "./hooks/useFarms";
 import {InvestedCard} from "../boardroom/cards/InvestedCard";
+import {lpPair} from "../../../../config";
 
 const Farms = () => {
 
@@ -15,7 +16,7 @@ const Farms = () => {
               <InvestedCard
                  token="static-busd"
                   data={{
-                      symbol: 'Static-BUSD',
+                      symbol: lpPair,
                       value: stats.staticLpValue,
                       topValue: stats.staticLpAmount,
                       tvl: stats.staticTVL
