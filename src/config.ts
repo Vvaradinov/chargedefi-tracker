@@ -159,6 +159,7 @@ export const chains: { [chain: string]: { [env: string]: any } } = {
 };
 
 // default to BSC testnet if no ENV is found
+
 export const defaultChain =
     chains[getSavedChain() || 'BSC'][
     process.env.REACT_APP_ENVIRONMENT || 'mainnet'];
@@ -172,3 +173,5 @@ export const priceStableMultiplier = Math.pow(
     10,
     18 - (process.env.REACT_APP_CHAIN == 'FTM' ? 6 : 18)
 );
+
+export const lpPair = defaultChain.shortName === "BSC" ? "Static-BUSD" : "Static-USDC"
